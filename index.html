@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DoePhaGyi Studio TV - Automated World Cup Suite</title>
+    <title>DoePhaGyi Studio TV - World Cup Premium Edition</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         body {
@@ -26,6 +26,15 @@
             font-family: 'Impact', 'Arial Black', sans-serif;
             letter-spacing: 0.05em;
         }
+        .pitch-bg {
+            background-color: #064e3b;
+            background-image: 
+                radial-gradient(circle at 50% 50%, transparent 0%, transparent 20%, rgba(255,255,255,0.08) 20%, rgba(255,255,255,0.08) 21%, transparent 21%),
+                linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px),
+                linear-gradient(to right, rgba(255,255,255,0.05) 50%, transparent 50%);
+            background-size: 100% 100%, 100% 10%, 10% 100%;
+            border: 2px solid rgba(255,255,255,0.15);
+        }
     </style>
 </head>
 <body class="text-white font-sans h-screen flex flex-col justify-between p-6 select-none">
@@ -44,7 +53,7 @@
 
             <div class="flex flex-wrap justify-center gap-2 font-mono text-xs md:text-sm font-black">
                 <button onclick="switchCard('card1'); playClickSound();" id="btn-card1" class="tab-btn px-4 py-2 bg-amber-500 text-black rounded-xl shadow-[0_0_15px_rgba(245,158,11,0.4)] transition-all">CARD 1: ပွဲစဉ် PROFILE</button>
-                <button onclick="switchCard('card2'); playClickSound();" id="btn-card2" class="tab-btn px-4 py-2 bg-slate-900 border border-slate-800 text-slate-300 rounded-xl hover:bg-slate-800 transition-all">CARD 2: LINE-UPS</button>
+                <button onclick="switchCard('card2'); playClickSound();" id="btn-card2" class="tab-btn px-4 py-2 bg-slate-900 border border-slate-800 text-slate-300 rounded-xl hover:bg-slate-800 transition-all">CARD 2: LINE-UPS & FORMATION</button>
                 <button onclick="switchCard('card3'); playClickSound();" id="btn-card3" class="tab-btn px-4 py-2 bg-slate-900 border border-slate-800 text-slate-300 rounded-xl hover:bg-slate-800 transition-all">CARD 3: % နိုင်ခြေ</button>
                 <button onclick="switchCard('card4'); playClickSound();" id="btn-card4" class="tab-btn px-4 py-2 bg-slate-900 border border-slate-800 text-slate-300 rounded-xl hover:bg-slate-800 transition-all">CARD 4: PREDICTION</button>
                 <button onclick="switchCard('card5'); playClickSound();" id="btn-card5" class="tab-btn px-4 py-2 bg-slate-900 border border-slate-800 text-slate-300 rounded-xl hover:bg-slate-800 transition-all">CARD 5: ဖန်ဇုန်</button>
@@ -71,7 +80,7 @@
 
     <div class="max-w-7xl mx-auto w-full border-t border-slate-800 pt-3 flex justify-between text-[11px] font-mono text-slate-500 tracking-widest">
         <div>JSON AUTOMATION SUITE ONLINE</div>
-        <div>STADIUM OVERLAY CONFIG ENGINE v5.0</div>
+        <div>STADIUM OVERLAY CONFIG ENGINE v6.0</div>
     </div>
 
     <script>
@@ -83,7 +92,6 @@
         let currentCardType = 'card1';
         let audioCtx = null;
 
-        // အသံစနစ်
         function playClickSound() {
             try {
                 if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -100,7 +108,6 @@
             } catch (e) {}
         }
 
-        // JSON ဖိုင်များကို အလိုအလျောက် လှမ်းဖတ်သည့်စနစ်
         async function loadJsonData() {
             try {
                 const squadsResponse = await fetch('squads.json');
@@ -110,7 +117,6 @@
                 const roundsResponse = await fetch('rounds.json');
                 const roundsData = await roundsResponse.json();
                 
-                // Group Stage ပွဲစဉ်အားလုံးကို ထုတ်ယူခြင်း
                 rawFixtures = [];
                 roundsData.forEach(r => {
                     if(r.tournaments) {
@@ -129,7 +135,6 @@
             }
         }
 
-        // Dropdown List ဆောက်ခြင်း
         function buildMatchSelector() {
             const selector = document.getElementById('match-selector');
             selector.innerHTML = rawFixtures.map((m, idx) => {
@@ -151,25 +156,18 @@
             renderContent();
         }
 
-        // ကစားသမားခန့်မှန်းချက် ထုတ်ယူရန် Helper
-        function getExpectedPlayers(squadId) {
+        function getPlayersByPosition(squadId, pos, limit) {
             return rawPlayers
-                .filter(p => p.squadId === squadId)
-                .slice(0, 4)
-                .map(p => {
-                    let prefix = p.oneToWatch ? "★ " : "• ";
-                    let suffix = p.oneToWatch ? " (Key)" : "";
-                    return `${prefix}${p.firstName} ${p.lastName} (${p.position})${suffix}`;
-                });
+                .filter(p => p.squadId === squadId && p.position === pos)
+                .slice(0, limit)
+                .map(p => `${p.firstName} ${p.lastName}`);
         }
 
-        // နိုင်ငံအလိုက် အလံပြောင်းရန် Helper
         function getFlag(abbr) {
-            const flags = { "MEX": "🇲🇽", "RSA": "🇿🇦", "KOR": "🇰🇷", "CZE": "🇨🇿", "CAN": "🇨🇦", "BIH": "🇧🇦", "USA": "🇺🇸", "PAR": "🇵🇾", "BRA": "🇧🇷", "MAR": "🇲🇦", "ENG": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "CRO": "🇭🇷", "ARG": "🇦🇷", "FRA": "🇫🇷" };
+            const flags = { "MEX": "🇲🇽", "RSA": "🇿🇦", "KOR": "🇰🇷", "CZE": "🇨🇿", "CAN": "🇨🇦", "BIH": "🇧🇦", "USA": "🇺🇸", "PAR": "🇵🇾", "BRA": "🇧🇷", "MAR": "🇲🇦", "ENG": "🏴%A7󠁢󠁥󠁮󠁧󠁿", "CRO": "🇭🇷", "ARG": "🇦🇷", "FRA": "🇫🇷" };
             return flags[abbr] || "🏳️";
         }
 
-        // JSON Data ပေါ်မူတည်၍ တွက်ချက်ပြီး Screen ပေါ်ပြသခြင်း
         function renderContent() {
             if (rawFixtures.length === 0) return;
 
@@ -178,12 +176,10 @@
             const segTitle = document.getElementById('segment-title');
             const scrId = document.getElementById('screen-id');
 
-            // JSON ဒေတာများပေါ်မူတည်ပြီး နိုင်ခြေရာခိုင်နှုန်းများကို Algorithm အလိုက် အလိုအလျောက်ထုတ်ပေးခြင်း
             let homeWinPercent = Math.min(65, Math.max(30, (match.homeSquadId % 25) + 35));
             let awayWinPercent = Math.min(45, Math.max(15, (match.awaySquadId % 20) + 15));
             let drawPercent = 100 - homeWinPercent - awayWinPercent;
 
-            // ခန့်မှန်းရလဒ်များကို အလိုအလျောက် ပုံဖော်ခြင်း
             let predictedHomeScore = homeWinPercent > awayWinPercent ? 2 : 1;
             let predictedAwayScore = homeWinPercent > awayWinPercent ? 1 : 2;
             if(Math.abs(homeWinPercent - awayWinPercent) < 5) {
@@ -209,24 +205,56 @@
                 `;
             } 
             else if (currentCardType === 'card2') {
-                segTitle.innerText = "FIFA WORLD CUP 2026 // EXPECTED SQUAD SELECTIONS";
-                scrId.innerText = "OVERLAY_ID: #" + (currentMatchIndex + 1) + "_LINEUPS";
+                segTitle.innerText = "FIFA WORLD CUP 2026 // TACTICAL FORMATION (4-3-3)";
+                scrId.innerText = "OVERLAY_ID: #" + (currentMatchIndex + 1) + "_FORMATION";
                 
-                let homeLineup = getExpectedPlayers(match.homeSquadId);
-                let awayLineup = getExpectedPlayers(match.awaySquadId);
+                let hGk = getPlayersByPosition(match.homeSquadId, "GK", 1)[0] || "GK";
+                let hDef = getPlayersByPosition(match.homeSquadId, "DEF", 2);
+                let hMid = getPlayersByPosition(match.homeSquadId, "MID", 2);
+                let hFwd = getPlayersByPosition(match.homeSquadId, "FWD", 2);
+
+                let aGk = getPlayersByPosition(match.awaySquadId, "GK", 1)[0] || "GK";
+                let aDef = getPlayersByPosition(match.awaySquadId, "DEF", 2);
+                let aMid = getPlayersByPosition(match.awaySquadId, "MID", 2);
+                let aFwd = getPlayersByPosition(match.awaySquadId, "FWD", 2);
 
                 contentBox.innerHTML = `
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-                        <div class="bg-slate-950/60 p-5 rounded-2xl border-l-4 border-emerald-500 shadow-xl">
-                            <div class="text-emerald-400 font-black text-sm tracking-widest mb-4 border-b border-slate-800 pb-2 uppercase">${getFlag(match.homeSquadAbbr)} ${match.homeSquadName} EXPECTED LIST</div>
-                            <div class="text-base font-mono space-y-2.5 text-slate-200">
-                                ${homeLineup.length ? homeLineup.map(p => `<div class="bg-slate-900/40 px-3 py-1 rounded border border-slate-800/40">${p}</div>`).join('') : '<div class="text-slate-500">Loading Squad...</div>'}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto h-[45vh]">
+                        <div class="pitch-bg rounded-2xl p-3 flex flex-col justify-between text-center relative overflow-hidden">
+                            <div class="text-xs font-black text-emerald-300 uppercase tracking-widest bg-slate-950/40 py-1 rounded">${getFlag(match.homeSquadAbbr)} ${match.homeSquadName}</div>
+                            <div class="flex justify-around text-[11px] font-mono font-bold text-amber-300">
+                                <div class="bg-slate-950/80 px-2 py-0.5 rounded border border-amber-500/30 truncate max-w-[100px]">${hFwd[0] || 'Forward A'}</div>
+                                <div class="bg-slate-950/80 px-2 py-0.5 rounded border border-amber-500/30 truncate max-w-[100px]">${hFwd[1] || 'Forward B'}</div>
+                            </div>
+                            <div class="flex justify-around text-[11px] font-mono font-bold text-slate-200">
+                                <div class="bg-slate-950/80 px-2 py-0.5 rounded border border-slate-700 truncate max-w-[100px]">${hMid[0] || 'Midfield A'}</div>
+                                <div class="bg-slate-950/80 px-2 py-0.5 rounded border border-slate-700 truncate max-w-[100px]">${hMid[1] || 'Midfield B'}</div>
+                            </div>
+                            <div class="flex justify-around text-[11px] font-mono font-bold text-slate-200">
+                                <div class="bg-slate-950/80 px-2 py-0.5 rounded border border-slate-700 truncate max-w-[100px]">${hDef[0] || 'Defender A'}</div>
+                                <div class="bg-slate-950/80 px-2 py-0.5 rounded border border-slate-700 truncate max-w-[100px]">${hDef[1] || 'Defender B'}</div>
+                            </div>
+                            <div class="text-[11px] font-mono font-bold text-emerald-400">
+                                <span class="bg-slate-950/90 px-3 py-0.5 rounded border border-emerald-500/30 inline-block truncate max-w-[120px]">🧤 ${hGk}</span>
                             </div>
                         </div>
-                        <div class="bg-slate-950/60 p-5 rounded-2xl border-l-4 border-blue-500 shadow-xl">
-                            <div class="text-blue-400 font-black text-sm tracking-widest mb-4 border-b border-slate-800 pb-2 uppercase">${getFlag(match.awaySquadAbbr)} ${match.awaySquadName} EXPECTED LIST</div>
-                            <div class="text-base font-mono space-y-2.5 text-slate-200">
-                                ${awayLineup.length ? awayLineup.map(p => `<div class="bg-slate-900/40 px-3 py-1 rounded border border-slate-800/40">${p}</div>`).join('') : '<div class="text-slate-500">Loading Squad...</div>'}
+
+                        <div class="pitch-bg rounded-2xl p-3 flex flex-col justify-between text-center relative overflow-hidden">
+                            <div class="text-xs font-black text-blue-300 uppercase tracking-widest bg-slate-950/40 py-1 rounded">${getFlag(match.awaySquadAbbr)} ${match.awaySquadName}</div>
+                            <div class="flex justify-around text-[11px] font-mono font-bold text-amber-300">
+                                <div class="bg-slate-950/80 px-2 py-0.5 rounded border border-amber-500/30 truncate max-w-[100px]">${aFwd[0] || 'Forward A'}</div>
+                                <div class="bg-slate-950/80 px-2 py-0.5 rounded border border-amber-500/30 truncate max-w-[100px]">${aFwd[1] || 'Forward B'}</div>
+                            </div>
+                            <div class="flex justify-around text-[11px] font-mono font-bold text-slate-200">
+                                <div class="bg-slate-950/80 px-2 py-0.5 rounded border border-slate-700 truncate max-w-[100px]">${aMid[0] || 'Midfield A'}</div>
+                                <div class="bg-slate-950/80 px-2 py-0.5 rounded border border-slate-700 truncate max-w-[100px]">${aMid[1] || 'Midfield B'}</div>
+                            </div>
+                            <div class="flex justify-around text-[11px] font-mono font-bold text-slate-200">
+                                <div class="bg-slate-950/80 px-2 py-0.5 rounded border border-slate-700 truncate max-w-[100px]">${aDef[0] || 'Defender A'}</div>
+                                <div class="bg-slate-950/80 px-2 py-0.5 rounded border border-slate-700 truncate max-w-[100px]">${aDef[1] || 'Defender B'}</div>
+                            </div>
+                            <div class="text-[11px] font-mono font-bold text-blue-400">
+                                <span class="bg-slate-950/90 px-3 py-0.5 rounded border border-blue-500/30 inline-block truncate max-w-[120px]">🧤 ${aGk}</span>
                             </div>
                         </div>
                     </div>
@@ -279,9 +307,7 @@
             }
         }
 
-        // စတင်ချိန်တွင် JSON များအား အလိုအလျောက် ဖတ်ယူရန် ညွှန်ကြားခြင်း
         window.onload = loadJsonData;
     </script>
 </body>
 </html>
-
