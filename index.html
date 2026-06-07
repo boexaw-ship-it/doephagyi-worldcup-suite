@@ -13,10 +13,11 @@
             background-position: center;
             overflow: hidden;
         }
+        /* World Cup Premium Stadium Glow Theme */
         .wc-premium-card {
             background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(6, 78, 59, 0.4) 100%);
             backdrop-filter: blur(25px);
-            border: 2px solid rgba(245, 158, 11, 0.4);
+            border: 2px solid rgba(245, 158, 11, 0.4); /* ရွှေရောင်ဘောင် */
             box-shadow: 0 0 35px rgba(16, 185, 129, 0.25), inset 0 0 20px rgba(245, 158, 11, 0.1);
         }
         .neon-gold {
@@ -26,6 +27,7 @@
             font-family: 'Impact', 'Arial Black', sans-serif;
             letter-spacing: 0.05em;
         }
+        /* ဘောလုံးကွင်းပုံစံ Tactical Board ဖန်တီးရန် */
         .pitch-bg {
             background-color: #064e3b;
             background-image: 
@@ -48,7 +50,11 @@
             <div class="flex items-center gap-2 bg-slate-900 border border-slate-700 px-4 py-2 rounded-xl">
                 <span class="text-xs font-mono text-slate-400 font-bold">SELECT MATCH:</span>
                 <select id="match-selector" onchange="playClickSound(); changeMatch(this.value);" class="bg-transparent text-sm font-bold text-emerald-400 outline-none cursor-pointer">
-                    </select>
+                    <option value="1">Match 1: Mexico vs South Africa</option>
+                    <option value="2">Match 2: Korea Republic vs Czechia</option>
+                    <option value="3">Match 3: Canada vs Bosnia</option>
+                    <option value="4">Match 4: USA vs Paraguay</option>
+                </select>
             </div>
 
             <div class="flex flex-wrap justify-center gap-2 font-mono text-xs md:text-sm font-black">
@@ -67,31 +73,56 @@
             <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl"></div>
 
             <div id="segment-title" class="text-amber-400/80 font-mono text-xs tracking-widest uppercase border-b border-emerald-500/30 pb-3 text-center font-bold">
-                LOADING DATA SUITE...
+                FIFA WORLD CUP 2026 // LIVE IN STUDIO
             </div>
 
             <div id="dynamic-content-box" class="my-auto w-full"></div>
 
             <div id="screen-id" class="text-emerald-500/50 font-mono text-xs text-center font-bold tracking-widest">
-                STREAM_SYS_ID: #STARTING
+                STREAM_SYS_ID: #01_PROFILE
             </div>
         </div>
     </div>
 
     <div class="max-w-7xl mx-auto w-full border-t border-slate-800 pt-3 flex justify-between text-[11px] font-mono text-slate-500 tracking-widest">
-        <div>JSON AUTOMATION SUITE ONLINE</div>
-        <div>STADIUM OVERLAY CONFIG ENGINE v6.0</div>
+        <div>FAST MONITOR SUITE RUNNING (NO-API MODE)</div>
+        <div>STADIUM OVERLAY CONFIG ENGINE v7.0</div>
     </div>
 
     <script>
-        let rawFixtures = [];
-        let rawPlayers = [];
-        let rawSquads = {};
-        
-        let currentMatchIndex = 0;
+        // ၄ ပွဲစာ နိုင်ငံအမည်နှင့် အလံများစနစ် (API ဆွဲစရာမလိုဘဲ တန်းပွင့်စေရန်)
+        const matchDatabase = {
+            1: {
+                homeTeam: "MEXICO", awayTeam: "SOUTH AFRICA", homeFlag: "🇲🇽", awayFlag: "🇿🇦",
+                date: "📅 11 JUNE 2026", venue: "📍 ESTADIO BANORTE, MEXICO CITY",
+                win: 52, draw: 28, lose: 20,
+                score: "2 - 1", text: "အိမ်ရှင် မက္ကဆီကို ကပ်နိုင်မယ့်ပွဲ"
+            },
+            2: {
+                homeTeam: "KOREA REPUBLIC", awayTeam: "CZECHIA", homeFlag: "🇰🇷", awayFlag: "🇨🇿",
+                date: "📅 12 JUNE 2026", venue: "📍 ESTADIO AKRON, GUADALAJARA",
+                win: 35, draw: 30, lose: 35,
+                score: "1 - 1", text: "အကြိတ်အနယ်ရှိပြီး သရေကျဖို့များပါတယ်"
+            },
+            3: {
+                homeTeam: "CANADA", awayTeam: "BOSNIA & HERZEGOVINA", homeFlag: "🇨🇦", awayFlag: "🇧🇦",
+                date: "📅 12 JUNE 2026", venue: "📍 BMO FIELD, TORONTO",
+                win: 45, draw: 35, lose: 20,
+                score: "2 - 0", text: "အိမ်ကွင်းမှာ ကနေဒါ ဂိုးပြတ်နိုင်သွားလိမ့်မယ်"
+            },
+            4: {
+                homeTeam: "USA", awayTeam: "PARAGUAY", homeFlag: "🇺🇸", awayFlag: "🇵🇾",
+                date: "📅 13 JUNE 2026", venue: "📍 SOFI STADIUM, INGLEWOOD",
+                win: 48, draw: 32, lose: 20,
+                score: "1 - 0", text: "အမေရိကန်တို့ အဖွင့်ပွဲမှာ ၁ ဂိုးတည်းနဲ့ နိုင်သွားမယ်"
+            }
+        };
+
+        let currentMatchId = 1;
         let currentCardType = 'card1';
         let audioCtx = null;
 
+        // Click အသံမြည်စေမည့်စနစ်
         function playClickSound() {
             try {
                 if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -108,42 +139,8 @@
             } catch (e) {}
         }
 
-        async function loadJsonData() {
-            try {
-                const squadsResponse = await fetch('squads.json');
-                const squadsData = await squadsResponse.json();
-                squadsData.forEach(s => { rawSquads[s.id] = s; });
-
-                const roundsResponse = await fetch('rounds.json');
-                const roundsData = await roundsResponse.json();
-                
-                rawFixtures = [];
-                roundsData.forEach(r => {
-                    if(r.tournaments) {
-                        r.tournaments.forEach(t => { rawFixtures.push(t); });
-                    }
-                });
-
-                const playersResponse = await fetch('player.json');
-                rawPlayers = await playersResponse.json();
-
-                buildMatchSelector();
-                renderContent();
-            } catch (error) {
-                document.getElementById('segment-title').innerText = "ERROR LOADING JSON FILES";
-                console.error(error);
-            }
-        }
-
-        function buildMatchSelector() {
-            const selector = document.getElementById('match-selector');
-            selector.innerHTML = rawFixtures.map((m, idx) => {
-                return `<option value="${idx}">Match ${idx + 1}: ${m.homeSquadName} vs ${m.awaySquadName}</option>`;
-            }).join('');
-        }
-
-        function changeMatch(index) {
-            currentMatchIndex = parseInt(index);
+        function changeMatch(id) {
+            currentMatchId = parseInt(id);
             renderContent();
         }
 
@@ -156,105 +153,75 @@
             renderContent();
         }
 
-        function getPlayersByPosition(squadId, pos, limit) {
-            return rawPlayers
-                .filter(p => p.squadId === squadId && p.position === pos)
-                .slice(0, limit)
-                .map(p => `${p.firstName} ${p.lastName}`);
-        }
-
-        function getFlag(abbr) {
-            const flags = { "MEX": "🇲🇽", "RSA": "🇿🇦", "KOR": "🇰🇷", "CZE": "🇨🇿", "CAN": "🇨🇦", "BIH": "🇧🇦", "USA": "🇺🇸", "PAR": "🇵🇾", "BRA": "🇧🇷", "MAR": "🇲🇦", "ENG": "🏴%A7󠁢󠁥󠁮󠁧󠁿", "CRO": "🇭🇷", "ARG": "🇦🇷", "FRA": "🇫🇷" };
-            return flags[abbr] || "🏳️";
-        }
-
         function renderContent() {
-            if (rawFixtures.length === 0) return;
-
-            const match = rawFixtures[currentMatchIndex];
+            const data = matchDatabase[currentMatchId];
             const contentBox = document.getElementById('dynamic-content-box');
             const segTitle = document.getElementById('segment-title');
             const scrId = document.getElementById('screen-id');
 
-            let homeWinPercent = Math.min(65, Math.max(30, (match.homeSquadId % 25) + 35));
-            let awayWinPercent = Math.min(45, Math.max(15, (match.awaySquadId % 20) + 15));
-            let drawPercent = 100 - homeWinPercent - awayWinPercent;
-
-            let predictedHomeScore = homeWinPercent > awayWinPercent ? 2 : 1;
-            let predictedAwayScore = homeWinPercent > awayWinPercent ? 1 : 2;
-            if(Math.abs(homeWinPercent - awayWinPercent) < 5) {
-                predictedHomeScore = 1; predictedAwayScore = 1;
-            }
-
-            let dateObj = new Date(match.date);
-            let formattedDate = "📅 " + dateObj.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
-
             if (currentCardType === 'card1') {
                 segTitle.innerText = "FIFA WORLD CUP 2026 // MATCH PROFILE";
-                scrId.innerText = "OVERLAY_ID: #" + (currentMatchIndex + 1) + "_PROFILE";
+                scrId.innerText = "OVERLAY_ID: #" + currentMatchId + "_PROFILE";
                 contentBox.innerHTML = `
                     <div class="text-center space-y-6">
-                        <div class="text-xl font-mono text-amber-400 font-bold tracking-widest bg-amber-500/10 border border-amber-500/20 px-6 py-1.5 rounded-full inline-block shadow-inner">${formattedDate}</div>
+                        <div class="text-xl font-mono text-amber-400 font-bold tracking-widest bg-amber-500/10 border border-amber-500/20 px-6 py-1.5 rounded-full inline-block shadow-inner">${data.date}</div>
                         <div class="flex items-center justify-center gap-6 py-4">
-                            <div class="text-4xl md:text-5xl font-black team-title tracking-wider text-white drop-shadow-md">${getFlag(match.homeSquadAbbr)} ${match.homeSquadName.toUpperCase()}</div>
+                            <div class="text-4xl md:text-5xl font-black team-title tracking-wider text-white drop-shadow-md">${data.homeFlag} ${data.homeTeam}</div>
                             <div class="text-amber-500 font-black text-4xl neon-gold px-4">VS</div>
-                            <div class="text-4xl md:text-5xl font-black team-title tracking-wider text-white drop-shadow-md">${match.awaySquadName.toUpperCase()} ${getFlag(match.awaySquadAbbr)}</div>
+                            <div class="text-4xl md:text-5xl font-black team-title tracking-wider text-white drop-shadow-md">${data.awayTeam} ${data.awayFlag}</div>
                         </div>
-                        <div class="text-sm font-mono text-emerald-400 font-semibold tracking-wider bg-emerald-950/40 border border-emerald-500/10 px-4 py-1.5 rounded-xl inline-block">📍 ${match.venueName || 'Main Stadium'}, ${match.venueCity || 'Host City'}</div>
+                        <div class="text-sm font-mono text-emerald-400 font-semibold tracking-wider bg-emerald-950/40 border border-emerald-500/10 px-4 py-1.5 rounded-xl inline-block">${data.venue}</div>
                     </div>
                 `;
             } 
             else if (currentCardType === 'card2') {
-                segTitle.innerText = "FIFA WORLD CUP 2026 // TACTICAL FORMATION (4-3-3)";
-                scrId.innerText = "OVERLAY_ID: #" + (currentMatchIndex + 1) + "_FORMATION";
-                
-                let hGk = getPlayersByPosition(match.homeSquadId, "GK", 1)[0] || "GK";
-                let hDef = getPlayersByPosition(match.homeSquadId, "DEF", 2);
-                let hMid = getPlayersByPosition(match.homeSquadId, "MID", 2);
-                let hFwd = getPlayersByPosition(match.homeSquadId, "FWD", 2);
-
-                let aGk = getPlayersByPosition(match.awaySquadId, "GK", 1)[0] || "GK";
-                let aDef = getPlayersByPosition(match.awaySquadId, "DEF", 2);
-                let aMid = getPlayersByPosition(match.awaySquadId, "MID", 2);
-                let aFwd = getPlayersByPosition(match.awaySquadId, "FWD", 2);
-
+                segTitle.innerText = "FIFA WORLD CUP 2026 // SQUAD FORMATION LAYOUT";
+                scrId.innerText = "OVERLAY_ID: #" + currentMatchId + "_FORMATION";
                 contentBox.innerHTML = `
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto h-[45vh]">
-                        <div class="pitch-bg rounded-2xl p-3 flex flex-col justify-between text-center relative overflow-hidden">
-                            <div class="text-xs font-black text-emerald-300 uppercase tracking-widest bg-slate-950/40 py-1 rounded">${getFlag(match.homeSquadAbbr)} ${match.homeSquadName}</div>
-                            <div class="flex justify-around text-[11px] font-mono font-bold text-amber-300">
-                                <div class="bg-slate-950/80 px-2 py-0.5 rounded border border-amber-500/30 truncate max-w-[100px]">${hFwd[0] || 'Forward A'}</div>
-                                <div class="bg-slate-950/80 px-2 py-0.5 rounded border border-amber-500/30 truncate max-w-[100px]">${hFwd[1] || 'Forward B'}</div>
+                        <div class="pitch-bg rounded-2xl p-4 flex flex-col justify-between text-center relative overflow-hidden shadow-lg">
+                            <div class="text-sm font-black text-emerald-300 uppercase tracking-widest bg-slate-950/60 py-1.5 rounded border border-emerald-500/20">${data.homeFlag} ${data.homeTeam}</div>
+                            <div class="flex justify-around text-xs font-mono font-black text-amber-300">
+                                <div class="bg-slate-950/90 px-3 py-1 rounded-md border border-amber-500/40 shadow-md">LW</div>
+                                <div class="bg-slate-950/90 px-4 py-1 rounded-md border border-amber-500/40 shadow-md">ST</div>
+                                <div class="bg-slate-950/90 px-3 py-1 rounded-md border border-amber-500/40 shadow-md">RW</div>
                             </div>
-                            <div class="flex justify-around text-[11px] font-mono font-bold text-slate-200">
-                                <div class="bg-slate-950/80 px-2 py-0.5 rounded border border-slate-700 truncate max-w-[100px]">${hMid[0] || 'Midfield A'}</div>
-                                <div class="bg-slate-950/80 px-2 py-0.5 rounded border border-slate-700 truncate max-w-[100px]">${hMid[1] || 'Midfield B'}</div>
+                            <div class="flex justify-around text-xs font-mono font-black text-slate-200">
+                                <div class="bg-slate-950/90 px-3 py-1 rounded-md border border-slate-700 shadow-md">CM</div>
+                                <div class="bg-slate-950/90 px-3 py-1 rounded-md border border-slate-700 shadow-md">DM</div>
+                                <div class="bg-slate-950/90 px-3 py-1 rounded-md border border-slate-700 shadow-md">CM</div>
                             </div>
-                            <div class="flex justify-around text-[11px] font-mono font-bold text-slate-200">
-                                <div class="bg-slate-950/80 px-2 py-0.5 rounded border border-slate-700 truncate max-w-[100px]">${hDef[0] || 'Defender A'}</div>
-                                <div class="bg-slate-950/80 px-2 py-0.5 rounded border border-slate-700 truncate max-w-[100px]">${hDef[1] || 'Defender B'}</div>
+                            <div class="flex justify-around text-xs font-mono font-black text-slate-200">
+                                <div class="bg-slate-950/90 px-2 py-1 rounded-md border border-slate-700 shadow-md">LB</div>
+                                <div class="bg-slate-950/90 px-2 py-1 rounded-md border border-slate-700 shadow-md">CB</div>
+                                <div class="bg-slate-950/90 px-2 py-1 rounded-md border border-slate-700 shadow-md">CB</div>
+                                <div class="bg-slate-950/90 px-2 py-1 rounded-md border border-slate-700 shadow-md">RB</div>
                             </div>
-                            <div class="text-[11px] font-mono font-bold text-emerald-400">
-                                <span class="bg-slate-950/90 px-3 py-0.5 rounded border border-emerald-500/30 inline-block truncate max-w-[120px]">🧤 ${hGk}</span>
+                            <div class="text-xs font-mono font-black text-emerald-400">
+                                <span class="bg-slate-950/95 px-5 py-1 rounded-md border border-emerald-500/40 inline-block shadow-md">🧤 GK</span>
                             </div>
                         </div>
 
-                        <div class="pitch-bg rounded-2xl p-3 flex flex-col justify-between text-center relative overflow-hidden">
-                            <div class="text-xs font-black text-blue-300 uppercase tracking-widest bg-slate-950/40 py-1 rounded">${getFlag(match.awaySquadAbbr)} ${match.awaySquadName}</div>
-                            <div class="flex justify-around text-[11px] font-mono font-bold text-amber-300">
-                                <div class="bg-slate-950/80 px-2 py-0.5 rounded border border-amber-500/30 truncate max-w-[100px]">${aFwd[0] || 'Forward A'}</div>
-                                <div class="bg-slate-950/80 px-2 py-0.5 rounded border border-amber-500/30 truncate max-w-[100px]">${aFwd[1] || 'Forward B'}</div>
+                        <div class="pitch-bg rounded-2xl p-4 flex flex-col justify-between text-center relative overflow-hidden shadow-lg">
+                            <div class="text-sm font-black text-blue-300 uppercase tracking-widest bg-slate-950/60 py-1.5 rounded border border-blue-500/20">${data.awayFlag} ${data.awayTeam}</div>
+                            <div class="flex justify-around text-xs font-mono font-black text-amber-300">
+                                <div class="bg-slate-950/90 px-3 py-1 rounded-md border border-amber-500/40 shadow-md">LW</div>
+                                <div class="bg-slate-950/90 px-4 py-1 rounded-md border border-amber-500/40 shadow-md">ST</div>
+                                <div class="bg-slate-950/90 px-3 py-1 rounded-md border border-amber-500/40 shadow-md">RW</div>
                             </div>
-                            <div class="flex justify-around text-[11px] font-mono font-bold text-slate-200">
-                                <div class="bg-slate-950/80 px-2 py-0.5 rounded border border-slate-700 truncate max-w-[100px]">${aMid[0] || 'Midfield A'}</div>
-                                <div class="bg-slate-950/80 px-2 py-0.5 rounded border border-slate-700 truncate max-w-[100px]">${aMid[1] || 'Midfield B'}</div>
+                            <div class="flex justify-around text-xs font-mono font-black text-slate-200">
+                                <div class="bg-slate-950/90 px-3 py-1 rounded-md border border-slate-700 shadow-md">CM</div>
+                                <div class="bg-slate-950/90 px-3 py-1 rounded-md border border-slate-700 shadow-md">DM</div>
+                                <div class="bg-slate-950/90 px-3 py-1 rounded-md border border-slate-700 shadow-md">CM</div>
                             </div>
-                            <div class="flex justify-around text-[11px] font-mono font-bold text-slate-200">
-                                <div class="bg-slate-950/80 px-2 py-0.5 rounded border border-slate-700 truncate max-w-[100px]">${aDef[0] || 'Defender A'}</div>
-                                <div class="bg-slate-950/80 px-2 py-0.5 rounded border border-slate-700 truncate max-w-[100px]">${aDef[1] || 'Defender B'}</div>
+                            <div class="flex justify-around text-xs font-mono font-black text-slate-200">
+                                <div class="bg-slate-950/90 px-2 py-1 rounded-md border border-slate-700 shadow-md">LB</div>
+                                <div class="bg-slate-950/90 px-2 py-1 rounded-md border border-slate-700 shadow-md">CB</div>
+                                <div class="bg-slate-950/90 px-2 py-1 rounded-md border border-slate-700 shadow-md">CB</div>
+                                <div class="bg-slate-950/90 px-2 py-1 rounded-md border border-slate-700 shadow-md">RB</div>
                             </div>
-                            <div class="text-[11px] font-mono font-bold text-blue-400">
-                                <span class="bg-slate-950/90 px-3 py-0.5 rounded border border-blue-500/30 inline-block truncate max-w-[120px]">🧤 ${aGk}</span>
+                            <div class="text-xs font-mono font-black text-blue-400">
+                                <span class="bg-slate-950/95 px-5 py-1 rounded-md border border-blue-500/40 inline-block shadow-md">🧤 GK</span>
                             </div>
                         </div>
                     </div>
@@ -262,41 +229,38 @@
             } 
             else if (currentCardType === 'card3') {
                 segTitle.innerText = "FIFA WORLD CUP 2026 // WIN PROBABILITY ANALYTICS";
-                scrId.innerText = "OVERLAY_ID: #" + (currentMatchIndex + 1) + "_PROBABILITY";
+                scrId.innerText = "OVERLAY_ID: #" + currentMatchId + "_PROBABILITY";
                 contentBox.innerHTML = `
                     <div class="space-y-6 max-w-xl mx-auto w-full px-4">
                         <div>
-                            <div class="flex justify-between text-sm font-mono font-black mb-1 text-emerald-400 tracking-wider"><span>${match.homeSquadName.toUpperCase()} WIN</span><span>${homeWinPercent}%</span></div>
-                            <div class="w-full bg-slate-950 h-5 rounded-full p-1 border border-slate-800 shadow-inner"><div class="bg-gradient-to-r from-emerald-600 to-emerald-400 h-full rounded-full shadow-[0_0_15px_#10b981]" style="width: ${homeWinPercent}%"></div></div>
+                            <div class="flex justify-between text-sm font-mono font-black mb-1 text-emerald-400 tracking-wider"><span>${data.homeTeam} WIN</span><span>${data.win}%</span></div>
+                            <div class="w-full bg-slate-950 h-5 rounded-full p-1 border border-slate-800 shadow-inner"><div class="bg-gradient-to-r from-emerald-600 to-emerald-400 h-full rounded-full shadow-[0_0_15px_#10b981]" style="width: ${data.win}%"></div></div>
                         </div>
                         <div>
-                            <div class="flex justify-between text-sm font-mono font-black mb-1 text-amber-400 tracking-wider"><span>DRAW PROBABILITY</span><span>${drawPercent}%</span></div>
-                            <div class="w-full bg-slate-950 h-5 rounded-full p-1 border border-slate-800 shadow-inner"><div class="bg-gradient-to-r from-amber-600 to-amber-400 h-full rounded-full shadow-[0_0_15px_#f59e0b]" style="width: ${drawPercent}%"></div></div>
+                            <div class="flex justify-between text-sm font-mono font-black mb-1 text-amber-400 tracking-wider"><span>DRAW PROBABILITY</span><span>${data.draw}%</span></div>
+                            <div class="w-full bg-slate-950 h-5 rounded-full p-1 border border-slate-800 shadow-inner"><div class="bg-gradient-to-r from-amber-600 to-amber-400 h-full rounded-full shadow-[0_0_15px_#f59e0b]" style="width: ${data.draw}%"></div></div>
                         </div>
                         <div>
-                            <div class="flex justify-between text-sm font-mono font-black mb-1 text-blue-400 tracking-wider"><span>${match.awaySquadName.toUpperCase()} WIN</span><span>${awayWinPercent}%</span></div>
-                            <div class="w-full bg-slate-950 h-5 rounded-full p-1 border border-slate-800 shadow-inner"><div class="bg-gradient-to-r from-blue-600 to-blue-400 h-full rounded-full shadow-[0_0_15px_#3b82f6]" style="width: ${awayWinPercent}%"></div></div>
+                            <div class="flex justify-between text-sm font-mono font-black mb-1 text-blue-400 tracking-wider"><span>${data.awayTeam} WIN</span><span>${data.lose}%</span></div>
+                            <div class="w-full bg-slate-950 h-5 rounded-full p-1 border border-slate-800 shadow-inner"><div class="bg-gradient-to-r from-blue-600 to-blue-400 h-full rounded-full shadow-[0_0_15px_#3b82f6]" style="width: ${data.lose}%"></div></div>
                         </div>
                     </div>
                 `;
             } 
             else if (currentCardType === 'card4') {
                 segTitle.innerText = "FIFA WORLD CUP 2026 // EXPERT FORECAST TIPS";
-                scrId.innerText = "OVERLAY_ID: #" + (currentMatchIndex + 1) + "_VERDICT";
-                
-                let decisionText = predictedHomeScore === predictedAwayScore ? "ခြေရည်တူပြီး အကြိတ်အနယ် သရေကျမယ့်ပွဲ" : `${match.homeSquadName} အိမ်ကွင်းပရိသတ်အားနဲ့ ကပ်နိုင်မယ့်ပွဲ`;
-
+                scrId.innerText = "OVERLAY_ID: #" + currentMatchId + "_VERDICT";
                 contentBox.innerHTML = `
                     <div class="text-center space-y-6">
                         <div class="text-xs font-black bg-gradient-to-r from-amber-500 to-yellow-400 text-black px-6 py-1.5 rounded-full inline-block uppercase tracking-widest shadow-md">DOEPHAGYI'S CHOICE</div>
-                        <div class="font-mono text-8xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 drop-shadow-2xl py-2">${predictedHomeScore} - ${predictedAwayScore}</div>
-                        <div class="text-2xl md:text-3xl text-amber-400 font-extrabold tracking-wide max-w-xl mx-auto neon-gold">"${decisionText}"</div>
+                        <div class="font-mono text-8xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 drop-shadow-2xl py-2">${data.score}</div>
+                        <div class="text-2xl md:text-3xl text-amber-400 font-extrabold tracking-wide max-w-xl mx-auto neon-gold">"${data.text}"</div>
                     </div>
                 `;
             } 
             else if (currentCardType === 'card5') {
                 segTitle.innerText = "FIFA WORLD CUP 2026 // AUDIENCE INTERACTION";
-                scrId.innerText = "OVERLAY_ID: #" + (currentMatchIndex + 1) + "_ENGAGEMENT";
+                scrId.innerText = "OVERLAY_ID: #" + currentMatchId + "_ENGAGEMENT";
                 contentBox.innerHTML = `
                     <div class="text-center space-y-6 max-w-xl mx-auto">
                         <div class="text-amber-400 text-7xl neon-gold animate-bounce">⚽</div>
@@ -307,7 +271,8 @@
             }
         }
 
-        window.onload = loadJsonData;
+        // စတင်ဖွင့်လှစ်ချိန်တွင် ပထမဆုံးပွဲစဉ်အား အော်တိုပြသပေးရန်
+        renderContent();
     </script>
 </body>
 </html>
