@@ -28,45 +28,66 @@
         }
         .pitch-bg {
             background-color: #064e3b;
-            background-image: 
+            background-image:
                 radial-gradient(circle at 50% 50%, transparent 0%, transparent 20%, rgba(255,255,255,0.08) 20%, rgba(255,255,255,0.08) 21%, transparent 21%),
                 linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px),
                 linear-gradient(to right, rgba(255,255,255,0.05) 50%, transparent 50%);
             background-size: 100% 100%, 100% 10%, 10% 100%;
             border: 2px solid rgba(255,255,255,0.15);
         }
+        .not-set-badge {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px dashed rgba(239, 68, 68, 0.5);
+            color: #f87171;
+            font-family: monospace;
+            font-size: 0.75rem;
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.75rem;
+            letter-spacing: 0.1em;
+            font-weight: 700;
+        }
     </style>
 </head>
 <body class="text-white font-sans h-screen flex flex-col justify-between p-6 select-none">
 
+    <!-- ===== HEADER ===== -->
     <div class="max-w-7xl mx-auto w-full border-b-2 border-amber-500/30 pb-4 space-y-4">
         <div class="flex flex-col lg:flex-row justify-between items-center gap-4">
+
             <div class="text-4xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-200 to-amber-500 neon-gold">
                 DOEPHAGYI <span class="text-emerald-400 text-2xl font-semibold tracking-normal">MONITOR</span>
             </div>
-            
+
             <div class="flex items-center gap-2 bg-slate-900 border border-slate-700 px-4 py-2 rounded-xl">
                 <span class="text-xs font-mono text-slate-400 font-bold">SELECT MATCH:</span>
-                <select id="match-selector" onchange="playClickSound(); changeMatch(this.value);" class="bg-transparent text-sm font-bold text-emerald-400 outline-none cursor-pointer max-w-[280px] md:max-w-[400px]">
-                    </select>
+                <select id="match-selector" onchange="playClickSound(); changeMatch(this.value);"
+                    class="bg-transparent text-sm font-bold text-emerald-400 outline-none cursor-pointer max-w-[280px] md:max-w-[400px]">
+                </select>
             </div>
 
             <div class="flex flex-wrap justify-center gap-2 font-mono text-xs md:text-sm font-black">
-                <button onclick="switchCard('card1'); playClickSound();" id="btn-card1" class="tab-btn px-4 py-2 bg-amber-500 text-black rounded-xl shadow-[0_0_15px_rgba(245,158,11,0.4)] transition-all">CARD 1: ပွဲစဉ် PROFILE</button>
-                <button onclick="switchCard('card2'); playClickSound();" id="btn-card2" class="tab-btn px-4 py-2 bg-slate-900 border border-slate-800 text-slate-300 rounded-xl hover:bg-slate-800 transition-all">CARD 2: FORMATION</button>
-                <button onclick="switchCard('card3'); playClickSound();" id="btn-card3" class="tab-btn px-4 py-2 bg-slate-900 border border-slate-800 text-slate-300 rounded-xl hover:bg-slate-800 transition-all">CARD 3: % နိုင်ခြေ</button>
-                <button onclick="switchCard('card4'); playClickSound();" id="btn-card4" class="tab-btn px-4 py-2 bg-slate-900 border border-slate-800 text-slate-300 rounded-xl hover:bg-slate-800 transition-all">CARD 4: PREDICTION</button>
-                <button onclick="switchCard('card5'); playClickSound();" id="btn-card5" class="tab-btn px-4 py-2 bg-slate-900 border border-slate-800 text-slate-300 rounded-xl hover:bg-slate-800 transition-all">CARD 5: ဖန်ဇုန်</button>
+                <button onclick="switchCard('card1'); playClickSound();" id="btn-card1"
+                    class="tab-btn px-4 py-2 bg-amber-500 text-black rounded-xl shadow-[0_0_15px_rgba(245,158,11,0.4)] transition-all">CARD 1: ပွဲစဉ် PROFILE</button>
+                <button onclick="switchCard('card2'); playClickSound();" id="btn-card2"
+                    class="tab-btn px-4 py-2 bg-slate-900 border border-slate-800 text-slate-300 rounded-xl hover:bg-slate-800 transition-all">CARD 2: FORMATION</button>
+                <button onclick="switchCard('card3'); playClickSound();" id="btn-card3"
+                    class="tab-btn px-4 py-2 bg-slate-900 border border-slate-800 text-slate-300 rounded-xl hover:bg-slate-800 transition-all">CARD 3: % နိုင်ခြေ</button>
+                <button onclick="switchCard('card4'); playClickSound();" id="btn-card4"
+                    class="tab-btn px-4 py-2 bg-slate-900 border border-slate-800 text-slate-300 rounded-xl hover:bg-slate-800 transition-all">CARD 4: PREDICTION</button>
+                <button onclick="switchCard('card5'); playClickSound();" id="btn-card5"
+                    class="tab-btn px-4 py-2 bg-slate-900 border border-slate-800 text-slate-300 rounded-xl hover:bg-slate-800 transition-all">CARD 5: ဖန်ဇုန်</button>
             </div>
         </div>
     </div>
 
+    <!-- ===== MAIN CARD ===== -->
     <div class="max-w-4xl mx-auto w-full h-[65vh] flex items-center justify-center my-auto px-4">
         <div class="w-full h-full wc-premium-card p-8 rounded-3xl flex flex-col justify-between relative overflow-hidden">
             <div class="absolute -top-10 -left-10 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl"></div>
             <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl"></div>
 
-            <div id="segment-title" class="text-amber-400/80 font-mono text-xs tracking-widest uppercase border-b border-emerald-500/30 pb-3 text-center font-bold">
+            <div id="segment-title"
+                class="text-amber-400/80 font-mono text-xs tracking-widest uppercase border-b border-emerald-500/30 pb-3 text-center font-bold">
                 LOADING DATA SUITE...
             </div>
 
@@ -78,24 +99,27 @@
         </div>
     </div>
 
+    <!-- ===== FOOTER ===== -->
     <div class="max-w-7xl mx-auto w-full border-t border-slate-800 pt-3 flex justify-between text-[11px] font-mono text-slate-500 tracking-widest">
         <div>48 MATCHES FULL SUITE ONLINE</div>
-        <div>STADIUM OVERLAY CONFIG ENGINE v8.0</div>
+        <div>STADIUM OVERLAY CONFIG ENGINE v9.0</div>
     </div>
 
     <script>
         let rawFixtures = [];
+        let matchesData = {};     // matches_data.json မှ ဆွဲထားသော manual data
         let currentMatchIndex = 0;
         let currentCardType = 'card1';
         let audioCtx = null;
 
+        // ===== CLICK SOUND =====
         function playClickSound() {
             try {
                 if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 if (audioCtx.state === 'suspended') audioCtx.resume();
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
-                osc.type = 'sine'; 
+                osc.type = 'sine';
                 osc.frequency.setValueAtTime(580, audioCtx.currentTime);
                 osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.08);
                 gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
@@ -105,35 +129,127 @@
             } catch (e) {}
         }
 
-        // rounds.json ထဲမှ Group Stage ပွဲစဉ် ၄၈ ပွဲလုံးအား ဆွဲထုတ်ယူခြင်း
+        // ===== FLAG MAP (ပြည့်စုံ) =====
+        function getFlag(abbr) {
+            const flags = {
+                "MEX": "🇲🇽", "RSA": "🇿🇦", "KOR": "🇰🇷", "CZE": "🇨🇿", "CAN": "🇨🇦", "BIH": "🇧🇦",
+                "USA": "🇺🇸", "PAR": "🇵🇾", "BRA": "🇧🇷", "MAR": "🇲🇦", "ENG": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "CRO": "🇭🇷",
+                "ARG": "🇦🇷", "FRA": "🇫🇷", "GER": "🇩🇪", "ITA": "🇮🇹", "ESP": "🇪🇸", "POR": "🇵🇹",
+                "NED": "🇳🇱", "BEL": "🇧🇪", "SEN": "🇸🇳", "JPN": "🇯🇵", "URU": "🇺🇾", "GHA": "🇬🇭",
+                "QAT": "🇶🇦", "SUI": "🇨🇭", "HAI": "🇭🇹", "SCO": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "AUS": "🇦🇺", "TUR": "🇹🇷",
+                "CUW": "🇨🇼", "ECU": "🇪🇨", "CIV": "🇨🇮", "SWE": "🇸🇪", "TUN": "🇹🇳", "CPV": "🇨🇻",
+                "EGY": "🇪🇬", "KSA": "🇸🇦", "IRN": "🇮🇷", "NZL": "🇳🇿", "NOR": "🇳🇴", "ALG": "🇩🇿",
+                "AUT": "🇦🇹", "JOR": "🇯🇴", "COD": "🇨🇩", "PAN": "🇵🇦", "UZB": "🇺🇿", "COL": "🇨🇴",
+                "IRQ": "🇮🇶", "GBR": "🇬🇧", "WAL": "🏴󠁧󠁢󠁷󠁬󠁳󠁿"
+            };
+            return flags[abbr] || "🏳️";
+        }
+
+        // ===== FORMATION RENDERER =====
+        // "4-3-3" → row arrays ပြန်ထုတ်ပေးသည်
+        function parseFormation(formStr) {
+            if (!formStr || formStr.trim() === '') return null;
+            const parts = formStr.trim().split('-').map(Number);
+            if (parts.some(isNaN) || parts.length < 2) return null;
+            return parts;
+        }
+
+        // Position labels per row count
+        function rowLabels(count, rowType) {
+            const maps = {
+                fwd: { 1: ['ST'], 2: ['LW','RW'], 3: ['LW','ST','RW'], 4: ['LW','CF','CF','RW'], 5: ['LW','IF','ST','IF','RW'] },
+                mid: { 1: ['CM'], 2: ['CM','CM'], 3: ['CM','CM','CM'], 4: ['LM','CM','CM','RM'], 5: ['LM','CM','DM','CM','RM'], 6: ['LM','CM','CM','CM','CM','RM'] },
+                def: { 2: ['LB','RB'], 3: ['LB','CB','RB'], 4: ['LB','CB','CB','RB'], 5: ['LWB','CB','CB','CB','RWB'] }
+            };
+            return (maps[rowType] && maps[rowType][count]) || Array(count).fill(rowType.toUpperCase().slice(0,2));
+        }
+
+        function buildPitchHTML(formation, teamName, abbr, colorClass, borderClass) {
+            const rows = parseFormation(formation);
+            if (!rows) {
+                return `<div class="pitch-bg rounded-2xl p-4 flex flex-col items-center justify-center gap-3 relative overflow-hidden shadow-lg">
+                    <div class="text-sm font-black ${colorClass} uppercase tracking-widest bg-slate-950/60 py-1.5 px-3 rounded border ${borderClass}">${getFlag(abbr)} ${teamName}</div>
+                    <span class="not-set-badge">FORMATION NOT SET</span>
+                </div>`;
+            }
+
+            // rows[0] = DF, rows[1..n-1] = MID rows, rows[last] = FWD (bottom to top = GK→DEF→MID→FWD)
+            const total = rows.length;
+            let rowsHTML = '';
+
+            // FWD (top)
+            const fwdCount = rows[total - 1];
+            const fwdLabels = rowLabels(fwdCount, 'fwd');
+            rowsHTML += `<div class="flex justify-around w-full">
+                ${fwdLabels.map(l => `<div class="bg-slate-950/90 px-2 py-1 rounded-md border border-amber-500/40 shadow-md text-xs font-mono font-black text-amber-300">${l}</div>`).join('')}
+            </div>`;
+
+            // MID rows (middle, reversed)
+            for (let i = total - 2; i >= 1; i--) {
+                const cnt = rows[i];
+                const lbs = rowLabels(cnt, 'mid');
+                rowsHTML += `<div class="flex justify-around w-full">
+                    ${lbs.map(l => `<div class="bg-slate-950/90 px-2 py-1 rounded-md border border-slate-700 shadow-md text-xs font-mono font-black text-slate-200">${l}</div>`).join('')}
+                </div>`;
+            }
+
+            // DEF (bottom before GK)
+            const defCount = rows[0];
+            const defLabels = rowLabels(defCount, 'def');
+            rowsHTML += `<div class="flex justify-around w-full">
+                ${defLabels.map(l => `<div class="bg-slate-950/90 px-2 py-1 rounded-md border border-slate-700 shadow-md text-xs font-mono font-black text-slate-200">${l}</div>`).join('')}
+            </div>`;
+
+            // GK
+            rowsHTML += `<div class="flex justify-center w-full">
+                <span class="bg-slate-950/95 px-5 py-1 rounded-md border ${borderClass} inline-block shadow-md text-xs font-mono font-black ${colorClass}">🧤 GK</span>
+            </div>`;
+
+            return `<div class="pitch-bg rounded-2xl p-3 flex flex-col justify-between gap-2 relative overflow-hidden shadow-lg h-full">
+                <div class="text-sm font-black ${colorClass} uppercase tracking-widest bg-slate-950/60 py-1.5 rounded border ${borderClass} text-center">${getFlag(abbr)} ${teamName} <span class="text-amber-400 ml-1">[${formation}]</span></div>
+                ${rowsHTML}
+            </div>`;
+        }
+
+        // ===== LOAD BOTH JSON FILES =====
         async function loadFixturesData() {
             try {
-                const response = await fetch('rounds.json');
-                const roundsData = await response.json();
-                
+                const [roundsRes, matchesRes] = await Promise.all([
+                    fetch('rounds.json'),
+                    fetch('matches_data.json')
+                ]);
+
+                const roundsData = await roundsRes.json();
+                matchesData = await matchesRes.json();
+
                 rawFixtures = [];
-                // Group Stage (Round ID 1, 2, 3) ထဲမှ ပွဲစဉ်များကိုသာ စစ်ထုတ်စုဆောင်းခြင်း
                 roundsData.forEach(round => {
                     if (round.stage === "GROUP" && round.tournaments) {
-                        round.tournaments.forEach(match => {
-                            rawFixtures.push(match);
-                        });
+                        round.tournaments.forEach(match => rawFixtures.push(match));
                     }
                 });
 
                 buildMatchDropdown();
                 renderContent();
             } catch (error) {
-                document.getElementById('segment-title').innerText = "ERROR: PLS CHECK ROUNDS.JSON FILE";
+                document.getElementById('segment-title').innerText = "ERROR: PLS CHECK JSON FILES";
                 console.error(error);
             }
         }
 
-        // Dropdown Selector ထဲသို့ ပွဲစဉ် ၄၈ ပွဲစလုံး ထည့်သွင်းခြင်း
+        // ===== DROPDOWN =====
         function buildMatchDropdown() {
             const selector = document.getElementById('match-selector');
             selector.innerHTML = rawFixtures.map((m, idx) => {
-                return `<option value="${idx}">Match ${idx + 1}: ${m.homeSquadName} vs ${m.awaySquadName}</option>`;
+                const mid = m.id;
+                const hasData = matchesData[mid] && (
+                    matchesData[mid].formation_home ||
+                    matchesData[mid].win_home > 0 ||
+                    matchesData[mid].pred_home_score > 0 ||
+                    matchesData[mid].pred_away_score > 0
+                );
+                const dot = hasData ? '✅' : '⬜';
+                return `<option value="${idx}">${dot} Match ${mid}: ${m.homeSquadName} vs ${m.awaySquadName}</option>`;
             }).join('');
         }
 
@@ -147,69 +263,12 @@
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.className = "tab-btn px-4 py-2 bg-slate-900 border border-slate-800 text-slate-300 rounded-xl hover:bg-slate-800 transition-all";
             });
-            document.getElementById('btn-' + cardType).className = "tab-btn px-4 py-2 bg-amber-500 text-black rounded-xl font-black shadow-[0_0_15px_rgba(245,158,11,0.4)] transition-all";
+            document.getElementById('btn-' + cardType).className =
+                "tab-btn px-4 py-2 bg-amber-500 text-black rounded-xl font-black shadow-[0_0_15px_rgba(245,158,11,0.4)] transition-all";
             renderContent();
         }
 
-        // နိုင်ငံအလိုက် အလံများကို အလိုအလျောက်ပြောင်းပေးမည့် စနစ်
-        function getFlag(abbr) {
-            const flags = { 
-                "MEX": "🇲🇽", "RSA": "🇿🇦", "KOR": "🇰🇷", "CZE": "🇨🇿", "CAN": "🇨🇦", "BIH": "🇧🇦", 
-                "USA": "🇺🇸", "PAR": "🇵🇾", "BRA": "🇧🇷", "MAR": "🇲🇦", "ENG": "🏴%A7󠁢󠁥󠁮󠁧󠁿", "CRO": "🇭🇷", 
-                "ARG": "🇦🇷", "FRA": "🇫🇷", "GER": "🇩🇪", "ITA": "🇮🇹", "ESP": "🇪🇸", "POR": "🇵🇹",
-                "NED": "🇳🇱", "BEL": "🇧🇪", "SEN": "🇸🇳", "JPN": "🇯🇵", "URU": "🇺🇾", "GHA": "🇬🇭"
-            };
-            return flags[abbr] || "🏳️";
-        }
-
-        function seededNoise(seed, spread = 1) {
-            const value = Math.sin(seed * 999) * 10000;
-            return (value - Math.floor(value) - 0.5) * 2 * spread;
-        }
-
-        function getTeamRating(abbr) {
-            const ratings = {
-                ARG: 96, FRA: 96, BRA: 94, ESP: 93, ENG: 92, POR: 91, NED: 90, BEL: 88,
-                GER: 88, CRO: 86, URU: 85, COL: 84, MAR: 84, SUI: 83, JPN: 82, SEN: 81,
-                USA: 80, MEX: 80, ECU: 80, AUT: 80, IRN: 79, KOR: 78, SWE: 78, TUR: 78,
-                CZE: 77, NOR: 77, SCO: 76, AUS: 75, CAN: 75, EGY: 75, ALG: 74, TUN: 73,
-                CIV: 73, PAR: 73, GHA: 72, RSA: 70, QAT: 69, KSA: 69, UZB: 68, PAN: 68,
-                BIH: 68, IRQ: 67, JOR: 65, NZL: 65, HAI: 64, CPV: 64, COD: 64, CUW: 62
-            };
-            return ratings[abbr] || 70;
-        }
-
-        function calculatePrediction(match) {
-            const hostBoosts = { MEX: 3, USA: 3, CAN: 3 };
-            const homeRating = getTeamRating(match.homeSquadAbbr) + (hostBoosts[match.homeSquadAbbr] || 0) + seededNoise(match.id + match.homeSquadId, 1.4);
-            const awayRating = getTeamRating(match.awaySquadAbbr) + (hostBoosts[match.awaySquadAbbr] || 0) + seededNoise(match.id + match.awaySquadId, 1.4);
-            const diff = homeRating - awayRating;
-            const closeness = Math.max(0, 1 - Math.min(Math.abs(diff), 18) / 18);
-            let drawPercent = Math.round(18 + closeness * 12 + seededNoise(match.id, 2));
-            drawPercent = Math.max(16, Math.min(32, drawPercent));
-
-            const remaining = 100 - drawPercent;
-            const homeShare = 1 / (1 + Math.exp(-diff / 9));
-            let homeWinPercent = Math.round(remaining * homeShare);
-            homeWinPercent = Math.max(8, Math.min(remaining - 8, homeWinPercent));
-            const awayWinPercent = remaining - homeWinPercent;
-
-            const expectedHomeGoals = Math.max(0.6, 1.35 + diff / 18 + seededNoise(match.id + 7, 0.25));
-            const expectedAwayGoals = Math.max(0.6, 1.35 - diff / 18 + seededNoise(match.id + 13, 0.25));
-            let predictedHomeScore = Math.max(0, Math.min(4, Math.round(expectedHomeGoals)));
-            let predictedAwayScore = Math.max(0, Math.min(4, Math.round(expectedAwayGoals)));
-
-            if (Math.abs(homeWinPercent - awayWinPercent) <= 5 && drawPercent >= 27) {
-                predictedAwayScore = predictedHomeScore;
-            } else if (homeWinPercent > awayWinPercent && predictedHomeScore <= predictedAwayScore) {
-                predictedHomeScore = predictedAwayScore + 1;
-            } else if (awayWinPercent > homeWinPercent && predictedAwayScore <= predictedHomeScore) {
-                predictedAwayScore = predictedHomeScore + 1;
-            }
-
-            return { homeWinPercent, drawPercent, awayWinPercent, predictedHomeScore, predictedAwayScore };
-        }
-
+        // ===== MAIN RENDER =====
         function renderContent() {
             if (rawFixtures.length === 0) return;
 
@@ -218,21 +277,26 @@
             const segTitle = document.getElementById('segment-title');
             const scrId = document.getElementById('screen-id');
 
-            // ID များအပေါ်မူတည်၍ တရားမျှတသော နိုင်ခြေရာခိုင်နှုန်းများကို Auto တွက်ချက်ပေးခြင်း
-            const {
-                homeWinPercent,
-                drawPercent,
-                awayWinPercent,
-                predictedHomeScore,
-                predictedAwayScore
-            } = calculatePrediction(match);
+            // matches_data.json မှ manual data ဆွဲယူ (match.id နဲ့ key ချိတ်)
+            const mid = String(match.id);
+            const md = matchesData[mid] || {};
+
+            const formationHome   = md.formation_home   || '';
+            const formationAway   = md.formation_away   || '';
+            const winHome         = md.win_home         || 0;
+            const winDraw         = md.win_draw         || 0;
+            const winAway         = md.win_away         || 0;
+            const predHomeScore   = md.pred_home_score  !== undefined ? md.pred_home_score : null;
+            const predAwayScore   = md.pred_away_score  !== undefined ? md.pred_away_score : null;
+            const predComment     = md.pred_comment     || '';
 
             let dateObj = new Date(match.date);
             let formattedDate = "📅 " + dateObj.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
 
+            // ========== CARD 1: MATCH PROFILE (auto from rounds.json) ==========
             if (currentCardType === 'card1') {
                 segTitle.innerText = "FIFA WORLD CUP 2026 // MATCH PROFILE";
-                scrId.innerText = "OVERLAY_ID: #" + (currentMatchIndex + 1) + "_PROFILE";
+                scrId.innerText = "OVERLAY_ID: #" + mid + "_PROFILE";
                 contentBox.innerHTML = `
                     <div class="text-center space-y-6">
                         <div class="text-xl font-mono text-amber-400 font-bold tracking-widest bg-amber-500/10 border border-amber-500/20 px-6 py-1.5 rounded-full inline-block shadow-inner">${formattedDate}</div>
@@ -241,116 +305,127 @@
                             <div class="text-amber-500 font-black text-4xl neon-gold px-4">VS</div>
                             <div class="text-4xl md:text-5xl font-black team-title tracking-wider text-white drop-shadow-md">${match.awaySquadName.toUpperCase()} ${getFlag(match.awaySquadAbbr)}</div>
                         </div>
-                        <div class="text-sm font-mono text-emerald-400 font-semibold tracking-wider bg-emerald-950/40 border border-emerald-500/10 px-4 py-1.5 rounded-xl inline-block">📍 ${match.venueName || 'Main Stadium'}, ${match.venueCity || 'Host City'}</div>
+                        <div class="text-sm font-mono text-emerald-400 font-semibold tracking-wider bg-emerald-950/40 border border-emerald-500/10 px-4 py-1.5 rounded-xl inline-block">
+                            📍 ${match.venueName || 'Main Stadium'}, ${match.venueCity || 'Host City'}
+                        </div>
                     </div>
                 `;
-            } 
+            }
+
+            // ========== CARD 2: FORMATION (manual from matches_data.json) ==========
             else if (currentCardType === 'card2') {
                 segTitle.innerText = "FIFA WORLD CUP 2026 // SQUAD FORMATION LAYOUT";
-                scrId.innerText = "OVERLAY_ID: #" + (currentMatchIndex + 1) + "_FORMATION";
+                scrId.innerText = "OVERLAY_ID: #" + mid + "_FORMATION";
                 contentBox.innerHTML = `
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto h-[45vh]">
-                        <div class="pitch-bg rounded-2xl p-4 flex flex-col justify-between text-center relative overflow-hidden shadow-lg">
-                            <div class="text-sm font-black text-emerald-300 uppercase tracking-widest bg-slate-950/60 py-1.5 rounded border border-emerald-500/20">${getFlag(match.homeSquadAbbr)} ${match.homeSquadName}</div>
-                            <div class="flex justify-around text-xs font-mono font-black text-amber-300">
-                                <div class="bg-slate-950/90 px-3 py-1 rounded-md border border-amber-500/40 shadow-md">LW</div>
-                                <div class="bg-slate-950/90 px-4 py-1 rounded-md border border-amber-500/40 shadow-md">ST</div>
-                                <div class="bg-slate-950/90 px-3 py-1 rounded-md border border-amber-500/40 shadow-md">RW</div>
-                            </div>
-                            <div class="flex justify-around text-xs font-mono font-black text-slate-200">
-                                <div class="bg-slate-950/90 px-3 py-1 rounded-md border border-slate-700 shadow-md">CM</div>
-                                <div class="bg-slate-950/90 px-3 py-1 rounded-md border border-slate-700 shadow-md">DM</div>
-                                <div class="bg-slate-950/90 px-3 py-1 rounded-md border border-slate-700 shadow-md">CM</div>
-                            </div>
-                            <div class="flex justify-around text-xs font-mono font-black text-slate-200">
-                                <div class="bg-slate-950/90 px-2 py-1 rounded-md border border-slate-700 shadow-md">LB</div>
-                                <div class="bg-slate-950/90 px-2 py-1 rounded-md border border-slate-700 shadow-md">CB</div>
-                                <div class="bg-slate-950/90 px-2 py-1 rounded-md border border-slate-700 shadow-md">CB</div>
-                                <div class="bg-slate-950/90 px-2 py-1 rounded-md border border-slate-700 shadow-md">RB</div>
-                            </div>
-                            <div class="text-xs font-mono font-black text-emerald-400">
-                                <span class="bg-slate-950/95 px-5 py-1 rounded-md border border-emerald-500/40 inline-block shadow-md">🧤 GK</span>
-                            </div>
-                        </div>
-
-                        <div class="pitch-bg rounded-2xl p-4 flex flex-col justify-between text-center relative overflow-hidden shadow-lg">
-                            <div class="text-sm font-black text-blue-300 uppercase tracking-widest bg-slate-950/60 py-1.5 rounded border border-blue-500/20">${getFlag(match.awaySquadAbbr)} ${match.awaySquadName}</div>
-                            <div class="flex justify-around text-xs font-mono font-black text-amber-300">
-                                <div class="bg-slate-950/90 px-3 py-1 rounded-md border border-amber-500/40 shadow-md">LW</div>
-                                <div class="bg-slate-950/90 px-4 py-1 rounded-md border border-amber-500/40 shadow-md">ST</div>
-                                <div class="bg-slate-950/90 px-3 py-1 rounded-md border border-amber-500/40 shadow-md">RW</div>
-                            </div>
-                            <div class="flex justify-around text-xs font-mono font-black text-slate-200">
-                                <div class="bg-slate-950/90 px-3 py-1 rounded-md border border-slate-700 shadow-md">CM</div>
-                                <div class="bg-slate-950/90 px-3 py-1 rounded-md border border-slate-700 shadow-md">DM</div>
-                                <div class="bg-slate-950/90 px-3 py-1 rounded-md border border-slate-700 shadow-md">CM</div>
-                            </div>
-                            <div class="flex justify-around text-xs font-mono font-black text-slate-200">
-                                <div class="bg-slate-950/90 px-2 py-1 rounded-md border border-slate-700 shadow-md">LB</div>
-                                <div class="bg-slate-950/90 px-2 py-1 rounded-md border border-slate-700 shadow-md">CB</div>
-                                <div class="bg-slate-950/90 px-2 py-1 rounded-md border border-slate-700 shadow-md">CB</div>
-                                <div class="bg-slate-950/90 px-2 py-1 rounded-md border border-slate-700 shadow-md">RB</div>
-                            </div>
-                            <div class="text-xs font-mono font-black text-blue-400">
-                                <span class="bg-slate-950/95 px-5 py-1 rounded-md border border-blue-500/40 inline-block shadow-md">🧤 GK</span>
-                            </div>
-                        </div>
+                    <div class="grid grid-cols-2 gap-4 w-full h-[42vh]">
+                        ${buildPitchHTML(formationHome, match.homeSquadName, match.homeSquadAbbr, 'text-emerald-300', 'border-emerald-500/40')}
+                        ${buildPitchHTML(formationAway, match.awaySquadName, match.awaySquadAbbr, 'text-blue-300', 'border-blue-500/40')}
                     </div>
                 `;
-            } 
+            }
+
+            // ========== CARD 3: WIN % (manual from matches_data.json) ==========
             else if (currentCardType === 'card3') {
                 segTitle.innerText = "FIFA WORLD CUP 2026 // WIN PROBABILITY ANALYTICS";
-                scrId.innerText = "OVERLAY_ID: #" + (currentMatchIndex + 1) + "_PROBABILITY";
-                contentBox.innerHTML = `
-                    <div class="space-y-6 max-w-xl mx-auto w-full px-4">
-                        <div>
-                            <div class="flex justify-between text-sm font-mono font-black mb-1 text-emerald-400 tracking-wider"><span>${match.homeSquadName.toUpperCase()} WIN</span><span>${homeWinPercent}%</span></div>
-                            <div class="w-full bg-slate-950 h-5 rounded-full p-1 border border-slate-800 shadow-inner"><div class="bg-gradient-to-r from-emerald-600 to-emerald-400 h-full rounded-full shadow-[0_0_15px_#10b981]" style="width: ${homeWinPercent}%"></div></div>
+                scrId.innerText = "OVERLAY_ID: #" + mid + "_PROBABILITY";
+
+                const totalSet = winHome + winDraw + winAway;
+                const dataReady = totalSet > 0;
+
+                if (!dataReady) {
+                    contentBox.innerHTML = `
+                        <div class="flex flex-col items-center justify-center gap-4 h-full">
+                            <div class="text-5xl">📊</div>
+                            <span class="not-set-badge text-base px-8 py-3">WIN % DATA NOT SET YET</span>
+                            <p class="text-slate-500 font-mono text-xs">matches_data.json မှာ win_home / win_draw / win_away ဖြည့်ပါ</p>
                         </div>
-                        <div>
-                            <div class="flex justify-between text-sm font-mono font-black mb-1 text-amber-400 tracking-wider"><span>DRAW PROBABILITY</span><span>${drawPercent}%</span></div>
-                            <div class="w-full bg-slate-950 h-5 rounded-full p-1 border border-slate-800 shadow-inner"><div class="bg-gradient-to-r from-amber-600 to-amber-400 h-full rounded-full shadow-[0_0_15px_#f59e0b]" style="width: ${drawPercent}%"></div></div>
+                    `;
+                } else {
+                    contentBox.innerHTML = `
+                        <div class="space-y-6 max-w-xl mx-auto w-full px-4">
+                            <div>
+                                <div class="flex justify-between text-sm font-mono font-black mb-1 text-emerald-400 tracking-wider">
+                                    <span>${match.homeSquadName.toUpperCase()} WIN</span><span>${winHome}%</span>
+                                </div>
+                                <div class="w-full bg-slate-950 h-5 rounded-full p-1 border border-slate-800 shadow-inner">
+                                    <div class="bg-gradient-to-r from-emerald-600 to-emerald-400 h-full rounded-full shadow-[0_0_15px_#10b981] transition-all duration-700" style="width: ${winHome}%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm font-mono font-black mb-1 text-amber-400 tracking-wider">
+                                    <span>DRAW PROBABILITY</span><span>${winDraw}%</span>
+                                </div>
+                                <div class="w-full bg-slate-950 h-5 rounded-full p-1 border border-slate-800 shadow-inner">
+                                    <div class="bg-gradient-to-r from-amber-600 to-amber-400 h-full rounded-full shadow-[0_0_15px_#f59e0b] transition-all duration-700" style="width: ${winDraw}%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm font-mono font-black mb-1 text-blue-400 tracking-wider">
+                                    <span>${match.awaySquadName.toUpperCase()} WIN</span><span>${winAway}%</span>
+                                </div>
+                                <div class="w-full bg-slate-950 h-5 rounded-full p-1 border border-slate-800 shadow-inner">
+                                    <div class="bg-gradient-to-r from-blue-600 to-blue-400 h-full rounded-full shadow-[0_0_15px_#3b82f6] transition-all duration-700" style="width: ${winAway}%"></div>
+                                </div>
+                            </div>
+                            ${totalSet !== 100 ? `<p class="text-center text-red-400 font-mono text-xs">⚠️ စုစုပေါင်း ${totalSet}% — 100% ဖြစ်အောင် စစ်ပေးပါ</p>` : ''}
                         </div>
-                        <div>
-                            <div class="flex justify-between text-sm font-mono font-black mb-1 text-blue-400 tracking-wider"><span>${match.awaySquadName.toUpperCase()} WIN</span><span>${awayWinPercent}%</span></div>
-                            <div class="w-full bg-slate-950 h-5 rounded-full p-1 border border-slate-800 shadow-inner"><div class="bg-gradient-to-r from-blue-600 to-blue-400 h-full rounded-full shadow-[0_0_15px_#3b82f6]" style="width: ${awayWinPercent}%"></div></div>
-                        </div>
-                    </div>
-                `;
-            } 
+                    `;
+                }
+            }
+
+            // ========== CARD 4: PREDICTION (manual from matches_data.json) ==========
             else if (currentCardType === 'card4') {
                 segTitle.innerText = "FIFA WORLD CUP 2026 // EXPERT FORECAST TIPS";
-                scrId.innerText = "OVERLAY_ID: #" + (currentMatchIndex + 1) + "_VERDICT";
-                
-                let decisionText = "ခြေရည်တူပြီး သရေကျဖို့ အလားအလာရှိပါတယ်";
-                if (predictedHomeScore > predictedAwayScore) {
-                    decisionText = `${match.homeSquadName} ရဲ့ အောင်ပွဲကို မြင်တွေ့ရနိုင်ပါတယ်`;
-                } else if (predictedAwayScore > predictedHomeScore) {
-                    decisionText = `${match.awaySquadName} ရဲ့ အောင်ပွဲကို မြင်တွေ့ရနိုင်ပါတယ်`;
-                }
+                scrId.innerText = "OVERLAY_ID: #" + mid + "_VERDICT";
 
-                contentBox.innerHTML = `
-                    <div class="text-center space-y-6">
-                        <div class="text-xs font-black bg-gradient-to-r from-amber-500 to-yellow-400 text-black px-6 py-1.5 rounded-full inline-block uppercase tracking-widest shadow-md">DOEPHAGYI'S CHOICE</div>
-                        <div class="font-mono text-8xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 drop-shadow-2xl py-2">${predictedHomeScore} - ${predictedAwayScore}</div>
-                        <div class="text-2xl md:text-3xl text-amber-400 font-extrabold tracking-wide max-w-xl mx-auto neon-gold">"${decisionText}"</div>
-                    </div>
-                `;
-            } 
+                const scoreReady = predHomeScore !== null && predAwayScore !== null &&
+                                   (predHomeScore > 0 || predAwayScore > 0 || predComment !== '');
+
+                if (!scoreReady) {
+                    contentBox.innerHTML = `
+                        <div class="flex flex-col items-center justify-center gap-4 h-full">
+                            <div class="text-5xl">🔮</div>
+                            <span class="not-set-badge text-base px-8 py-3">PREDICTION NOT SET YET</span>
+                            <p class="text-slate-500 font-mono text-xs">matches_data.json မှာ pred_home_score / pred_away_score / pred_comment ဖြည့်ပါ</p>
+                        </div>
+                    `;
+                } else {
+                    let decisionText = predComment;
+                    if (!decisionText) {
+                        if (predHomeScore > predAwayScore) {
+                            decisionText = `${match.homeSquadName} ရဲ့ အောင်ပွဲကို မြင်တွေ့ရနိုင်ပါတယ်`;
+                        } else if (predAwayScore > predHomeScore) {
+                            decisionText = `${match.awaySquadName} ရဲ့ အောင်ပွဲကို မြင်တွေ့ရနိုင်ပါတယ်`;
+                        } else {
+                            decisionText = "ခြေရည်တူပြီး သရေကျဖို့ အလားအလာရှိပါတယ်";
+                        }
+                    }
+                    contentBox.innerHTML = `
+                        <div class="text-center space-y-6">
+                            <div class="text-xs font-black bg-gradient-to-r from-amber-500 to-yellow-400 text-black px-6 py-1.5 rounded-full inline-block uppercase tracking-widest shadow-md">DOEPHAGYI'S CHOICE</div>
+                            <div class="font-mono text-8xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 drop-shadow-2xl py-2">${predHomeScore} - ${predAwayScore}</div>
+                            <div class="text-2xl md:text-3xl text-amber-400 font-extrabold tracking-wide max-w-xl mx-auto neon-gold">"${decisionText}"</div>
+                        </div>
+                    `;
+                }
+            }
+
+            // ========== CARD 5: ဖန်ဇုန် (fixed, no data needed) ==========
             else if (currentCardType === 'card5') {
                 segTitle.innerText = "FIFA WORLD CUP 2026 // AUDIENCE INTERACTION";
-                scrId.innerText = "OVERLAY_ID: #" + (currentMatchIndex + 1) + "_ENGAGEMENT";
+                scrId.innerText = "OVERLAY_ID: #" + mid + "_ENGAGEMENT";
                 contentBox.innerHTML = `
                     <div class="text-center space-y-6 max-w-xl mx-auto">
                         <div class="text-amber-400 text-7xl neon-gold animate-bounce">⚽</div>
                         <div class="text-3xl md:text-4xl font-black tracking-wide text-white leading-tight">"သူငယ်ချင်းတို့ အမြင်ကရော ဗျာ?"</div>
-                        <p class="text-lg text-emerald-400 font-semibold tracking-wide bg-emerald-950/40 border border-emerald-500/20 py-2 px-6 rounded-xl inline-block">ဘယ်သူနိုင်မလဲ ကောမန့်မှာ တစ်ခါတည်း ရေးပေးခဲ့ဦးနော်!</p>
+                        <p class="text-lg text-emerald-400 font-semibold tracking-wide bg-emerald-950/40 border border-emerald-500/20 py-2 px-6 rounded-xl inline-block">
+                            ဘယ်သူနိုင်မလဲ ကောမန့်မှာ တစ်ခါတည်း ရေးပေးခဲ့ဦးနော်!
+                        </p>
                     </div>
                 `;
             }
         }
 
-        // စတင်ချိန်တွင် JSON အား အလိုအလျောက် ဆွဲဖတ်ရန် ညွှန်ကြားချက်
         window.onload = loadFixturesData;
     </script>
 </body>
