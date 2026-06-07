@@ -162,6 +162,54 @@
             return flags[abbr] || "🏳️";
         }
 
+        function seededNoise(seed, spread = 1) {
+            const value = Math.sin(seed * 999) * 10000;
+            return (value - Math.floor(value) - 0.5) * 2 * spread;
+        }
+
+        function getTeamRating(abbr) {
+            const ratings = {
+                ARG: 96, FRA: 96, BRA: 94, ESP: 93, ENG: 92, POR: 91, NED: 90, BEL: 88,
+                GER: 88, CRO: 86, URU: 85, COL: 84, MAR: 84, SUI: 83, JPN: 82, SEN: 81,
+                USA: 80, MEX: 80, ECU: 80, AUT: 80, IRN: 79, KOR: 78, SWE: 78, TUR: 78,
+                CZE: 77, NOR: 77, SCO: 76, AUS: 75, CAN: 75, EGY: 75, ALG: 74, TUN: 73,
+                CIV: 73, PAR: 73, GHA: 72, RSA: 70, QAT: 69, KSA: 69, UZB: 68, PAN: 68,
+                BIH: 68, IRQ: 67, JOR: 65, NZL: 65, HAI: 64, CPV: 64, COD: 64, CUW: 62
+            };
+            return ratings[abbr] || 70;
+        }
+
+        function calculatePrediction(match) {
+            const hostBoosts = { MEX: 3, USA: 3, CAN: 3 };
+            const homeRating = getTeamRating(match.homeSquadAbbr) + (hostBoosts[match.homeSquadAbbr] || 0) + seededNoise(match.id + match.homeSquadId, 1.4);
+            const awayRating = getTeamRating(match.awaySquadAbbr) + (hostBoosts[match.awaySquadAbbr] || 0) + seededNoise(match.id + match.awaySquadId, 1.4);
+            const diff = homeRating - awayRating;
+            const closeness = Math.max(0, 1 - Math.min(Math.abs(diff), 18) / 18);
+            let drawPercent = Math.round(18 + closeness * 12 + seededNoise(match.id, 2));
+            drawPercent = Math.max(16, Math.min(32, drawPercent));
+
+            const remaining = 100 - drawPercent;
+            const homeShare = 1 / (1 + Math.exp(-diff / 9));
+            let homeWinPercent = Math.round(remaining * homeShare);
+            homeWinPercent = Math.max(8, Math.min(remaining - 8, homeWinPercent));
+            const awayWinPercent = remaining - homeWinPercent;
+
+            const expectedHomeGoals = Math.max(0.6, 1.35 + diff / 18 + seededNoise(match.id + 7, 0.25));
+            const expectedAwayGoals = Math.max(0.6, 1.35 - diff / 18 + seededNoise(match.id + 13, 0.25));
+            let predictedHomeScore = Math.max(0, Math.min(4, Math.round(expectedHomeGoals)));
+            let predictedAwayScore = Math.max(0, Math.min(4, Math.round(expectedAwayGoals)));
+
+            if (Math.abs(homeWinPercent - awayWinPercent) <= 5 && drawPercent >= 27) {
+                predictedAwayScore = predictedHomeScore;
+            } else if (homeWinPercent > awayWinPercent && predictedHomeScore <= predictedAwayScore) {
+                predictedHomeScore = predictedAwayScore + 1;
+            } else if (awayWinPercent > homeWinPercent && predictedAwayScore <= predictedHomeScore) {
+                predictedAwayScore = predictedHomeScore + 1;
+            }
+
+            return { homeWinPercent, drawPercent, awayWinPercent, predictedHomeScore, predictedAwayScore };
+        }
+
         function renderContent() {
             if (rawFixtures.length === 0) return;
 
@@ -171,16 +219,13 @@
             const scrId = document.getElementById('screen-id');
 
             // ID များအပေါ်မူတည်၍ တရားမျှတသော နိုင်ခြေရာခိုင်နှုန်းများကို Auto တွက်ချက်ပေးခြင်း
-            let baseSeed = (match.homeSquadId + match.awaySquadId) % 15;
-            let homeWinPercent = 40 + baseSeed;
-            let awayWinPercent = 38 - baseSeed;
-            let drawPercent = 100 - homeWinPercent - awayWinPercent;
-
-            let predictedHomeScore = homeWinPercent > awayWinPercent ? 2 : 1;
-            let predictedAwayScore = homeWinPercent > awayWinPercent ? 1 : 2;
-            if(Math.abs(homeWinPercent - awayWinPercent) < 3) {
-                predictedHomeScore = 1; predictedAwayScore = 1;
-            }
+            const {
+                homeWinPercent,
+                drawPercent,
+                awayWinPercent,
+                predictedHomeScore,
+                predictedAwayScore
+            } = calculatePrediction(match);
 
             let dateObj = new Date(match.date);
             let formattedDate = "📅 " + dateObj.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
@@ -277,7 +322,12 @@
                 segTitle.innerText = "FIFA WORLD CUP 2026 // EXPERT FORECAST TIPS";
                 scrId.innerText = "OVERLAY_ID: #" + (currentMatchIndex + 1) + "_VERDICT";
                 
-                let decisionText = predictedHomeScore === predictedAwayScore ? "ခြေရည်တူပြီး သရေကျဖို့ အလားအလာရှိပါတယ်" : `${match.homeSquadName} ရဲ့ အောင်ပွဲကို မြင်တွေ့ရမယ့် ညစဉ်ပွဲ`;
+                let decisionText = "ခြေရည်တူပြီး သရေကျဖို့ အလားအလာရှိပါတယ်";
+                if (predictedHomeScore > predictedAwayScore) {
+                    decisionText = `${match.homeSquadName} ရဲ့ အောင်ပွဲကို မြင်တွေ့ရနိုင်ပါတယ်`;
+                } else if (predictedAwayScore > predictedHomeScore) {
+                    decisionText = `${match.awaySquadName} ရဲ့ အောင်ပွဲကို မြင်တွေ့ရနိုင်ပါတယ်`;
+                }
 
                 contentBox.innerHTML = `
                     <div class="text-center space-y-6">
