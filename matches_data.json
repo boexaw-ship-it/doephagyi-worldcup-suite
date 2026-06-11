@@ -1,25 +1,25 @@
 {
   "1": {
     "match_label": "Mexico vs South Africa",
-    "formation_home": "4-1-4-1",
+    "formation_home": "4-3-3-",
     "formation_away": "4-2-3-1",
-    "win_home": 60,
-    "win_draw": 10,
-    "win_away": 30,
+    "win_home": 74,
+    "win_draw": 12,
+    "win_away": 14,
     "pred_home_score": 2,
     "pred_away_score": 0,
     "pred_comment": "Mexico အိမ်ရှင် အဖွင့်လှနိုင်မယ်"
   },
   "2": {
     "match_label": "Korea Republic vs Czechia",
-    "formation_home": "",
-    "formation_away": "",
-    "win_home": 0,
-    "win_draw": 0,
-    "win_away": 0,
-    "pred_home_score": 0,
-    "pred_away_score": 0,
-    "pred_comment": ""
+    "formation_home": "3-4-2-1",
+    "formation_away": "3-4-2-1",
+    "win_home":64,
+    "win_draw": 18,
+    "win_away": 18,
+    "pred_home_score": 1,
+    "pred_away_score": 1,
+    "pred_comment": "အုပ်စု အဖွင့် မှာ ခြေ မျှ တယ် လို့ ပဲ့ ပြောရမယ် "
   },
   "3": {
     "match_label": "Canada vs Bosnia and Herzegovina",
