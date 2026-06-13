@@ -56,36 +56,36 @@
   },
   "6": {
     "match_label": "Brazil vs Morocco",
-    "formation_home": "",
-    "formation_away": "",
-    "win_home": 0,
-    "win_draw": 0,
-    "win_away": 0,
-    "pred_home_score": 0,
-    "pred_away_score": 0,
-    "pred_comment": ""
+    "formation_home": "4-2-3-1",
+    "formation_away": "4-2-3-1",
+    "win_home": 63,
+    "win_draw": 18,
+    "win_away": 19,
+    "pred_home_score": 3,
+    "pred_away_score": 1,
+    "pred_comment": "Brazil WiN"
   },
   "7": {
     "match_label": "Haiti vs Scotland",
-    "formation_home": "",
-    "formation_away": "",
-    "win_home": 0,
-    "win_draw": 0,
-    "win_away": 0,
+    "formation_home": "4-4-2",
+    "formation_away": "4-4-2",
+    "win_home": 13,
+    "win_draw": 15,
+    "win_away": 72,
     "pred_home_score": 0,
-    "pred_away_score": 0,
-    "pred_comment": ""
+    "pred_away_score": 2,
+    "pred_comment": "Scotland"
   },
   "8": {
     "match_label": "Australia vs Türkiye",
-    "formation_home": "",
-    "formation_away": "",
-    "win_home": 0,
-    "win_draw": 0,
-    "win_away": 0,
+    "formation_home": "3-4-2-1",
+    "formation_away": "4-2-3-1",
+    "win_home": 18,
+    "win_draw": 16,
+    "win_away": 66,
     "pred_home_score": 0,
-    "pred_away_score": 0,
-    "pred_comment": ""
+    "pred_away_score": 2,
+    "pred_comment": "Türkiye WiN"
   },
   "9": {
     "match_label": "Germany vs Curaçao",
