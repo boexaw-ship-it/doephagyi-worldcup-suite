@@ -45,13 +45,13 @@
   },
   "5": {
     "match_label": "Qatar vs Switzerland",
-    "formation_home": "",
-    "formation_away": "",
-    "win_home": 0,
-    "win_draw": 0,
-    "win_away": 0,
+    "formation_home": "4-3-3",
+    "formation_away": "4-2-3-1",
+    "win_home": 16,
+    "win_draw": 15,
+    "win_away": 69,
     "pred_home_score": 0,
-    "pred_away_score": 0,
+    "pred_away_score": 2,
     "pred_comment": ""
   },
   "6": {
