@@ -100,14 +100,14 @@
   },
   "10": {
     "match_label": "Netherlands vs Japan",
-    "formation_home": "",
-    "formation_away": "",
-    "win_home": 0,
-    "win_draw": 0,
-    "win_away": 0,
-    "pred_home_score": 0,
-    "pred_away_score": 0,
-    "pred_comment": ""
+    "formation_home": "4-3-3",
+    "formation_away": "3-4-2-1",
+    "win_home": 52,
+    "win_draw": 17,
+    "win_away": 31,
+    "pred_home_score": 2,
+    "pred_away_score": 2,
+    "pred_comment": "DRAW"
   },
   "11": {
     "match_label": "Côte d'Ivoire vs Ecuador",
