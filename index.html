@@ -56,16 +56,6 @@
             font-family: 'Bebas Neue','Impact','Arial Black',sans-serif;
             letter-spacing: 0.06em;
         }
-        .pitch-bg {
-            background: linear-gradient(180deg,#064e3b 0%,#065f46 50%,#064e3b 100%);
-            background-image:
-                radial-gradient(circle at 50% 50%, transparent 19%, rgba(255,255,255,0.09) 19.5%, rgba(255,255,255,0.09) 20.5%, transparent 21%),
-                linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px),
-                linear-gradient(to right, rgba(255,255,255,0.04) 50%, transparent 50%);
-            background-size: 100% 100%, 100% 12.5%, 10% 100%;
-            border: 1.5px solid rgba(255,255,255,0.18);
-            border-radius: 12px;
-        }
         .not-set-badge {
             background: rgba(239,68,68,0.12);
             border: 1px dashed rgba(239,68,68,0.45);
@@ -200,49 +190,40 @@
             return (maps[rowType] && maps[rowType][count]) || Array(count).fill(rowType.toUpperCase().slice(0,2));
         }
 
-        function buildPitchHTML(formation, teamName, abbr, colorClass, borderClass) {
+        function buildPitchHTML(formation, teamName, abbr, isHome) {
             const rows = parseFormation(formation);
+            const accentColor  = isHome ? 'rgba(110,231,183,0.95)' : 'rgba(147,197,253,0.95)';
+            const accentBorder = isHome ? 'rgba(52,211,153,0.5)'   : 'rgba(96,165,250,0.5)';
+            const accentGlow   = isHome ? 'rgba(52,211,153,0.25)'  : 'rgba(96,165,250,0.25)';
+
+            const panelStyle = `background:rgba(3,10,25,0.52);border:1px solid ${accentBorder};border-radius:14px;padding:12px 10px;display:flex;flex-direction:column;justify-content:space-between;gap:7px;height:100%;box-shadow:0 0 22px ${accentGlow},inset 0 1px 0 rgba(255,255,255,0.05);`;
+
+            const badge = (label, color, border) =>
+                `<div style="display:inline-block;padding:3px 9px;border-radius:6px;border:1px solid ${border};background:rgba(0,0,0,0.4);font-family:monospace;font-size:11px;font-weight:800;color:${color};letter-spacing:0.04em;white-space:nowrap;">${label}</div>`;
+
+            const rowDiv = (labels, color, border) =>
+                `<div style="display:flex;justify-content:space-around;align-items:center;width:100%;">${labels.map(l=>badge(l,color,border)).join('')}</div>`;
+
             if (!rows) {
-                return `<div class="pitch-bg rounded-2xl p-4 flex flex-col items-center justify-center gap-3 relative overflow-hidden shadow-lg">
-                    <div class="text-sm font-black ${colorClass} uppercase tracking-widest bg-slate-950/60 py-1.5 px-3 rounded border ${borderClass}">${getFlag(abbr)} ${teamName}</div>
+                return `<div style="${panelStyle}align-items:center;justify-content:center;">
+                    <div style="font-family:monospace;font-size:12px;font-weight:800;color:${accentColor};text-align:center;margin-bottom:8px;">${getFlag(abbr)} ${teamName}</div>
                     <span class="not-set-badge">FORMATION NOT SET</span>
                 </div>`;
             }
 
-            // rows[0] = DF, rows[1..n-1] = MID rows, rows[last] = FWD (bottom to top = GK→DEF→MID→FWD)
             const total = rows.length;
             let rowsHTML = '';
-
-            // FWD (top)
-            const fwdCount = rows[total - 1];
-            const fwdLabels = rowLabels(fwdCount, 'fwd');
-            rowsHTML += `<div class="flex justify-around w-full">
-                ${fwdLabels.map(l => `<div class="bg-slate-950/90 px-2 py-1 rounded-md border border-amber-500/40 shadow-md text-xs font-mono font-black text-amber-300">${l}</div>`).join('')}
-            </div>`;
-
-            // MID rows (middle, reversed)
-            for (let i = total - 2; i >= 1; i--) {
-                const cnt = rows[i];
-                const lbs = rowLabels(cnt, 'mid');
-                rowsHTML += `<div class="flex justify-around w-full">
-                    ${lbs.map(l => `<div class="bg-slate-950/90 px-2 py-1 rounded-md border border-slate-700 shadow-md text-xs font-mono font-black text-slate-200">${l}</div>`).join('')}
-                </div>`;
+            rowsHTML += rowDiv(rowLabels(rows[total-1],'fwd'), 'rgba(251,191,36,0.95)', 'rgba(245,158,11,0.45)');
+            for (let i = total-2; i >= 1; i--) {
+                rowsHTML += rowDiv(rowLabels(rows[i],'mid'), 'rgba(255,255,255,0.82)', 'rgba(255,255,255,0.16)');
             }
+            rowsHTML += rowDiv(rowLabels(rows[0],'def'), 'rgba(255,255,255,0.72)', 'rgba(255,255,255,0.13)');
+            rowsHTML += `<div style="display:flex;justify-content:center;">${badge('🧤 GK', accentColor, accentBorder)}</div>`;
 
-            // DEF (bottom before GK)
-            const defCount = rows[0];
-            const defLabels = rowLabels(defCount, 'def');
-            rowsHTML += `<div class="flex justify-around w-full">
-                ${defLabels.map(l => `<div class="bg-slate-950/90 px-2 py-1 rounded-md border border-slate-700 shadow-md text-xs font-mono font-black text-slate-200">${l}</div>`).join('')}
-            </div>`;
-
-            // GK
-            rowsHTML += `<div class="flex justify-center w-full">
-                <span class="bg-slate-950/95 px-5 py-1 rounded-md border ${borderClass} inline-block shadow-md text-xs font-mono font-black ${colorClass}">🧤 GK</span>
-            </div>`;
-
-            return `<div class="pitch-bg rounded-2xl p-3 flex flex-col justify-between gap-2 relative overflow-hidden shadow-lg h-full">
-                <div class="text-sm font-black ${colorClass} uppercase tracking-widest bg-slate-950/60 py-1.5 rounded border ${borderClass} text-center">${getFlag(abbr)} ${teamName} <span class="text-amber-400 ml-1">[${formation}]</span></div>
+            return `<div style="${panelStyle}">
+                <div style="text-align:center;font-family:monospace;font-size:12px;font-weight:800;color:${accentColor};letter-spacing:0.07em;border-bottom:1px solid ${accentBorder};padding-bottom:7px;">
+                    ${getFlag(abbr)} ${teamName.toUpperCase()} <span style="color:rgba(251,191,36,0.8);margin-left:4px;">[${formation}]</span>
+                </div>
                 ${rowsHTML}
             </div>`;
         }
@@ -360,9 +341,9 @@
                 segTitle.innerText = "FIFA WORLD CUP 2026 // SQUAD FORMATION LAYOUT";
                 scrId.innerText = "OVERLAY_ID: #" + mid + "_FORMATION";
                 contentBox.innerHTML = `
-                    <div class="grid grid-cols-2 gap-4 w-full h-[42vh]">
-                        ${buildPitchHTML(formationHome, match.homeSquadName, match.homeSquadAbbr, 'text-emerald-300', 'border-emerald-500/40')}
-                        ${buildPitchHTML(formationAway, match.awaySquadName, match.awaySquadAbbr, 'text-blue-300', 'border-blue-500/40')}
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; width:100%; height:42vh;">
+                        ${buildPitchHTML(formationHome, match.homeSquadName, match.homeSquadAbbr, true)}
+                        ${buildPitchHTML(formationAway, match.awaySquadName, match.awaySquadAbbr, false)}
                     </div>
                 `;
             }
