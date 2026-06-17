@@ -42,10 +42,14 @@
             background-position: center;
             border-radius: 1.5rem;
             opacity: 0.55;
-            transition: background-image 0.4s ease;
+            transition: opacity 0.3s ease, background-image 0.3s ease;
             z-index: 0;
         }
-        .wc-premium-card > * { position: relative; z-index: 1; }
+        .card-photo-bg.no-photo {
+            opacity: 0 !important;
+        }
+        .wc-premium-card { position: relative; }
+        .wc-premium-card > *:not(.card-photo-bg) { position: relative; z-index: 1; }
         .not-set-badge {
             background: rgba(239, 68, 68, 0.15);
             border: 1px dashed rgba(239, 68, 68, 0.5);
@@ -314,9 +318,17 @@
             // Update card photo background
             const photoLayer = document.getElementById('card-photo-layer');
             const imgSrc = cardImgs[currentCardType];
-            if (imgSrc) {
-                photoLayer.style.backgroundImage = `url('${imgSrc}')`;
-                photoLayer.classList.remove('no-photo');
+            if (imgSrc && imgSrc !== '') {
+                const img = new Image();
+                img.onload = () => {
+                    photoLayer.style.backgroundImage = `url('${imgSrc}')`;
+                    photoLayer.classList.remove('no-photo');
+                };
+                img.onerror = () => {
+                    photoLayer.style.backgroundImage = '';
+                    photoLayer.classList.add('no-photo');
+                };
+                img.src = imgSrc;
             } else {
                 photoLayer.style.backgroundImage = '';
                 photoLayer.classList.add('no-photo');
