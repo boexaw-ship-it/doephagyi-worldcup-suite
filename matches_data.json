@@ -9,11 +9,11 @@
     "pred_home_score": 2,
     "pred_away_score": 0,
     "pred_comment": "Mexico အိမ်ရှင် အဖွင့်လှနိုင်မယ်",
-    "card1_img": "imgs/match1_card1.jpg",
-    "card2_img": "imgs/match1_card2.jpg",
-    "card3_img": "imgs/match1_card3.jpg",
-    "card4_img": "imgs/match1_card4.jpg",
-    "card5_img": "imgs/match1_card5.jpg"
+    "card1_img": "imgs/match_card1.jpg",
+    "card2_img": "imgs/match_card2.jpg",
+    "card3_img": "imgs/match_card3.jpg",
+    "card4_img": "imgs/match_card4.jpg",
+    "card5_img": "imgs/match_card5.jpg"
   },
   "2": {
     "match_label": "Korea Republic vs Czechia",
