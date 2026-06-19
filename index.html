@@ -180,22 +180,36 @@
             return (maps[rowType] && maps[rowType][count]) || Array(count).fill(rowType.toUpperCase().slice(0,2));
         }
 
-        // === SVG Jersey render ===
+        // === SVG Jersey render - realistic football shirt ===
         function jerseyHTML(isGK, teamColor, gkColor) {
-            const fill   = isGK ? gkColor   : teamColor;
-            const stripe = isGK ? teamColor  : 'none';
-            return `<svg viewBox="0 0 40 36" width="36" height="32" xmlns="http://www.w3.org/2000/svg">
-                <!-- Sleeves -->
-                <polygon points="0,6 10,10 10,22 0,20" fill="${fill}" stroke="rgba(255,255,255,0.35)" stroke-width="0.8"/>
-                <polygon points="40,6 30,10 30,22 40,20" fill="${fill}" stroke="rgba(255,255,255,0.35)" stroke-width="0.8"/>
-                <!-- Body -->
-                <rect x="10" y="4" width="20" height="28" rx="2" fill="${fill}" stroke="rgba(255,255,255,0.35)" stroke-width="0.8"/>
-                <!-- Collar -->
-                <path d="M17,4 Q20,9 23,4" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.2"/>
-                <!-- GK chest stripe -->
-                ${stripe !== 'none' ? `<rect x="10" y="14" width="20" height="5" fill="${stripe}" opacity="0.5"/>` : ''}
-                <!-- Shine -->
-                <rect x="13" y="6" width="5" height="14" rx="2" fill="rgba(255,255,255,0.08)"/>
+            const fill  = isGK ? gkColor  : teamColor;
+            const dark  = isGK ? gkColor  : teamColor;
+            const gkStripe = isGK ? `<path d="M13,18 L27,18 L27,23 L13,23 Z" fill="${teamColor}" opacity="0.55"/>` : '';
+            return `<svg viewBox="0 0 44 40" width="38" height="34" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="jg${isGK?'gk':'out'}" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:${fill};stop-opacity:1"/>
+                        <stop offset="100%" style="stop-color:${fill};stop-opacity:0.7"/>
+                    </linearGradient>
+                </defs>
+                <!-- Left sleeve - angled outward -->
+                <path d="M14,8 L4,5 L0,18 L10,19 Z"
+                    fill="url(#jg${isGK?'gk':'out'})" stroke="rgba(255,255,255,0.4)" stroke-width="0.7"/>
+                <!-- Right sleeve -->
+                <path d="M30,8 L40,5 L44,18 L34,19 Z"
+                    fill="url(#jg${isGK?'gk':'out'})" stroke="rgba(255,255,255,0.4)" stroke-width="0.7"/>
+                <!-- Main body - tapered shirt shape -->
+                <path d="M10,7 L14,8 L14,6 Q18,2 22,3 Q26,2 30,6 L30,8 L34,7
+                         L35,19 L33,38 L11,38 L9,19 Z"
+                    fill="url(#jg${isGK?'gk':'out'})" stroke="rgba(255,255,255,0.4)" stroke-width="0.7"/>
+                <!-- V-neck collar -->
+                <path d="M18,5 Q20,4 22,3 Q24,4 26,5 L24,10 Q22,12 20,10 Z"
+                    fill="rgba(0,0,0,0.35)" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+                <!-- GK horizontal stripe -->
+                ${gkStripe}
+                <!-- Shirt highlight/shine -->
+                <path d="M15,9 Q17,8 17,22 Q15,23 14,22 Q13,15 15,9Z"
+                    fill="rgba(255,255,255,0.12)"/>
             </svg>`;
         }
 
