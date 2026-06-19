@@ -180,8 +180,33 @@
             return (maps[rowType] && maps[rowType][count]) || Array(count).fill(rowType.toUpperCase().slice(0,2));
         }
 
+        // === SVG Jersey render ===
+        function jerseyHTML(isGK, teamColor, gkColor) {
+            const fill   = isGK ? gkColor   : teamColor;
+            const stripe = isGK ? teamColor  : 'none';
+            return `<svg viewBox="0 0 40 36" width="36" height="32" xmlns="http://www.w3.org/2000/svg">
+                <!-- Sleeves -->
+                <polygon points="0,6 10,10 10,22 0,20" fill="${fill}" stroke="rgba(255,255,255,0.35)" stroke-width="0.8"/>
+                <polygon points="40,6 30,10 30,22 40,20" fill="${fill}" stroke="rgba(255,255,255,0.35)" stroke-width="0.8"/>
+                <!-- Body -->
+                <rect x="10" y="4" width="20" height="28" rx="2" fill="${fill}" stroke="rgba(255,255,255,0.35)" stroke-width="0.8"/>
+                <!-- Collar -->
+                <path d="M17,4 Q20,9 23,4" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.2"/>
+                <!-- GK chest stripe -->
+                ${stripe !== 'none' ? `<rect x="10" y="14" width="20" height="5" fill="${stripe}" opacity="0.5"/>` : ''}
+                <!-- Shine -->
+                <rect x="13" y="6" width="5" height="14" rx="2" fill="rgba(255,255,255,0.08)"/>
+            </svg>`;
+        }
+
         function buildPitchHTML(formation, teamName, abbr, colorClass, borderClass) {
             const rows = parseFormation(formation);
+
+            // Color mapping per team side
+            const isHome = colorClass.includes('amber');
+            const teamColor  = isHome ? '#b45309' : '#c2410c';   // amber / orange
+            const gkColor    = isHome ? '#1d4ed8' : '#15803d';   // blue GK / green GK
+
             if (!rows) {
                 return `<div class="pitch-bg rounded-2xl p-4 flex flex-col items-center justify-center gap-3 relative overflow-hidden shadow-lg">
                     <div class="text-sm font-black ${colorClass} uppercase tracking-widest bg-stone-950/60 py-1.5 px-3 rounded border ${borderClass}">${getFlag(abbr)} ${teamName}</div>
@@ -189,39 +214,29 @@
                 </div>`;
             }
 
-            // rows[0] = DF, rows[1..n-1] = MID rows, rows[last] = FWD (bottom to top = GK→DEF→MID→FWD)
             const total = rows.length;
             let rowsHTML = '';
 
-            // FWD (top)
-            const fwdCount = rows[total - 1];
-            const fwdLabels = rowLabels(fwdCount, 'fwd');
-            rowsHTML += `<div class="flex justify-around w-full">
-                ${fwdLabels.map(l => `<div class="bg-stone-950/90 px-2 py-1 rounded-md border border-amber-600/50 shadow-md text-xs font-mono font-black text-amber-300">${l}</div>`).join('')}
-            </div>`;
+            const jerseyRow = (count, isGK) => {
+                const jerseys = Array.from({length: count}, () => jerseyHTML(isGK, teamColor, gkColor));
+                return `<div class="flex justify-around items-center w-full">${jerseys.join('')}</div>`;
+            };
 
-            // MID rows (middle, reversed)
+            // FWD (top)
+            rowsHTML += jerseyRow(rows[total - 1], false);
+
+            // MID rows
             for (let i = total - 2; i >= 1; i--) {
-                const cnt = rows[i];
-                const lbs = rowLabels(cnt, 'mid');
-                rowsHTML += `<div class="flex justify-around w-full">
-                    ${lbs.map(l => `<div class="bg-stone-950/90 px-2 py-1 rounded-md border border-stone-700 shadow-md text-xs font-mono font-black text-stone-200">${l}</div>`).join('')}
-                </div>`;
+                rowsHTML += jerseyRow(rows[i], false);
             }
 
-            // DEF (bottom before GK)
-            const defCount = rows[0];
-            const defLabels = rowLabels(defCount, 'def');
-            rowsHTML += `<div class="flex justify-around w-full">
-                ${defLabels.map(l => `<div class="bg-stone-950/90 px-2 py-1 rounded-md border border-stone-700 shadow-md text-xs font-mono font-black text-stone-200">${l}</div>`).join('')}
-            </div>`;
+            // DEF
+            rowsHTML += jerseyRow(rows[0], false);
 
             // GK
-            rowsHTML += `<div class="flex justify-center w-full">
-                <span class="bg-stone-950/95 px-5 py-1 rounded-md border ${borderClass} inline-block shadow-md text-xs font-mono font-black ${colorClass}">🧤 GK</span>
-            </div>`;
+            rowsHTML += jerseyRow(1, true);
 
-            return `<div class="pitch-bg rounded-2xl p-3 flex flex-col justify-between gap-2 relative overflow-hidden shadow-lg h-full">
+            return `<div class="pitch-bg rounded-2xl p-3 flex flex-col justify-between gap-1 relative overflow-hidden shadow-lg h-full">
                 <div class="text-sm font-black ${colorClass} uppercase tracking-widest bg-stone-950/60 py-1.5 rounded border ${borderClass} text-center">${getFlag(abbr)} ${teamName} <span class="text-amber-400 ml-1">[${formation}]</span></div>
                 ${rowsHTML}
             </div>`;
