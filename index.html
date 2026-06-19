@@ -218,8 +218,9 @@
 
             // Color mapping per team side
             const isHome = colorClass.includes('amber');
-            const teamColor  = isHome ? '#b45309' : '#c2410c';   // amber / orange
-            const gkColor    = isHome ? '#1d4ed8' : '#15803d';   // blue GK / green GK
+            // Home = amber gold | Away = white/silver (ကွဲပြားအောင်)
+            const teamColor  = isHome ? '#d97706' : '#e2e8f0';   // amber | white-silver
+            const gkColor    = isHome ? '#1d4ed8' : '#16a34a';   // blue GK | green GK
 
             if (!rows) {
                 return `<div class="pitch-bg rounded-2xl p-4 flex flex-col items-center justify-center gap-3 relative overflow-hidden shadow-lg">
