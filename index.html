@@ -194,7 +194,9 @@
             const bodyDark   = darken(body,   0.22);
             const sleeveDark = darken(sleeve, 0.22);
 
-            const uid = isGK ? 'gk' : 'ot';
+            // Unique ID per jersey instance to avoid SVG gradient ID collision
+            jerseyHTML._cnt = (jerseyHTML._cnt || 0) + 1;
+            const uid = jerseyHTML._cnt;
             return `<svg viewBox="0 0 48 46" width="42" height="38" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <linearGradient id="bd${uid}" x1="0%" y1="0%" x2="100%" y2="100%">
