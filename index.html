@@ -27,13 +27,22 @@
             letter-spacing: 0.05em;
         }
         .pitch-bg {
-            background-color: #145214;
-            background-image:
-                radial-gradient(circle at 50% 50%, transparent 0%, transparent 20%, rgba(255,255,255,0.1) 20%, rgba(255,255,255,0.1) 21%, transparent 21%),
-                linear-gradient(to right, rgba(0,0,0,0.15) 1px, transparent 1px),
-                linear-gradient(to right, rgba(255,255,255,0.05) 50%, transparent 50%);
-            background-size: 100% 100%, 8.33% 100%, 100% 100%;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            background-color: #1a6b1a;
+            border: 2px solid rgba(255,255,255,0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        .pitch-bg .pitch-svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .pitch-bg > *:not(.pitch-svg) {
+            position: relative;
+            z-index: 1;
         }
         .card-photo-bg {
             position: absolute;
@@ -280,7 +289,81 @@
             // GK
             rowsHTML += jerseyRow(1, true);
 
-            return `<div class="pitch-bg rounded-2xl p-3 flex flex-col justify-between gap-1 relative overflow-hidden shadow-lg h-full">
+            const pitchSVG = `<svg class="pitch-svg" viewBox="0 0 300 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Grass stripes -->
+                <rect x="0" y="0" width="300" height="220" fill="#1a6b1a"/>
+                <rect x="0"   y="0" width="30" height="220" fill="#1c731c"/>
+                <rect x="60"  y="0" width="30" height="220" fill="#1c731c"/>
+                <rect x="120" y="0" width="30" height="220" fill="#1c731c"/>
+                <rect x="180" y="0" width="30" height="220" fill="#1c731c"/>
+                <rect x="240" y="0" width="30" height="220" fill="#1c731c"/>
+
+                <!-- Outer border -->
+                <rect x="8" y="8" width="284" height="204" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
+
+                <!-- Halfway line (horizontal — pitch is vertical layout) -->
+                <line x1="8" y1="114" x2="292" y2="114" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
+
+                <!-- Center circle -->
+                <circle cx="150" cy="114" r="28" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
+                <circle cx="150" cy="114" r="2.5" fill="rgba(255,255,255,0.8)"/>
+
+                <!-- TOP penalty box (away end) -->
+                <rect x="75" y="8" width="150" height="45" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
+                <!-- TOP goal box -->
+                <rect x="108" y="8" width="84" height="20" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
+                <!-- TOP penalty spot -->
+                <circle cx="150" cy="38" r="2" fill="rgba(255,255,255,0.7)"/>
+                <!-- TOP penalty arc -->
+                <path d="M122,53 Q150,70 178,53" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
+                <!-- TOP goal -->
+                <rect x="120" y="4" width="60" height="6" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+
+                <!-- BOTTOM penalty box (home end) -->
+                <rect x="75" y="167" width="150" height="45" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
+                <!-- BOTTOM goal box -->
+                <rect x="108" y="192" width="84" height="20" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
+                <!-- BOTTOM penalty spot -->
+                <circle cx="150" cy="182" r="2" fill="rgba(255,255,255,0.7)"/>
+                <!-- BOTTOM penalty arc -->
+                <path d="M122,167 Q150,150 178,167" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
+                <!-- BOTTOM goal -->
+                <rect x="120" y="210" width="60" height="6" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+
+                <!-- Corner arcs -->
+                <path d="M8,18 Q18,8 28,8"   fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="1"/>
+                <path d="M272,8 Q292,8 292,18"  fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="1"/>
+                <path d="M8,202 Q8,212 18,212"  fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="1"/>
+                <path d="M282,212 Q292,212 292,202" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="1"/>
+            </svg>`;
+
+            return `<div class="pitch-bg rounded-2xl p-3 flex flex-col justify-between gap-1 shadow-lg h-full">
+                <svg class="pitch-svg" viewBox="0 0 300 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0" y="0" width="300" height="220" fill="#1a6b1a"/>
+                    <rect x="0"   y="0" width="30" height="220" fill="#1c731c"/>
+                    <rect x="60"  y="0" width="30" height="220" fill="#1c731c"/>
+                    <rect x="120" y="0" width="30" height="220" fill="#1c731c"/>
+                    <rect x="180" y="0" width="30" height="220" fill="#1c731c"/>
+                    <rect x="240" y="0" width="30" height="220" fill="#1c731c"/>
+                    <rect x="8" y="8" width="284" height="204" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
+                    <line x1="8" y1="114" x2="292" y2="114" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
+                    <circle cx="150" cy="114" r="28" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
+                    <circle cx="150" cy="114" r="2.5" fill="rgba(255,255,255,0.8)"/>
+                    <rect x="75" y="8" width="150" height="45" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
+                    <rect x="108" y="8" width="84" height="20" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
+                    <circle cx="150" cy="38" r="2" fill="rgba(255,255,255,0.7)"/>
+                    <path d="M122,53 Q150,70 178,53" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
+                    <rect x="120" y="2" width="60" height="7" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.45)" stroke-width="1"/>
+                    <rect x="75" y="167" width="150" height="45" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
+                    <rect x="108" y="192" width="84" height="20" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
+                    <circle cx="150" cy="182" r="2" fill="rgba(255,255,255,0.7)"/>
+                    <path d="M122,167 Q150,150 178,167" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
+                    <rect x="120" y="211" width="60" height="7" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.45)" stroke-width="1"/>
+                    <path d="M8,20 Q20,8 20,8"   fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+                    <path d="M280,8 Q292,8 292,20"  fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+                    <path d="M8,200 Q8,212 20,212"  fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+                    <path d="M280,212 Q292,212 292,200" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+                </svg>
                 <div class="text-sm font-black ${colorClass} uppercase tracking-widest bg-stone-950/60 py-1.5 rounded border ${borderClass} text-center">${getFlag(abbr)} ${teamName} <span class="text-amber-400 ml-1">[${formation}]</span></div>
                 ${rowsHTML}
             </div>`;
