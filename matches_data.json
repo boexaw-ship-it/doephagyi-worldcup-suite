@@ -19,12 +19,7 @@
       "homeWin": "38%",
       "draw": "29%",
       "awayWin": "33%",
-      "goalPrediction": "Over 1.5 goals / BTTS Yes / Correct score lean 2-1",
-      "goalTips": [
-        "Over 1.5 Goals",
-        "Both teams to score: Yes",
-        "Correct score lean: 2-1"
-      ],
+      "goalPrediction": "2-1",
       "friendsView": "Friends view here"
     },
     {
@@ -44,12 +39,7 @@
       "homeWin": "54%",
       "draw": "25%",
       "awayWin": "21%",
-      "goalPrediction": "Over 2.5 goals / Home team goals over 1.5",
-      "goalTips": [
-        "Over 2.5 Goals",
-        "Home team goals over 1.5",
-        "First half goal: Yes"
-      ],
+      "goalPrediction": "3-1",
       "friendsView": "Friends view here"
     },
     {
@@ -69,12 +59,7 @@
       "homeWin": "35%",
       "draw": "31%",
       "awayWin": "34%",
-      "goalPrediction": "Under 3.5 goals / BTTS Yes",
-      "goalTips": [
-        "Under 3.5 Goals",
-        "Both teams to score: Yes",
-        "Draw no bet: Home lean"
-      ],
+      "goalPrediction": "1-1",
       "friendsView": "Friends view here"
     },
     {
@@ -94,12 +79,7 @@
       "homeWin": "36%",
       "draw": "30%",
       "awayWin": "34%",
-      "goalPrediction": "Over 1.5 goals / Second half goal Yes",
-      "goalTips": [
-        "Over 1.5 Goals",
-        "Second half goal: Yes",
-        "Corner tips: Over 8.5"
-      ],
+      "goalPrediction": "2-2",
       "friendsView": "Friends view here"
     },
     {
@@ -119,12 +99,7 @@
       "homeWin": "37%",
       "draw": "28%",
       "awayWin": "35%",
-      "goalPrediction": "BTTS Yes / Over 2.0 Asian goals",
-      "goalTips": [
-        "Both teams to score: Yes",
-        "Over 2.0 Asian goals",
-        "Anytime scorer: Manual pick"
-      ],
+      "goalPrediction": "1-2",
       "friendsView": "Friends view here"
     }
   ]
