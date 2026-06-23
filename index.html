@@ -574,7 +574,7 @@
       hero.classList.add("simple");
       hero.innerHTML = `
         <div>
-          <div class="team-name">${cardTypes[activeCard].label}</div>
+          <div class="team-name"></div>
           <div class="subline" style="font-size:1.25rem;margin-top:12px">${match.homeTeam} vs ${match.awayTeam}</div>
         </div>
       `;
@@ -618,7 +618,7 @@
 
       if (type === "formation") {
         return `
-          <h2> FORMATION </h2>
+          <h2>Card 2: Formation, Fixed Green/Red Jersey</h2>
           <div class="two-col">
             <div class="box formation">
               <div class="mini-shirt" style="--jersey:#1fbf63"></div>
@@ -635,7 +635,7 @@
 
       if (type === "winner") {
         return `
-          <h2> Home Win / Draw / Away Win</h2>
+          <h2>Card 3: Home Win / Draw / Away Win</h2>
           <div class="odds">
             <div class="odd">Home Win<b>${match.homeWin}</b></div>
             <div class="odd">Draw<b>${match.draw}</b></div>
@@ -646,7 +646,7 @@
 
       if (type === "goals") {
         return `
-          <h2></h2>
+          <h2>Card 4: Goal Prediction</h2>
           <div class="box">
             <div class="score-pick">${match.goalPrediction || "2-1"}</div>
           </div>
@@ -654,7 +654,7 @@
       }
 
       return `
-        <h2>သူ ငယ် ချင်း တို့ ရော ဘယ် လို မြင် လဲ?</h2>
+        <h2>Card 5: သူငယ်ချင်းတို့အမြင်</h2>
         <div class="box friends">${match.friendsView || ""}</div>
       `;
     }
