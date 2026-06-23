@@ -82,11 +82,8 @@
                 DOEPHAGYI <span class="text-yellow-500 text-2xl font-semibold tracking-normal">MONITOR</span>
             </div>
 
-            <div class="flex items-center gap-2 bg-stone-900 border border-stone-700 px-4 py-2 rounded-xl">
-                <span class="text-xs font-mono text-stone-400 font-bold">SELECT MATCH:</span>
-                <select id="match-selector" onchange="playClickSound(); changeMatch(this.value);"
-                    class="bg-transparent text-sm font-bold text-amber-400 outline-none cursor-pointer max-w-[280px] md:max-w-[400px]">
-                </select>
+            <div class="flex flex-wrap justify-center gap-2" id="match-tabs">
+                <!-- Match tabs — JS မှာ inject လုပ်မယ် -->
             </div>
 
             <div class="flex flex-wrap justify-center gap-2 font-mono text-xs md:text-sm font-black">
@@ -387,7 +384,7 @@
                     }
                 });
 
-                buildMatchDropdown();
+                buildMatchTabs();
                 renderContent();
             } catch (error) {
                 document.getElementById('segment-title').innerText = "ERROR: PLS CHECK JSON FILES";
@@ -395,24 +392,39 @@
             }
         }
 
-        // ===== DROPDOWN =====
-        function buildMatchDropdown() {
-            const selector = document.getElementById('match-selector');
-            selector.innerHTML = rawFixtures.map((m, idx) => {
-                const mid = m.id;
-                const hasData = matchesData[mid] && (
-                    matchesData[mid].formation_home ||
-                    matchesData[mid].win_home > 0 ||
-                    matchesData[mid].pred_home_score > 0 ||
-                    matchesData[mid].pred_away_score > 0
-                );
-                const dot = hasData ? '✅' : '⬜';
-                return `<option value="${idx}">${dot} Match ${mid}: ${m.homeSquadName} vs ${m.awaySquadName}</option>`;
+        // ===== MATCH TABS (5 ပွဲ) =====
+        function buildMatchTabs() {
+            const container = document.getElementById('match-tabs');
+            // First 5 fixtures only
+            const five = rawFixtures.slice(0, 5);
+            container.innerHTML = five.map((m, idx) => {
+                const label = matchesData[m.id] && matchesData[m.id].match_label
+                    ? matchesData[m.id].match_label
+                    : `${m.homeSquadName} v ${m.awaySquadName}`;
+                const active = idx === currentMatchIndex;
+                return `<button id="mtab-${idx}" onclick="changeMatch(${idx}); playClickSound();"
+                    class="mtab px-3 py-1.5 rounded-xl text-xs font-black font-mono tracking-wide transition-all border
+                    ${active
+                        ? 'bg-amber-500 text-black border-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.5)]'
+                        : 'bg-stone-900 text-stone-300 border-stone-700 hover:bg-stone-800'}"
+                >${m.homeSquadAbbr ? getFlag(m.homeSquadAbbr) : ''} M${m.id} ${label}</button>`;
             }).join('');
         }
 
         function changeMatch(index) {
             currentMatchIndex = parseInt(index);
+            // Update tab active state
+            document.querySelectorAll('.mtab').forEach((btn, i) => {
+                btn.className = btn.className
+                    .replace('bg-amber-500 text-black border-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.5)]',
+                             'bg-stone-900 text-stone-300 border-stone-700 hover:bg-stone-800');
+            });
+            const activeTab = document.getElementById('mtab-' + index);
+            if (activeTab) {
+                activeTab.className = activeTab.className
+                    .replace('bg-stone-900 text-stone-300 border-stone-700 hover:bg-stone-800',
+                             'bg-amber-500 text-black border-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.5)]');
+            }
             renderContent();
         }
 
