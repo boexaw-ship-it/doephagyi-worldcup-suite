@@ -203,7 +203,7 @@
       background: rgba(255,255,255,.12);
       object-fit: contain;
       padding: 8px;
-      box-shadow: 0 12px 28px rgba(0,0,0,.35);
+      box-shadow: 0 12px 28px rgba(0,0,0,.355);
     }
 
     .logo-fallback {
@@ -599,16 +599,32 @@
     }
 
     function playersFor(formation, side) {
-      const rows = String(formation || "4-4-2").split("-").map(Number).filter(Boolean);
-      const xPositions = side === "home" ? [9, 22, 35, 47] : [91, 78, 65, 53];
-      const playerRows = [1, ...rows];
-      return playerRows.map((count, rowIndex) => {
-        const x = xPositions[rowIndex] || xPositions[xPositions.length - 1];
-        return Array.from({ length: count }, (_, i) => {
-          const y = ((i + 1) * 100) / (count + 1);
-          return `<span class="player ${side}" style="left:${x}%;top:${y}%"></span>`;
-        }).join("");
-      }).join("");
+      const rows = String(formation || "4-4-2").split("-").map(Number).filter(n => !isNaN(n));
+      const totalRows = rows.length;
+      
+      // Goal Keeper ကို အရင်ထည့်မယ်
+      let gkX = side === "home" ? 6 : 94;
+      let html = `<span class="player ${side}" style="left:${gkX}%;top:50%"></span>`;
+      
+      // ကျန်တဲ့ တန်းတွေကို ကွင်းဝက်အတွင်း အညီအမျှ ခွဲချမယ်
+      rows.forEach((count, rowIndex) => {
+        let pct = (rowIndex + 1) / (totalRows + 1);
+        let x;
+        if (side === "home") {
+          // Home ကွင်းဘက်ခြမ်း (15% ကနေ 46% အထိပဲ လူဖြန့်မယ်)
+          x = 15 + pct * 31;
+        } else {
+          // Away ကွင်းဘက်ခြမ်း (85% ကနေ 54% အထိပဲ လူဖြန့်မယ်)
+          x = 85 - pct * 31;
+        }
+        
+        for (let i = 0; i < count; i++) {
+          let y = ((i + 1) * 100) / (count + 1);
+          html += `<span class="player ${side}" style="left:${x}%;top:${y}%"></span>`;
+        }
+      });
+      
+      return html;
     }
 
     function cardTemplate(type, match) {
@@ -618,7 +634,7 @@
 
       if (type === "formation") {
         return `
-          <h2>Card 2: Formation, Fixed Green/Red Jersey</h2>
+          <h2> Formation,(Home)Green/(Away)Red Jersey</h2>
           <div class="two-col">
             <div class="box formation">
               <div class="mini-shirt" style="--jersey:#1fbf63"></div>
@@ -635,7 +651,7 @@
 
       if (type === "winner") {
         return `
-          <h2>Card 3: Home Win / Draw / Away Win</h2>
+          <h2> Home Win / Draw / Away Win</h2>
           <div class="odds">
             <div class="odd">Home Win<b>${match.homeWin}</b></div>
             <div class="odd">Draw<b>${match.draw}</b></div>
@@ -646,7 +662,7 @@
 
       if (type === "goals") {
         return `
-          <h2>Card 4: Goal Prediction</h2>
+          <h2> Goal Prediction</h2>
           <div class="box">
             <div class="score-pick">${match.goalPrediction || "2-1"}</div>
           </div>
@@ -654,7 +670,7 @@
       }
 
       return `
-        <h2>Card 5: သူငယ်ချင်းတို့အမြင်</h2>
+        <h2> သူငယ်ချင်းတို့အမြင်ရော</h2>
         <div class="box friends">${match.friendsView || ""}</div>
       `;
     }
