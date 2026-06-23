@@ -1,672 +1,487 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="my">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DoePhaGyi Studio TV - 48 Matches Full Suite</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style>
-        body {
-            background-color: #0a0a0a;
-            background-image: linear-gradient(to bottom, rgba(10, 10, 10, 0.3), rgba(10, 10, 10, 0.85)), url('background.png');
-            background-size: cover;
-            background-position: center;
-            overflow: hidden;
-        }
-        .wc-premium-card {
-            background: linear-gradient(135deg, rgba(20, 12, 5, 0.97) 0%, rgba(80, 40, 5, 0.35) 100%);
-            backdrop-filter: blur(25px);
-            border: 2px solid rgba(245, 158, 11, 0.55);
-            box-shadow: 0 0 40px rgba(180, 90, 10, 0.3), inset 0 0 25px rgba(245, 158, 11, 0.08);
-        }
-        .neon-gold {
-            text-shadow: 0 0 15px rgba(245, 158, 11, 0.8), 0 0 5px rgba(245, 158, 11, 0.5);
-        }
-        .team-title {
-            font-family: 'Impact', 'Arial Black', sans-serif;
-            letter-spacing: 0.05em;
-        }
-        .pitch-bg {
-            background-color: #1a6b1a;
-            border: 2px solid rgba(255,255,255,0.25);
-            position: relative;
-            overflow: hidden;
-        }
-        .pitch-bg .pitch-svg {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
-        .pitch-bg > *:not(.pitch-svg) {
-            position: relative;
-            z-index: 1;
-        }
-        .card-photo-bg {
-            position: absolute;
-            inset: 0;
-            background-size: cover;
-            background-position: center;
-            border-radius: 1.5rem;
-            opacity: 0.55;
-            transition: opacity 0.3s ease, background-image 0.3s ease;
-            z-index: 0;
-        }
-        .card-photo-bg.no-photo {
-            opacity: 0 !important;
-        }
-        .wc-premium-card { position: relative; }
-        .wc-premium-card > *:not(.card-photo-bg) { position: relative; z-index: 1; }
-        .not-set-badge {
-            background: rgba(239, 68, 68, 0.15);
-            border: 1px dashed rgba(239, 68, 68, 0.5);
-            color: #f87171;
-            font-family: monospace;
-            font-size: 0.75rem;
-            padding: 0.5rem 1.5rem;
-            border-radius: 0.75rem;
-            letter-spacing: 0.1em;
-            font-weight: 700;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>World Cup Prediction Suite</title>
+  <style>
+    :root {
+      --bg: #0c1117;
+      --panel: #121a23;
+      --panel-2: #182332;
+      --line: #2b394a;
+      --text: #f3f7fb;
+      --muted: #a9b6c7;
+      --accent: #2ecb70;
+      --gold: #f4bf45;
+      --red: #ef5555;
+      --blue: #4f8cff;
+      --shadow: 0 18px 55px rgba(0, 0, 0, .35);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(79, 140, 255, .22), transparent 32rem),
+        linear-gradient(135deg, #071019 0%, var(--bg) 48%, #10151d 100%);
+      font-family: Arial, "Noto Sans Myanmar", "Myanmar Text", sans-serif;
+      min-height: 100vh;
+    }
+
+    .app {
+      width: min(1180px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 22px 0 32px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .ball {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background:
+        linear-gradient(45deg, transparent 42%, #111 43% 57%, transparent 58%),
+        linear-gradient(-45deg, transparent 42%, #111 43% 57%, transparent 58%),
+        #f7f7f7;
+      border: 3px solid var(--accent);
+      flex: 0 0 auto;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.35rem, 3vw, 2.2rem);
+      line-height: 1.1;
+    }
+
+    .subline {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    .pill {
+      padding: 9px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      white-space: nowrap;
+      background: rgba(255, 255, 255, .04);
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(118px, 1fr));
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    button {
+      min-height: 48px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .14s ease, border-color .14s ease, background .14s ease;
+    }
+
+    button:hover { transform: translateY(-1px); border-color: var(--accent); }
+    button.active { background: var(--accent); color: #06110b; border-color: var(--accent); }
+
+    .stage {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 14px;
+      align-items: start;
+      margin-top: 14px;
+    }
+
+    .frame {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(18, 26, 35, .92);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 320px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: end;
+      gap: 18px;
+      padding: 24px;
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, .08), rgba(0, 0, 0, .76)),
+        var(--photo, linear-gradient(135deg, #1d2a3a, #101821));
+      background-size: cover;
+      background-position: center;
+    }
+
+    .team {
+      display: grid;
+      gap: 10px;
+      align-content: end;
+      min-width: 0;
+    }
+
+    .team.away { text-align: right; justify-items: end; }
+
+    .crest {
+      width: 76px;
+      height: 86px;
+      border: 3px solid rgba(255,255,255,.75);
+      border-radius: 10px 10px 18px 18px;
+      background: var(--jersey);
+      box-shadow: inset 0 -18px 0 rgba(0,0,0,.16);
+    }
+
+    .team-name {
+      font-size: clamp(2rem, 6vw, 4.7rem);
+      font-weight: 900;
+      line-height: .9;
+      overflow-wrap: anywhere;
+      text-transform: uppercase;
+      text-shadow: 0 3px 14px rgba(0,0,0,.72);
+    }
+
+    .versus {
+      align-self: center;
+      width: 74px;
+      height: 74px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #08120c;
+      background: var(--gold);
+      font-weight: 900;
+      font-size: 1.45rem;
+      border: 4px solid rgba(255,255,255,.86);
+      box-shadow: 0 12px 30px rgba(0,0,0,.34);
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 12px;
+      border-top: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+    }
+
+    .meta-row span {
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: #0d141d;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      font-size: .9rem;
+    }
+
+    .card-tabs {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 9px;
+    }
+
+    .card-tabs button {
+      text-align: left;
+      padding: 10px 12px;
+    }
+
+    .content {
+      padding: 18px;
+      min-height: 238px;
+    }
+
+    .content h2 {
+      margin: 0 0 12px;
+      font-size: 1.35rem;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .box {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel-2);
+      padding: 14px;
+      min-height: 104px;
+    }
+
+    .box strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+
+    .formation {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mini-shirt {
+      width: 42px;
+      height: 48px;
+      border-radius: 7px 7px 13px 13px;
+      background: var(--jersey);
+      border: 2px solid rgba(255,255,255,.65);
+    }
+
+    .odds {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .odd {
+      border-radius: 8px;
+      padding: 16px 10px;
+      text-align: center;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+    }
+
+    .odd b {
+      display: block;
+      margin-top: 6px;
+      font-size: 2rem;
+      color: var(--gold);
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 20px;
+      display: grid;
+      gap: 9px;
+      color: var(--text);
+    }
+
+    .friends {
+      font-size: 1.35rem;
+      line-height: 1.65;
+      color: #e8f1ff;
+    }
+
+    .error {
+      margin-top: 20px;
+      padding: 16px;
+      border: 1px solid var(--red);
+      border-radius: 8px;
+      background: rgba(239, 85, 85, .12);
+      color: #ffd7d7;
+    }
+
+    @media (max-width: 820px) {
+      header { align-items: flex-start; flex-direction: column; }
+      .tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .stage { grid-template-columns: 1fr; }
+      .card-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .hero { grid-template-columns: 1fr; min-height: 430px; align-items: center; }
+      .team.away { text-align: left; justify-items: start; }
+      .versus { justify-self: start; }
+      .two-col, .odds { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
-<body class="text-white font-sans h-screen flex flex-col justify-between p-6 select-none">
-
-    <!-- ===== HEADER ===== -->
-    <div class="max-w-7xl mx-auto w-full border-b-2 border-amber-700/40 pb-4 space-y-4">
-        <div class="flex flex-col lg:flex-row justify-between items-center gap-4">
-
-            <div class="text-4xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-200 to-amber-500 neon-gold">
-                DOEPHAGYI <span class="text-yellow-500 text-2xl font-semibold tracking-normal">MONITOR</span>
-            </div>
-
-            <div class="flex flex-wrap justify-center gap-2" id="match-tabs">
-                <!-- Match tabs — JS မှာ inject လုပ်မယ် -->
-            </div>
-
-            <div class="flex flex-wrap justify-center gap-2 font-mono text-xs md:text-sm font-black">
-                <button onclick="switchCard('card1'); playClickSound();" id="btn-card1"
-                    class="tab-btn px-4 py-2 bg-amber-500 text-black rounded-xl shadow-[0_0_15px_rgba(245,158,11,0.4)] transition-all">CARD 1: ပွဲစဉ် PROFILE</button>
-                <button onclick="switchCard('card2'); playClickSound();" id="btn-card2"
-                    class="tab-btn px-4 py-2 bg-stone-900 border border-stone-800 text-stone-300 rounded-xl hover:bg-stone-800 transition-all">CARD 2: FORMATION</button>
-                <button onclick="switchCard('card3'); playClickSound();" id="btn-card3"
-                    class="tab-btn px-4 py-2 bg-stone-900 border border-stone-800 text-stone-300 rounded-xl hover:bg-stone-800 transition-all">CARD 3: % နိုင်ခြေ</button>
-                <button onclick="switchCard('card4'); playClickSound();" id="btn-card4"
-                    class="tab-btn px-4 py-2 bg-stone-900 border border-stone-800 text-stone-300 rounded-xl hover:bg-stone-800 transition-all">CARD 4: PREDICTION</button>
-                <button onclick="switchCard('card5'); playClickSound();" id="btn-card5"
-                    class="tab-btn px-4 py-2 bg-stone-900 border border-stone-800 text-stone-300 rounded-xl hover:bg-stone-800 transition-all">CARD 5: ဖန်ဇုန်</button>
-            </div>
+<body>
+  <main class="app">
+    <header>
+      <div class="brand">
+        <div class="ball" aria-hidden="true"></div>
+        <div>
+          <h1 id="brand">Prediction Suite</h1>
+          <div class="subline">5 fixtures, 5 prediction cards, manual JSON control</div>
         </div>
-    </div>
+      </div>
+      <div class="pill">YouTube ready layout</div>
+    </header>
 
-    <!-- ===== MAIN CARD ===== -->
-    <div class="max-w-4xl mx-auto w-full h-[65vh] flex items-center justify-center my-auto px-4">
-        <div class="w-full h-full wc-premium-card p-8 rounded-3xl flex flex-col justify-between relative overflow-hidden">
-            <div class="absolute -top-10 -left-10 w-32 h-32 bg-amber-900/20 rounded-full blur-2xl"></div>
-            <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-orange-900/20 rounded-full blur-2xl"></div>
-            <div id="card-photo-layer" class="card-photo-bg no-photo"></div>
+    <nav id="fixtureTabs" class="tabs" aria-label="Fixture tabs"></nav>
 
-            <div id="segment-title"
-                class="text-amber-400/80 font-mono text-xs tracking-widest uppercase border-b border-amber-700/30 pb-3 text-center font-bold">
-                LOADING DATA SUITE...
-            </div>
+    <section class="stage">
+      <div class="frame">
+        <article id="matchHero" class="hero"></article>
+        <div id="matchMeta" class="meta-row"></div>
+        <div id="cardContent" class="content"></div>
+      </div>
 
-            <div id="dynamic-content-box" class="my-auto w-full"></div>
+      <aside class="frame content">
+        <h2>Prediction Tabs</h2>
+        <nav id="cardTabs" class="card-tabs" aria-label="Prediction card tabs"></nav>
+      </aside>
+    </section>
+  </main>
 
-            <div id="screen-id" class="text-amber-700/60 font-mono text-xs text-center font-bold tracking-widest">
-                STREAM_SYS_ID: #STARTING
-            </div>
+  <script>
+    const cardTypes = [
+      { id: "matchup", label: "Card 1: VS Photo" },
+      { id: "formation", label: "Card 2: Formation" },
+      { id: "winner", label: "Card 3: 1X2" },
+      { id: "goals", label: "Card 4: Goal Tips" },
+      { id: "friends", label: "Card 5: Friends View" }
+    ];
+
+    let data = null;
+    let activeMatch = 0;
+    let activeCard = 0;
+
+    async function boot() {
+      try {
+        const response = await fetch("matches_data.json", { cache: "no-store" });
+        if (!response.ok) throw new Error("matches_data.json not found");
+        data = await response.json();
+        document.title = data.pageTitle || "Prediction Suite";
+        document.getElementById("brand").textContent = data.brand || "Prediction Suite";
+        renderFixtureTabs();
+        renderCardTabs();
+        render();
+      } catch (error) {
+        document.querySelector(".app").insertAdjacentHTML("beforeend",
+          '<div class="error">matches_data.json ကို index.html နဲ့ folder တူတူထားပါ။ GitHub Pages မှာ တင်ရင် အလိုအလျောက်အလုပ်လုပ်ပါမယ်။</div>'
+        );
+      }
+    }
+
+    function renderFixtureTabs() {
+      const tabs = document.getElementById("fixtureTabs");
+      tabs.innerHTML = data.matches.map((match, index) => `
+        <button class="${index === activeMatch ? "active" : ""}" onclick="selectMatch(${index})">
+          ${match.label || `Fixture ${index + 1}`}
+        </button>
+      `).join("");
+    }
+
+    function renderCardTabs() {
+      const tabs = document.getElementById("cardTabs");
+      tabs.innerHTML = cardTypes.map((card, index) => `
+        <button class="${index === activeCard ? "active" : ""}" onclick="selectCard(${index})">
+          ${card.label}
+        </button>
+      `).join("");
+    }
+
+    function selectMatch(index) {
+      activeMatch = index;
+      activeCard = 0;
+      renderFixtureTabs();
+      renderCardTabs();
+      render();
+    }
+
+    function selectCard(index) {
+      activeCard = index;
+      renderCardTabs();
+      render();
+    }
+
+    function render() {
+      const match = data.matches[activeMatch];
+      const photo = match.photo ? `url("${match.photo}")` : "";
+      document.getElementById("matchHero").style.setProperty("--photo", photo);
+      document.getElementById("matchHero").innerHTML = `
+        <div class="team">
+          <div class="crest" style="--jersey:${match.homeJersey || "#4f8cff"}"></div>
+          <div class="team-name">${match.homeTeam}</div>
         </div>
-    </div>
+        <div class="versus">VS</div>
+        <div class="team away">
+          <div class="crest" style="--jersey:${match.awayJersey || "#ef5555"}"></div>
+          <div class="team-name">${match.awayTeam}</div>
+        </div>
+      `;
 
-    <!-- ===== FOOTER ===== -->
-    <div class="max-w-7xl mx-auto w-full border-t border-stone-800 pt-3 flex justify-between text-[11px] font-mono text-stone-600 tracking-widest">
-        <div>48 MATCHES FULL SUITE ONLINE</div>
-        <div>STADIUM OVERLAY CONFIG ENGINE v9.0</div>
-    </div>
+      document.getElementById("matchMeta").innerHTML = `
+        <span>${match.competition || "Competition"}</span>
+        <span>${match.kickoff || "Kickoff"}</span>
+        <span>${match.venue || "Venue"}</span>
+      `;
 
-    <script>
-        let rawFixtures = [];
-        let matchesData = {};     // matches_data.json မှ ဆွဲထားသော manual data
-        let currentMatchIndex = 0;
-        let currentCardType = 'card1';
-        let audioCtx = null;
+      const type = cardTypes[activeCard].id;
+      document.getElementById("cardContent").innerHTML = cardTemplate(type, match);
+    }
 
-        // ===== CLICK SOUND =====
-        function playClickSound() {
-            try {
-                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                if (audioCtx.state === 'suspended') audioCtx.resume();
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(580, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.08);
-                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
-                osc.connect(gain); gain.connect(audioCtx.destination);
-                osc.start(); osc.stop(audioCtx.currentTime + 0.08);
-            } catch (e) {}
-        }
+    function cardTemplate(type, match) {
+      if (type === "matchup") {
+        return `
+          <h2>Card 1: ${match.homeTeam} vs ${match.awayTeam}</h2>
+          <div class="two-col">
+            <div class="box"><strong>${match.homeTeam}</strong><p>Home team photo/background ကို ${match.photo} မှာထည့်ပါ။</p></div>
+            <div class="box"><strong>${match.awayTeam}</strong><p>Team name, time, venue ကို JSON ထဲမှာပြင်ပါ။</p></div>
+          </div>
+        `;
+      }
 
-        // ===== FLAG MAP (ပြည့်စုံ) =====
-        function getFlag(abbr) {
-            const flags = {
-                "MEX": "🇲🇽", "RSA": "🇿🇦", "KOR": "🇰🇷", "CZE": "🇨🇿", "CAN": "🇨🇦", "BIH": "🇧🇦",
-                "USA": "🇺🇸", "PAR": "🇵🇾", "BRA": "🇧🇷", "MAR": "🇲🇦", "ENG": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "CRO": "🇭🇷",
-                "ARG": "🇦🇷", "FRA": "🇫🇷", "GER": "🇩🇪", "ITA": "🇮🇹", "ESP": "🇪🇸", "POR": "🇵🇹",
-                "NED": "🇳🇱", "BEL": "🇧🇪", "SEN": "🇸🇳", "JPN": "🇯🇵", "URU": "🇺🇾", "GHA": "🇬🇭",
-                "QAT": "🇶🇦", "SUI": "🇨🇭", "HAI": "🇭🇹", "SCO": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "AUS": "🇦🇺", "TUR": "🇹🇷",
-                "CUW": "🇨🇼", "ECU": "🇪🇨", "CIV": "🇨🇮", "SWE": "🇸🇪", "TUN": "🇹🇳", "CPV": "🇨🇻",
-                "EGY": "🇪🇬", "KSA": "🇸🇦", "IRN": "🇮🇷", "NZL": "🇳🇿", "NOR": "🇳🇴", "ALG": "🇩🇿",
-                "AUT": "🇦🇹", "JOR": "🇯🇴", "COD": "🇨🇩", "PAN": "🇵🇦", "UZB": "🇺🇿", "COL": "🇨🇴",
-                "IRQ": "🇮🇶", "GBR": "🇬🇧", "WAL": "🏴󠁧󠁢󠁷󠁬󠁳󠁿"
-            };
-            return flags[abbr] || "🏳️";
-        }
+      if (type === "formation") {
+        return `
+          <h2>Card 2: Formation, Jersey, Group</h2>
+          <div class="two-col">
+            <div class="box formation">
+              <div class="mini-shirt" style="--jersey:${match.homeJersey}"></div>
+              <div><strong>${match.homeTeam}</strong>${match.homeFormation}</div>
+            </div>
+            <div class="box formation">
+              <div class="mini-shirt" style="--jersey:${match.awayJersey}"></div>
+              <div><strong>${match.awayTeam}</strong>${match.awayFormation}</div>
+            </div>
+          </div>
+          <div class="box" style="margin-top:14px"><strong>Group</strong>${match.groupNote || ""}</div>
+        `;
+      }
 
-        // ===== FORMATION RENDERER =====
-        // "4-3-3" → row arrays ပြန်ထုတ်ပေးသည်
-        function parseFormation(formStr) {
-            if (!formStr || formStr.trim() === '') return null;
-            const parts = formStr.trim().split('-').map(Number);
-            if (parts.some(isNaN) || parts.length < 2) return null;
-            return parts;
-        }
+      if (type === "winner") {
+        return `
+          <h2>Card 3: Home Win / Draw / Away Win</h2>
+          <div class="odds">
+            <div class="odd">Home Win<b>${match.homeWin}</b></div>
+            <div class="odd">Draw<b>${match.draw}</b></div>
+            <div class="odd">Away Win<b>${match.awayWin}</b></div>
+          </div>
+        `;
+      }
 
-        // Position labels per row count
-        function rowLabels(count, rowType) {
-            const maps = {
-                fwd: { 1: ['ST'], 2: ['LW','RW'], 3: ['LW','ST','RW'], 4: ['LW','CF','CF','RW'], 5: ['LW','IF','ST','IF','RW'] },
-                mid: { 1: ['CM'], 2: ['CM','CM'], 3: ['CM','CM','CM'], 4: ['LM','CM','CM','RM'], 5: ['LM','CM','DM','CM','RM'], 6: ['LM','CM','CM','CM','CM','RM'] },
-                def: { 2: ['LB','RB'], 3: ['LB','CB','RB'], 4: ['LB','CB','CB','RB'], 5: ['LWB','CB','CB','CB','RWB'] }
-            };
-            return (maps[rowType] && maps[rowType][count]) || Array(count).fill(rowType.toUpperCase().slice(0,2));
-        }
+      if (type === "goals") {
+        return `
+          <h2>Card 4: Goal Tips</h2>
+          <div class="box">
+            <ul>${(match.goalTips || []).map(tip => `<li>${tip}</li>`).join("")}</ul>
+          </div>
+        `;
+      }
 
-        // === SVG Jersey - Brazil style round collar + sleeve panel ===
-        function jerseyHTML(isGK, teamColor, gkColor, sleeveColor) {
-            const body   = isGK ? gkColor   : teamColor;
-            const sleeve = isGK ? teamColor  : sleeveColor;
+      return `
+        <h2>Card 5: သူငယ်ချင်းတို့အမြင်</h2>
+        <div class="box friends">${match.friendsView || ""}</div>
+      `;
+    }
 
-            // Darker shade for body depth
-            function darken(hex, pct) {
-                let r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
-                r = Math.max(0, Math.floor(r*(1-pct))); g = Math.max(0, Math.floor(g*(1-pct))); b = Math.max(0, Math.floor(b*(1-pct)));
-                return '#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('');
-            }
-            const bodyDark   = darken(body,   0.22);
-            const sleeveDark = darken(sleeve, 0.22);
-
-            // Unique ID per jersey instance to avoid SVG gradient ID collision
-            jerseyHTML._cnt = (jerseyHTML._cnt || 0) + 1;
-            const uid = jerseyHTML._cnt;
-            return `<svg viewBox="0 0 48 46" width="42" height="38" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="bd${uid}" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="${body}"/>
-                        <stop offset="100%" stop-color="${bodyDark}"/>
-                    </linearGradient>
-                    <linearGradient id="sl${uid}" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="${sleeve}"/>
-                        <stop offset="100%" stop-color="${sleeveDark}"/>
-                    </linearGradient>
-                    <linearGradient id="sh${uid}" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="rgba(255,255,255,0.18)"/>
-                        <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
-                    </linearGradient>
-                </defs>
-
-                <!-- Left sleeve panel (different color) -->
-                <path d="M15,7 L6,4 L1,17 L11,19 L14,12 Z"
-                    fill="url(#sl${uid})" stroke="rgba(0,0,0,0.25)" stroke-width="0.6"/>
-                <!-- Right sleeve panel -->
-                <path d="M33,7 L42,4 L47,17 L37,19 L34,12 Z"
-                    fill="url(#sl${uid})" stroke="rgba(0,0,0,0.25)" stroke-width="0.6"/>
-
-                <!-- Main body -->
-                <path d="M11,9 L15,7 L15,5 Q19,1 24,2 Q29,1 33,5 L33,7 L37,9
-                         L37,44 L11,44 Z"
-                    fill="url(#bd${uid})" stroke="rgba(0,0,0,0.25)" stroke-width="0.6"/>
-
-                <!-- Sleeve join seam line -->
-                <line x1="14" y1="7" x2="12" y2="19" stroke="rgba(0,0,0,0.2)" stroke-width="0.8"/>
-                <line x1="34" y1="7" x2="36" y2="19" stroke="rgba(0,0,0,0.2)" stroke-width="0.8"/>
-
-                <!-- Round collar (crew neck style like Brazil) -->
-                <path d="M19,4 Q24,0 29,4 Q27,9 24,10 Q21,9 19,4 Z"
-                    fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.5)" stroke-width="0.8"/>
-                <path d="M20,4 Q24,1 28,4 Q26,8 24,9 Q22,8 20,4 Z"
-                    fill="${sleeve}" opacity="0.7"/>
-
-                <!-- Shine left chest -->
-                <path d="M14,11 Q16,10 16,26 Q14,27 13,26 Q12,18 14,11Z"
-                    fill="url(#sh${uid})"/>
-            </svg>`;
-        }
-
-        function buildPitchHTML(formation, teamName, abbr, colorClass, borderClass) {
-            const rows = parseFormation(formation);
-
-            // Color mapping per team side
-            const isHome = colorClass.includes('amber');
-            // Home: blue outfield, red GK | Away: yellow outfield, green GK
-            const teamColor   = isHome ? '#1a56db' : '#fbbf24';  // blue  | yellow
-            const gkColor     = isHome ? '#dc2626' : '#16a34a';  // red GK| green GK
-            const sleeveColor = isHome ? '#1e40af' : '#f59e0b';  // darker sleeve panel
-
-            if (!rows) {
-                return `<div class="pitch-bg rounded-2xl p-4 flex flex-col items-center justify-center gap-3 relative overflow-hidden shadow-lg">
-                    <div class="text-sm font-black ${colorClass} uppercase tracking-widest bg-stone-950/60 py-1.5 px-3 rounded border ${borderClass}">${getFlag(abbr)} ${teamName}</div>
-                    <span class="not-set-badge">FORMATION NOT SET</span>
-                </div>`;
-            }
-
-            const total = rows.length;
-            let rowsHTML = '';
-
-            const jerseyRow = (count, isGK) => {
-                const jerseys = Array.from({length: count}, () => jerseyHTML(isGK, teamColor, gkColor, sleeveColor));
-                return `<div class="flex justify-around items-center w-full">${jerseys.join('')}</div>`;
-            };
-
-            // FWD (top)
-            rowsHTML += jerseyRow(rows[total - 1], false);
-
-            // MID rows
-            for (let i = total - 2; i >= 1; i--) {
-                rowsHTML += jerseyRow(rows[i], false);
-            }
-
-            // DEF
-            rowsHTML += jerseyRow(rows[0], false);
-
-            // GK
-            rowsHTML += jerseyRow(1, true);
-
-            const pitchSVG = `<svg class="pitch-svg" viewBox="0 0 300 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Grass stripes -->
-                <rect x="0" y="0" width="300" height="220" fill="#1a6b1a"/>
-                <rect x="0"   y="0" width="30" height="220" fill="#1c731c"/>
-                <rect x="60"  y="0" width="30" height="220" fill="#1c731c"/>
-                <rect x="120" y="0" width="30" height="220" fill="#1c731c"/>
-                <rect x="180" y="0" width="30" height="220" fill="#1c731c"/>
-                <rect x="240" y="0" width="30" height="220" fill="#1c731c"/>
-
-                <!-- Outer border -->
-                <rect x="8" y="8" width="284" height="204" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
-
-                <!-- Halfway line (horizontal — pitch is vertical layout) -->
-                <line x1="8" y1="114" x2="292" y2="114" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
-
-                <!-- Center circle -->
-                <circle cx="150" cy="114" r="28" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
-                <circle cx="150" cy="114" r="2.5" fill="rgba(255,255,255,0.8)"/>
-
-                <!-- TOP penalty box (away end) -->
-                <rect x="75" y="8" width="150" height="45" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
-                <!-- TOP goal box -->
-                <rect x="108" y="8" width="84" height="20" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
-                <!-- TOP penalty spot -->
-                <circle cx="150" cy="38" r="2" fill="rgba(255,255,255,0.7)"/>
-                <!-- TOP penalty arc -->
-                <path d="M122,53 Q150,70 178,53" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
-                <!-- TOP goal -->
-                <rect x="120" y="4" width="60" height="6" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
-
-                <!-- BOTTOM penalty box (home end) -->
-                <rect x="75" y="167" width="150" height="45" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
-                <!-- BOTTOM goal box -->
-                <rect x="108" y="192" width="84" height="20" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
-                <!-- BOTTOM penalty spot -->
-                <circle cx="150" cy="182" r="2" fill="rgba(255,255,255,0.7)"/>
-                <!-- BOTTOM penalty arc -->
-                <path d="M122,167 Q150,150 178,167" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
-                <!-- BOTTOM goal -->
-                <rect x="120" y="210" width="60" height="6" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
-
-                <!-- Corner arcs -->
-                <path d="M8,18 Q18,8 28,8"   fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="1"/>
-                <path d="M272,8 Q292,8 292,18"  fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="1"/>
-                <path d="M8,202 Q8,212 18,212"  fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="1"/>
-                <path d="M282,212 Q292,212 292,202" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="1"/>
-            </svg>`;
-
-            return `<div class="pitch-bg rounded-2xl p-3 flex flex-col justify-between gap-1 shadow-lg h-full">
-                <svg class="pitch-svg" viewBox="0 0 300 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="0" y="0" width="300" height="220" fill="#1a6b1a"/>
-                    <rect x="0"   y="0" width="30" height="220" fill="#1c731c"/>
-                    <rect x="60"  y="0" width="30" height="220" fill="#1c731c"/>
-                    <rect x="120" y="0" width="30" height="220" fill="#1c731c"/>
-                    <rect x="180" y="0" width="30" height="220" fill="#1c731c"/>
-                    <rect x="240" y="0" width="30" height="220" fill="#1c731c"/>
-                    <rect x="8" y="8" width="284" height="204" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
-                    <line x1="8" y1="114" x2="292" y2="114" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
-                    <circle cx="150" cy="114" r="28" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
-                    <circle cx="150" cy="114" r="2.5" fill="rgba(255,255,255,0.8)"/>
-                    <rect x="75" y="8" width="150" height="45" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
-                    <rect x="108" y="8" width="84" height="20" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
-                    <circle cx="150" cy="38" r="2" fill="rgba(255,255,255,0.7)"/>
-                    <path d="M122,53 Q150,70 178,53" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
-                    <rect x="120" y="2" width="60" height="7" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.45)" stroke-width="1"/>
-                    <rect x="75" y="167" width="150" height="45" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
-                    <rect x="108" y="192" width="84" height="20" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
-                    <circle cx="150" cy="182" r="2" fill="rgba(255,255,255,0.7)"/>
-                    <path d="M122,167 Q150,150 178,167" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
-                    <rect x="120" y="211" width="60" height="7" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.45)" stroke-width="1"/>
-                    <path d="M8,20 Q20,8 20,8"   fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
-                    <path d="M280,8 Q292,8 292,20"  fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
-                    <path d="M8,200 Q8,212 20,212"  fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
-                    <path d="M280,212 Q292,212 292,200" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
-                </svg>
-                <div class="text-sm font-black ${colorClass} uppercase tracking-widest bg-stone-950/60 py-1.5 rounded border ${borderClass} text-center">${getFlag(abbr)} ${teamName} <span class="text-amber-400 ml-1">[${formation}]</span></div>
-                ${rowsHTML}
-            </div>`;
-        }
-
-        // ===== LOAD BOTH JSON FILES =====
-        async function loadFixturesData() {
-            try {
-                matchesData = await fetch('matches_data.json').then(r => r.json());
-
-                // matches_data.json key တွေကိုပဲ fixture အဖြစ် သုံး (rounds.json မလို)
-                rawFixtures = Object.keys(matchesData).map(mid => ({
-                    id: mid,
-                    homeSquadName: matchesData[mid].home_name || matchesData[mid].match_label?.split(' vs ')[0] || 'HOME',
-                    awaySquadName: matchesData[mid].away_name || matchesData[mid].match_label?.split(' vs ')[1] || 'AWAY',
-                    homeSquadAbbr: matchesData[mid].home_abbr || '',
-                    awaySquadAbbr: matchesData[mid].away_abbr || '',
-                    venueName:     matchesData[mid].venue     || '',
-                    venueCity:     matchesData[mid].city      || '',
-                    matchDate:     matchesData[mid].date      || '',
-                    groupName:     matchesData[mid].group     || '',
-                }));
-
-                buildMatchTabs();
-                renderContent();
-            } catch (error) {
-                document.getElementById('segment-title').innerText = "ERROR: PLS CHECK JSON FILES";
-                console.error(error);
-            }
-        }
-
-        // ===== MATCH TABS (5 ပွဲ) =====
-        function buildMatchTabs() {
-            const container = document.getElementById('match-tabs');
-            // First 5 fixtures only
-            const five = rawFixtures.slice(0, 5);
-            container.innerHTML = five.map((m, idx) => {
-                const label = matchesData[m.id] && matchesData[m.id].match_label
-                    ? matchesData[m.id].match_label
-                    : `${m.homeSquadName} v ${m.awaySquadName}`;
-                const active = idx === currentMatchIndex;
-                return `<button id="mtab-${idx}" onclick="changeMatch(${idx}); playClickSound();"
-                    class="mtab px-3 py-1.5 rounded-xl text-xs font-black font-mono tracking-wide transition-all border
-                    ${active
-                        ? 'bg-amber-500 text-black border-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.5)]'
-                        : 'bg-stone-900 text-stone-300 border-stone-700 hover:bg-stone-800'}"
-                >${m.homeSquadAbbr ? getFlag(m.homeSquadAbbr) : ''} M${m.id} ${label}</button>`;
-            }).join('');
-        }
-
-        function changeMatch(index) {
-            currentMatchIndex = parseInt(index);
-            // Update tab active state
-            document.querySelectorAll('.mtab').forEach((btn, i) => {
-                btn.className = btn.className
-                    .replace('bg-amber-500 text-black border-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.5)]',
-                             'bg-stone-900 text-stone-300 border-stone-700 hover:bg-stone-800');
-            });
-            const activeTab = document.getElementById('mtab-' + index);
-            if (activeTab) {
-                activeTab.className = activeTab.className
-                    .replace('bg-stone-900 text-stone-300 border-stone-700 hover:bg-stone-800',
-                             'bg-amber-500 text-black border-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.5)]');
-            }
-            renderContent();
-        }
-
-        function switchCard(cardType) {
-            currentCardType = cardType;
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.className = "tab-btn px-4 py-2 bg-stone-900 border border-stone-800 text-stone-300 rounded-xl hover:bg-stone-800 transition-all";
-            });
-            document.getElementById('btn-' + cardType).className =
-                "tab-btn px-4 py-2 bg-amber-500 text-black rounded-xl font-black shadow-[0_0_15px_rgba(245,158,11,0.4)] transition-all";
-            renderContent();
-        }
-
-        // ===== MAIN RENDER =====
-        function renderContent() {
-            if (rawFixtures.length === 0) return;
-
-            const match = rawFixtures[currentMatchIndex];
-            const contentBox = document.getElementById('dynamic-content-box');
-            const segTitle = document.getElementById('segment-title');
-            const scrId = document.getElementById('screen-id');
-
-            // matches_data.json မှ manual data ဆွဲယူ (match.id နဲ့ key ချိတ်)
-            const mid = String(match.id);
-            const md = matchesData[mid] || {};
-
-            const formationHome   = md.formation_home   || '';
-            const formationAway   = md.formation_away   || '';
-            const winHome         = md.win_home         || 0;
-            const winDraw         = md.win_draw         || 0;
-            const winAway         = md.win_away         || 0;
-            const predHomeScore   = md.pred_home_score  !== undefined ? md.pred_home_score : null;
-            const predAwayScore   = md.pred_away_score  !== undefined ? md.pred_away_score : null;
-            const predComment     = md.pred_comment     || '';
-
-            // Card photos (per card per match)
-            const cardImgs = {
-                card1: md.card1_img || '',
-                card2: md.card2_img || '',
-                card3: md.card3_img || '',
-                card4: md.card4_img || '',
-                card5: md.card5_img || '',
-            };
-
-            // Update card photo background
-            const photoLayer = document.getElementById('card-photo-layer');
-            const imgSrc = cardImgs[currentCardType];
-            if (imgSrc && imgSrc !== '') {
-                const img = new Image();
-                img.onload = () => {
-                    photoLayer.style.backgroundImage = `url('${imgSrc}')`;
-                    photoLayer.classList.remove('no-photo');
-                };
-                img.onerror = () => {
-                    photoLayer.style.backgroundImage = '';
-                    photoLayer.classList.add('no-photo');
-                };
-                img.src = imgSrc;
-            } else {
-                photoLayer.style.backgroundImage = '';
-                photoLayer.classList.add('no-photo');
-            }
-
-            const rawDate = match.date || md.date || '';
-            let formattedDate = rawDate ? "📅 " + rawDate : "📅 TBC";
-            try {
-                if (rawDate) {
-                    const dateObj = new Date(rawDate);
-                    if (!isNaN(dateObj)) formattedDate = "📅 " + dateObj.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
-                }
-            } catch(e) {}
-
-            // ========== CARD 1: MATCH PROFILE (auto from rounds.json) ==========
-            if (currentCardType === 'card1') {
-                segTitle.innerText = "FIFA WORLD CUP 2026 // MATCH PROFILE";
-                scrId.innerText = "OVERLAY_ID: #" + mid + "_PROFILE";
-                contentBox.innerHTML = `
-                    <div class="text-center space-y-6">
-                        <div class="text-xl font-mono text-amber-400 font-bold tracking-widest bg-amber-500/10 border border-amber-500/20 px-6 py-1.5 rounded-full inline-block shadow-inner">${formattedDate}</div>
-                        <div class="flex items-center justify-center gap-6 py-4">
-                            <div class="text-4xl md:text-5xl font-black team-title tracking-wider text-white drop-shadow-md">${getFlag(md.home_abbr||match.homeSquadAbbr)} ${(md.home_name||match.homeSquadName||'HOME').toUpperCase()}</div>
-                            <div class="text-amber-500 font-black text-4xl neon-gold px-4">VS</div>
-                            <div class="text-4xl md:text-5xl font-black team-title tracking-wider text-white drop-shadow-md">${(md.away_name||match.awaySquadName||'AWAY').toUpperCase()} ${getFlag(md.away_abbr||match.awaySquadAbbr)}</div>
-                        </div>
-                        <div class="text-sm font-mono text-amber-400/80 font-semibold tracking-wider bg-amber-950/30 border border-amber-700/20 px-4 py-1.5 rounded-xl inline-block">
-                            📍 ${md.venue || match.venueName || 'TBC'}, ${md.city || match.venueCity || ''}
-                        </div>
-                    </div>
-                `;
-            }
-
-            // ========== CARD 2: FORMATION (manual from matches_data.json) ==========
-            else if (currentCardType === 'card2') {
-                segTitle.innerText = "FIFA WORLD CUP 2026 // SQUAD FORMATION LAYOUT";
-                scrId.innerText = "OVERLAY_ID: #" + mid + "_FORMATION";
-                contentBox.innerHTML = `
-                    <div class="grid grid-cols-2 gap-4 w-full h-[42vh]">
-                        ${buildPitchHTML(formationHome, match.homeSquadName, match.homeSquadAbbr, 'text-amber-300', 'border-amber-500/40')}
-                        ${buildPitchHTML(formationAway, match.awaySquadName, match.awaySquadAbbr, 'text-orange-300', 'border-orange-600/40')}
-                    </div>
-                `;
-            }
-
-            // ========== CARD 3: WIN % (manual from matches_data.json) ==========
-            else if (currentCardType === 'card3') {
-                segTitle.innerText = "FIFA WORLD CUP 2026 // WIN PROBABILITY ANALYTICS";
-                scrId.innerText = "OVERLAY_ID: #" + mid + "_PROBABILITY";
-
-                const totalSet = winHome + winDraw + winAway;
-                const dataReady = totalSet > 0;
-
-                if (!dataReady) {
-                    contentBox.innerHTML = `
-                        <div class="flex flex-col items-center justify-center gap-4 h-full">
-                            <div class="text-5xl">📊</div>
-                            <span class="not-set-badge text-base px-8 py-3">WIN % DATA NOT SET YET</span>
-                            <p class="text-stone-500 font-mono text-xs">matches_data.json မှာ win_home / win_draw / win_away ဖြည့်ပါ</p>
-                        </div>
-                    `;
-                } else {
-                    contentBox.innerHTML = `
-                        <div class="space-y-6 max-w-xl mx-auto w-full px-4">
-                            <div>
-                                <div class="flex justify-between text-sm font-mono font-black mb-1 text-amber-400 tracking-wider">
-                                    <span>${(md.home_name||match.homeSquadName||'HOME').toUpperCase()} WIN</span><span>${winHome}%</span>
-                                </div>
-                                <div class="w-full bg-stone-950 h-5 rounded-full p-1 border border-stone-800 shadow-inner">
-                                    <div class="bg-gradient-to-r from-amber-700 to-yellow-400 h-full rounded-full shadow-[0_0_15px_#b45309] transition-all duration-700" style="width: ${winHome}%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between text-sm font-mono font-black mb-1 text-stone-400 tracking-wider">
-                                    <span>DRAW PROBABILITY</span><span>${winDraw}%</span>
-                                </div>
-                                <div class="w-full bg-stone-950 h-5 rounded-full p-1 border border-stone-800 shadow-inner">
-                                    <div class="bg-gradient-to-r from-stone-600 to-stone-400 h-full rounded-full shadow-[0_0_10px_#78716c] transition-all duration-700" style="width: ${winDraw}%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between text-sm font-mono font-black mb-1 text-orange-400 tracking-wider">
-                                    <span>${(md.away_name||match.awaySquadName||'AWAY').toUpperCase()} WIN</span><span>${winAway}%</span>
-                                </div>
-                                <div class="w-full bg-stone-950 h-5 rounded-full p-1 border border-stone-800 shadow-inner">
-                                    <div class="bg-gradient-to-r from-orange-700 to-orange-400 h-full rounded-full shadow-[0_0_15px_#c2410c] transition-all duration-700" style="width: ${winAway}%"></div>
-                                </div>
-                            </div>
-                            ${totalSet !== 100 ? `<p class="text-center text-red-400 font-mono text-xs">⚠️ စုစုပေါင်း ${totalSet}% — 100% ဖြစ်အောင် စစ်ပေးပါ</p>` : ''}
-                        </div>
-                    `;
-                }
-            }
-
-            // ========== CARD 4: PREDICTION — 5-match tabs + manual teams + group ==========
-            else if (currentCardType === 'card4') {
-                segTitle.innerText = "FIFA WORLD CUP 2026 // EXPERT FORECAST TIPS";
-                scrId.innerText = "OVERLAY_ID: #" + mid + "_VERDICT";
-
-                // ── 5 ပွဲစာ prediction data (matches_data.json ထဲ pred_slots array ထည့်ရင် သုံး)
-                // fallback: ပေးထားတဲ့ slot structure
-                const slots = (matchesData[mid] && matchesData[mid].pred_slots) ? matchesData[mid].pred_slots : [];
-
-                // active slot state — card ပြတိုင်း reset
-                if (typeof window._predSlot === 'undefined') window._predSlot = 0;
-
-                const buildPredCard4 = (slot) => {
-                    const s = slots[slot] || {};
-                    const home  = s.home  || '?';
-                    const away  = s.away  || '?';
-                    const group = s.group || '';
-                    const hs    = s.home_score !== undefined ? s.home_score : '-';
-                    const as_   = s.away_score !== undefined ? s.away_score : '-';
-                    const comment = s.comment || '';
-
-                    const winner = (typeof hs === 'number' && typeof as_ === 'number')
-                        ? (hs > as_ ? home : as_ > hs ? away : 'DRAW')
-                        : '';
-
-                    const winnerBadge = winner === 'DRAW'
-                        ? `<div class="text-stone-300 font-black text-lg tracking-widest uppercase">⚖️ DRAW</div>`
-                        : winner
-                        ? `<div class="text-amber-400 font-black text-lg tracking-widest uppercase neon-gold">🏆 ${winner} WIN</div>`
-                        : '';
-
-                    return \`
-                        <div class="flex flex-col items-center gap-3 w-full">
-                            \${group ? \`<div class="text-xs font-mono font-black text-stone-400 tracking-widest uppercase bg-stone-900/70 px-4 py-1 rounded-full border border-stone-700">GROUP \${group}</div>\` : ''}
-                            <div class="flex items-center justify-center gap-6 w-full">
-                                <div class="text-2xl md:text-3xl font-black text-white tracking-wide text-right flex-1">\${home.toUpperCase()}</div>
-                                <div class="flex flex-col items-center gap-1">
-                                    <div class="font-mono text-6xl md:text-7xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-400 drop-shadow-2xl leading-none">\${hs} - \${as_}</div>
-                                    \${winnerBadge}
-                                </div>
-                                <div class="text-2xl md:text-3xl font-black text-white tracking-wide text-left flex-1">\${away.toUpperCase()}</div>
-                            </div>
-                            \${comment ? \`<div class="text-lg text-amber-400 font-extrabold tracking-wide max-w-xl mx-auto text-center neon-gold">"\${comment}"</div>\` : ''}
-                        </div>
-                    \`;
-                };
-
-                const tabsHTML = [0,1,2,3,4].map(i => {
-                    const s = slots[i] || {};
-                    const label = s.home && s.away ? \`\${s.home} v \${s.away}\` : \`ပွဲ \${i+1}\`;
-                    const active = window._predSlot === i;
-                    return \`<button onclick="window._predSlot=\${i}; switchCard('card4');"
-                        class="px-3 py-1.5 rounded-lg text-xs font-black font-mono tracking-wide transition-all border
-                        \${active
-                            ? 'bg-amber-500 text-black border-amber-400 shadow-[0_0_10px_rgba(245,158,11,0.5)]'
-                            : 'bg-stone-900 text-stone-300 border-stone-700 hover:bg-stone-800'}">\${label}</button>\`;
-                }).join('');
-
-                contentBox.innerHTML = \`
-                    <div class="flex flex-col items-center gap-4 w-full h-full">
-                        <div class="text-xs font-black bg-gradient-to-r from-amber-500 to-yellow-400 text-black px-6 py-1 rounded-full inline-block uppercase tracking-widest shadow-md">DOEPHAGYI'S CHOICE</div>
-                        <div class="flex gap-2 flex-wrap justify-center">\${tabsHTML}</div>
-                        <div class="flex-1 flex items-center justify-center w-full">
-                            \${slots.length > 0 ? buildPredCard4(window._predSlot) : \`
-                                <div class="flex flex-col items-center gap-3">
-                                    <span class="not-set-badge text-base px-8 py-3">PREDICTION NOT SET YET</span>
-                                    <p class="text-stone-500 font-mono text-xs text-center">matches_data.json မှာ pred_slots array ထည့်ပါ</p>
-                                </div>\`}
-                        </div>
-                    </div>
-                \`;
-            }
-
-            // ========== CARD 5: ဖန်ဇုန် (fixed, no data needed) ==========
-            else if (currentCardType === 'card5') {
-                segTitle.innerText = "FIFA WORLD CUP 2026 // AUDIENCE INTERACTION";
-                scrId.innerText = "OVERLAY_ID: #" + mid + "_ENGAGEMENT";
-                contentBox.innerHTML = `
-                    <div class="text-center space-y-6 max-w-xl mx-auto">
-                        <div class="text-amber-400 text-7xl neon-gold animate-bounce">⚽</div>
-                        <div class="text-3xl md:text-4xl font-black tracking-wide text-white leading-tight">"သူငယ်ချင်းတို့ အမြင်ကရော ဗျာ?"</div>
-                        <p class="text-lg text-amber-400 font-semibold tracking-wide bg-amber-950/30 border border-amber-700/20 py-2 px-6 rounded-xl inline-block">
-                            ဘယ်သူနိုင်မလဲ ကောမန့်မှာ တစ်ခါတည်း ရေးပေးခဲ့ဦးနော်!
-                        </p>
-                    </div>
-                `;
-            }
-        }
-
-        window.onload = loadFixturesData;
-    </script>
+    boot();
+  </script>
 </body>
 </html>
