@@ -236,7 +236,7 @@
       gap: 8px;
       padding: 8px 10px;
       border-top: 1px solid var(--line);
-      background: rgba(255,255,255,.03);
+      background: rgba(255, 255, 255, .03);
     }
 
     .meta-row span {
@@ -348,8 +348,8 @@
 
     .player.home { background: #1fbf63; }
     .player.away { background: #e63232; }
-    .player.gk-home { background: #f4bf45; border-color: #fff; } /* Home GK: ရွှေရောင် */
-    .player.gk-away { background: #d1d5db; border-color: #fff; } /* Away GK: ငွေရောင်/မီးခိုးဖျော့ */
+    .player.gk-home { background: #f4bf45; border-color: #fff; }
+    .player.gk-away { background: #d1d5db; border-color: #fff; }
 
     .field-label {
       position: absolute;
@@ -577,7 +577,9 @@
       hero.innerHTML = `
         <div>
           <div class="team-name"></div>
-          <div class="subline" style="font-size:1.25rem;margin-top:12px">${match.homeTeam} vs ${match.awayTeam}</div>
+          <div class="subline" style="font-size: 2.2rem; font-weight: 900; color: #ffffff; text-shadow: 0 3px 14px rgba(0,0,0,0.85); margin-top: 12px;">
+            ${match.homeTeam} vs ${match.awayTeam}
+          </div>
         </div>
       `;
     }
@@ -604,9 +606,8 @@
       const rows = String(formation || "4-4-2").split("-").map(Number).filter(n => !isNaN(n));
       const totalRows = rows.length;
       
-      // Goal Keeper (GK) အရောင်သတ်မှတ်ချက်ကို အခြေအနေပေါ်မူတည်ပြီး ပြောင်းလဲပေးထားပါတယ်
       let gkX = side === "home" ? 6 : 94;
-      let gkClass = side === "home" ? "gk-home" : "gk-away"; // Home = ရွှေရောင်၊ Away = ငွေရောင်
+      let gkClass = side === "home" ? "gk-home" : "gk-away";
       let html = `<span class="player ${gkClass}" style="left:${gkX}%;top:50%"></span>`;
       
       rows.forEach((count, rowIndex) => {
@@ -634,7 +635,7 @@
 
       if (type === "formation") {
         return `
-          <h2>Formation, (Home) Green / (Away) Red </h2>
+          <h2>Formation, (Home) Green / (Away) Red Jersey</h2>
           <div class="two-col">
             <div class="box formation">
               <div class="mini-shirt" style="--jersey:#1fbf63"></div>
@@ -670,7 +671,7 @@
       }
 
       return `
-        <h2> သူငယ်ချင်းတို့ Tips </h2>
+        <h2> သူငယ်ချင်းတို့အမြင်?</h2>
         <div class="box friends">${match.friendsView || ""}</div>
       `;
     }
