@@ -1,61 +1,19 @@
 {
   "1": {
-    "match_label": "1",
-    "formation_home": "A",
-    "formation_away": "M",
-    "win_home": 10,
-    "win_draw": 23,
-    "win_away": 22,
-    "pred_home_score": 1,
+    "match_label": "",
+    "formation_home": "",
+    "formation_away": "",
+    "win_home": 0,
+    "win_draw": 0,
+    "win_away": 0,
+    "pred_home_score": 0,
     "pred_away_score": 0,
-    "pred_comment": "win",
+    "pred_comment": "",
     "card1_img": "imgs/01.jpg",
     "card2_img": "imgs/02.jpg",
     "card3_img": "imgs/03.jpg",
     "card4_img": "imgs/04.jpg",
-    "card5_img": "imgs/05.jpg",
-    "pred_slots": [
-      {
-        "group": "A",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      },
-      {
-        "group": "",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      },
-      {
-        "group": "",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      },
-      {
-        "group": "",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      },
-      {
-        "group": "",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      }
-    ]
+    "card5_img": "imgs/05.jpg"
   },
   "2": {
     "match_label": "",
@@ -71,49 +29,7 @@
     "card2_img": "imgs/02.jpg",
     "card3_img": "imgs/03.jpg",
     "card4_img": "imgs/04.jpg",
-    "card5_img": "imgs/05.jpg",
-    "pred_slots": [
-      {
-        "group": "",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      },
-      {
-        "group": "",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      },
-      {
-        "group": "",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      },
-      {
-        "group": "",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      },
-      {
-        "group": "",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      }
-    ]
+    "card5_img": "imgs/05.jpg"
   },
   "3": {
     "match_label": "",
@@ -129,107 +45,23 @@
     "card2_img": "imgs/02.jpg",
     "card3_img": "imgs/03.jpg",
     "card4_img": "imgs/04.jpg",
-    "card5_img": "imgs/05.jpg",
-    "pred_slots": [
-      {
-        "group": "",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      },
-      {
-        "group": "",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      },
-      {
-        "group": "",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      },
-      {
-        "group": "",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      },
-      {
-        "group": "",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      }
-    ]
+    "card5_img": "imgs/05.jpg"
   },
   "4": {
-    "match_label": "",
-    "formation_home": "",
-    "formation_away": "",
-    "win_home": 0,
-    "win_draw": 0,
-    "win_away": 0,
-    "pred_home_score": 0,
+    "match_label": "1",
+    "formation_home": "ARS",
+    "formation_away": "MNU",
+    "win_home": 44,
+    "win_draw": 01,
+    "win_away": 09,
+    "pred_home_score": 2,
     "pred_away_score": 0,
-    "pred_comment": "",
+    "pred_comment": "win",
     "card1_img": "imgs/01.jpg",
     "card2_img": "imgs/02.jpg",
     "card3_img": "imgs/03.jpg",
     "card4_img": "imgs/04.jpg",
-    "card5_img": "imgs/05.jpg",
-    "pred_slots": [
-      {
-        "group": "",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      },
-      {
-        "group": "",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      },
-      {
-        "group": "",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      },
-      {
-        "group": "",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      },
-      {
-        "group": "",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      }
-    ]
+    "card5_img": "imgs/05.jpg"
   },
   "5": {
     "match_label": "",
@@ -245,48 +77,6 @@
     "card2_img": "imgs/02.jpg",
     "card3_img": "imgs/03.jpg",
     "card4_img": "imgs/04.jpg",
-    "card5_img": "imgs/05.jpg",
-    "pred_slots": [
-      {
-        "group": "",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      },
-      {
-        "group": "",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      },
-      {
-        "group": "",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      },
-      {
-        "group": "",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      },
-      {
-        "group": "",
-        "home": "",
-        "away": "",
-        "home_score": "",
-        "away_score": "",
-        "comment": ""
-      }
-    ]
+    "card5_img": "imgs/05.jpg"
   }
 }
