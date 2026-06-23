@@ -369,20 +369,20 @@
         // ===== LOAD BOTH JSON FILES =====
         async function loadFixturesData() {
             try {
-                const [roundsRes, matchesRes] = await Promise.all([
-                    fetch('rounds.json'),
-                    fetch('matches_data.json')
-                ]);
+                matchesData = await fetch('matches_data.json').then(r => r.json());
 
-                const roundsData = await roundsRes.json();
-                matchesData = await matchesRes.json();
-
-                rawFixtures = [];
-                roundsData.forEach(round => {
-                    if (round.stage === "GROUP" && round.tournaments) {
-                        round.tournaments.forEach(match => rawFixtures.push(match));
-                    }
-                });
+                // matches_data.json key တွေကိုပဲ fixture အဖြစ် သုံး (rounds.json မလို)
+                rawFixtures = Object.keys(matchesData).map(mid => ({
+                    id: mid,
+                    homeSquadName: matchesData[mid].home_name || matchesData[mid].match_label?.split(' vs ')[0] || 'HOME',
+                    awaySquadName: matchesData[mid].away_name || matchesData[mid].match_label?.split(' vs ')[1] || 'AWAY',
+                    homeSquadAbbr: matchesData[mid].home_abbr || '',
+                    awaySquadAbbr: matchesData[mid].away_abbr || '',
+                    venueName:     matchesData[mid].venue     || '',
+                    venueCity:     matchesData[mid].city      || '',
+                    matchDate:     matchesData[mid].date      || '',
+                    groupName:     matchesData[mid].group     || '',
+                }));
 
                 buildMatchTabs();
                 renderContent();
