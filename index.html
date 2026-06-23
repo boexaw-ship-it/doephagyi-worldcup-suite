@@ -392,6 +392,17 @@
       color: #e8f1ff;
     }
 
+    .score-pick {
+      display: grid;
+      place-items: center;
+      min-height: 138px;
+      font-size: clamp(3.6rem, 10vw, 6.6rem);
+      line-height: 1;
+      font-weight: 900;
+      color: var(--gold);
+      text-shadow: 0 6px 18px rgba(0,0,0,.5);
+    }
+
     .error {
       margin-top: 20px;
       padding: 16px;
@@ -638,8 +649,7 @@
         return `
           <h2>Card 4: Goal Prediction</h2>
           <div class="box">
-            <div class="friends" style="margin-bottom:12px">${match.goalPrediction || ""}</div>
-            <ul>${(match.goalTips || []).map(tip => `<li>${tip}</li>`).join("")}</ul>
+            <div class="score-pick">${match.goalPrediction || "2-1"}</div>
           </div>
         `;
       }
