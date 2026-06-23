@@ -27,7 +27,7 @@
       background:
         radial-gradient(circle at top left, rgba(79, 140, 255, .22), transparent 32rem),
         linear-gradient(135deg, #071019 0%, var(--bg) 48%, #10151d 100%);
-      font-family: Arial, "Noto Sans Myanmar", "Myanmar Text", sans-serif;
+      font-family: 'Montserrat', Arial, "Noto Sans Myanmar", sans-serif;
       min-height: 100vh;
     }
 
@@ -142,7 +142,7 @@
       gap: 12px;
       padding: 18px;
       background:
-        linear-gradient(180deg, rgba(0, 0, 0, .08), rgba(0, 0, 0, .76)),
+        linear-gradient(180deg, rgba(0, 0, 0, .15), rgba(0, 0, 0, .82)),
         var(--photo, linear-gradient(135deg, #1d2a3a, #101821));
       background-size: cover;
       background-position: center;
@@ -180,7 +180,7 @@
 
     .team-name {
       font-size: clamp(1.3rem, 3.4vw, 2.45rem);
-      font-weight: 900;
+      font-weight: 800;
       line-height: 1;
       overflow-wrap: anywhere;
       text-transform: uppercase;
@@ -567,7 +567,7 @@
               <div class="versus">VS</div>
               ${logoTemplate(match.awayLogo, match.awayTeam)}
             </div>
-            <div class="team-name" style="margin-top:18px">${match.homeTeam} vs ${match.awayTeam}</div>
+            <div class="team-name" style="margin-top:18px; color:#fdf3db; font-family:'Segoe UI',system-ui,sans-serif; text-shadow: 0 4px 12px rgba(0,0,0,0.9); font-weight:700; letter-spacing:0.5px;">${match.homeTeam} vs ${match.awayTeam}</div>
           </div>
         `;
         return;
@@ -577,7 +577,7 @@
       hero.innerHTML = `
         <div>
           <div class="team-name"></div>
-          <div class="subline" style="font-size: 2.2rem; font-weight: 900; color: #ffffff; text-shadow: 0 3px 14px rgba(0,0,0,0.85); margin-top: 12px;">
+          <div class="subline" style="font-size: 2.35rem; font-weight: 700; color: #fce6b0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; text-shadow: 0 4px 14px rgba(0,0,0,0.95), 0 1px 2px rgba(0,0,0,0.6); margin-top: 12px; letter-spacing: 0.5px;">
             ${match.homeTeam} vs ${match.awayTeam}
           </div>
         </div>
@@ -635,7 +635,7 @@
 
       if (type === "formation") {
         return `
-          <h2>Formation, (Home) Green / (Away) Red Jersey</h2>
+          <h2>Formation, (Home) Green / (Away) Red </h2>
           <div class="two-col">
             <div class="box formation">
               <div class="mini-shirt" style="--jersey:#1fbf63"></div>
@@ -652,7 +652,7 @@
 
       if (type === "winner") {
         return `
-          <h2> Home Win / Draw / Away Win</h2>
+          <h2>Home Win / Draw / Away Win</h2>
           <div class="odds">
             <div class="odd">Home Win<b>${match.homeWin}</b></div>
             <div class="odd">Draw<b>${match.draw}</b></div>
@@ -671,7 +671,7 @@
       }
 
       return `
-        <h2> သူငယ်ချင်းတို့အမြင်?</h2>
+        <h2>သူငယ်ချင်းတို့အမြင်?</h2>
         <div class="box friends">${match.friendsView || ""}</div>
       `;
     }
