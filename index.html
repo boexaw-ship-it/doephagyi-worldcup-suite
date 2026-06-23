@@ -128,7 +128,7 @@
       width: min(100%, 720px);
       aspect-ratio: 1 / 1;
       display: grid;
-      grid-template-rows: 58% auto 1fr;
+      grid-template-rows: 1fr auto auto;
       box-shadow: none;
     }
 
@@ -263,6 +263,11 @@
       padding: 12px;
       min-height: 0;
       overflow: hidden;
+    }
+
+    .content:empty {
+      display: none;
+      padding: 0;
     }
 
     .content h2 {
@@ -608,13 +613,7 @@
 
     function cardTemplate(type, match) {
       if (type === "matchup") {
-        return `
-          <h2>Card 1: ${match.homeTeam} vs ${match.awayTeam}</h2>
-          <div class="two-col">
-            <div class="box"><strong>${match.homeTeam}</strong><p>Home team photo/background ကို ${match.photo} မှာထည့်ပါ။</p></div>
-            <div class="box"><strong>${match.awayTeam}</strong><p>Team name, time, venue ကို JSON ထဲမှာပြင်ပါ။</p></div>
-          </div>
-        `;
+        return "";
       }
 
       if (type === "formation") {
