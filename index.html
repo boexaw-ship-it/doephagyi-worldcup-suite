@@ -138,6 +138,18 @@
       background-position: center;
     }
 
+    .hero.simple {
+      grid-template-columns: 1fr;
+      place-items: center;
+      text-align: center;
+    }
+
+    .hero.field-mode {
+      display: block;
+      padding: 18px;
+      background: #123d25;
+    }
+
     .team {
       display: grid;
       gap: 10px;
@@ -163,6 +175,34 @@
       overflow-wrap: anywhere;
       text-transform: uppercase;
       text-shadow: 0 3px 14px rgba(0,0,0,.72);
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .team-logo {
+      width: clamp(86px, 13vw, 148px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 4px solid rgba(255,255,255,.82);
+      background: rgba(255,255,255,.12);
+      object-fit: contain;
+      padding: 8px;
+      box-shadow: 0 12px 28px rgba(0,0,0,.35);
+    }
+
+    .logo-fallback {
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: clamp(1.6rem, 4vw, 3rem);
+      color: #071019;
+      background: var(--gold);
     }
 
     .versus {
@@ -254,6 +294,57 @@
       border: 2px solid rgba(255,255,255,.65);
     }
 
+    .pitch {
+      position: relative;
+      min-height: 420px;
+      border: 3px solid rgba(255,255,255,.74);
+      border-radius: 8px;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.72) 0 2px, transparent 2px) 50% 0 / 2px 100% no-repeat,
+        radial-gradient(circle at center, transparent 0 58px, rgba(255,255,255,.68) 59px 61px, transparent 62px),
+        repeating-linear-gradient(90deg, #176638 0 74px, #145d33 74px 148px);
+    }
+
+    .pitch::before,
+    .pitch::after {
+      content: "";
+      position: absolute;
+      top: 30%;
+      width: 92px;
+      height: 40%;
+      border: 2px solid rgba(255,255,255,.65);
+    }
+
+    .pitch::before { left: -2px; border-left: 0; }
+    .pitch::after { right: -2px; border-right: 0; }
+
+    .player {
+      position: absolute;
+      width: 26px;
+      height: 32px;
+      border-radius: 8px 8px 14px 14px;
+      border: 2px solid #fff;
+      box-shadow: 0 5px 10px rgba(0,0,0,.34);
+      transform: translate(-50%, -50%);
+    }
+
+    .player.home { background: #1fbf63; }
+    .player.away { background: #e63232; }
+
+    .field-label {
+      position: absolute;
+      top: 12px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: rgba(0,0,0,.45);
+      font-weight: 800;
+      border: 1px solid rgba(255,255,255,.22);
+    }
+
+    .field-label.home { left: 12px; }
+    .field-label.away { right: 12px; text-align: right; }
+
     .odds {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -304,6 +395,8 @@
       .stage { grid-template-columns: 1fr; }
       .card-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .hero { grid-template-columns: 1fr; min-height: 430px; align-items: center; }
+      .hero.field-mode { min-height: auto; }
+      .pitch { min-height: 520px; }
       .team.away { text-align: left; justify-items: start; }
       .versus { justify-self: start; }
       .two-col, .odds { grid-template-columns: 1fr; }
@@ -344,7 +437,7 @@
       { id: "matchup", label: "Card 1: VS Photo" },
       { id: "formation", label: "Card 2: Formation" },
       { id: "winner", label: "Card 3: 1X2" },
-      { id: "goals", label: "Card 4: Goal Tips" },
+      { id: "goals", label: "Card 4: Goal Prediction" },
       { id: "friends", label: "Card 5: Friends View" }
     ];
 
@@ -403,19 +496,8 @@
 
     function render() {
       const match = data.matches[activeMatch];
-      const photo = match.photo ? `url("${match.photo}")` : "";
-      document.getElementById("matchHero").style.setProperty("--photo", photo);
-      document.getElementById("matchHero").innerHTML = `
-        <div class="team">
-          <div class="crest" style="--jersey:${match.homeJersey || "#4f8cff"}"></div>
-          <div class="team-name">${match.homeTeam}</div>
-        </div>
-        <div class="versus">VS</div>
-        <div class="team away">
-          <div class="crest" style="--jersey:${match.awayJersey || "#ef5555"}"></div>
-          <div class="team-name">${match.awayTeam}</div>
-        </div>
-      `;
+      const type = cardTypes[activeCard].id;
+      renderHero(type, match);
 
       document.getElementById("matchMeta").innerHTML = `
         <span>${match.competition || "Competition"}</span>
@@ -423,8 +505,82 @@
         <span>${match.venue || "Venue"}</span>
       `;
 
-      const type = cardTypes[activeCard].id;
       document.getElementById("cardContent").innerHTML = cardTemplate(type, match);
+    }
+
+    function renderHero(type, match) {
+      const hero = document.getElementById("matchHero");
+      const photo = match.photo ? `url("${match.photo}")` : "";
+      hero.className = "hero";
+      hero.style.setProperty("--photo", photo);
+
+      if (type === "formation") {
+        hero.classList.add("field-mode");
+        hero.style.removeProperty("--photo");
+        hero.innerHTML = `
+          <div class="pitch">
+            <div class="field-label home">${match.homeTeam}<br>${match.homeFormation}</div>
+            <div class="field-label away">${match.awayTeam}<br>${match.awayFormation}</div>
+            ${playersFor(match.homeFormation, "home")}
+            ${playersFor(match.awayFormation, "away")}
+          </div>
+        `;
+        return;
+      }
+
+      if (type === "matchup") {
+        hero.classList.add("simple");
+        hero.innerHTML = `
+          <div>
+            <div class="logo-row">
+              ${logoTemplate(match.homeLogo, match.homeTeam)}
+              <div class="versus">VS</div>
+              ${logoTemplate(match.awayLogo, match.awayTeam)}
+            </div>
+            <div class="team-name" style="margin-top:18px">${match.homeTeam} vs ${match.awayTeam}</div>
+          </div>
+        `;
+        return;
+      }
+
+      hero.classList.add("simple");
+      hero.innerHTML = `
+        <div>
+          <div class="team-name">${cardTypes[activeCard].label}</div>
+          <div class="subline" style="font-size:1.25rem;margin-top:12px">${match.homeTeam} vs ${match.awayTeam}</div>
+        </div>
+      `;
+    }
+
+    function logoTemplate(src, teamName) {
+      if (!src) {
+        return `<div class="team-logo logo-fallback">${initials(teamName)}</div>`;
+      }
+      return `<img class="team-logo" src="${src}" alt="${teamName} logo" onerror="this.replaceWith(fallbackLogo('${initials(teamName)}'))">`;
+    }
+
+    function fallbackLogo(text) {
+      const div = document.createElement("div");
+      div.className = "team-logo logo-fallback";
+      div.textContent = text;
+      return div;
+    }
+
+    function initials(name) {
+      return String(name || "TM").split(/\s+/).map(part => part[0]).join("").slice(0, 3).toUpperCase();
+    }
+
+    function playersFor(formation, side) {
+      const rows = String(formation || "4-4-2").split("-").map(Number).filter(Boolean);
+      const xPositions = side === "home" ? [9, 22, 35, 47] : [91, 78, 65, 53];
+      const playerRows = [1, ...rows];
+      return playerRows.map((count, rowIndex) => {
+        const x = xPositions[rowIndex] || xPositions[xPositions.length - 1];
+        return Array.from({ length: count }, (_, i) => {
+          const y = ((i + 1) * 100) / (count + 1);
+          return `<span class="player ${side}" style="left:${x}%;top:${y}%"></span>`;
+        }).join("");
+      }).join("");
     }
 
     function cardTemplate(type, match) {
@@ -440,14 +596,14 @@
 
       if (type === "formation") {
         return `
-          <h2>Card 2: Formation, Jersey, Group</h2>
+          <h2>Card 2: Formation, Fixed Green/Red Jersey</h2>
           <div class="two-col">
             <div class="box formation">
-              <div class="mini-shirt" style="--jersey:${match.homeJersey}"></div>
+              <div class="mini-shirt" style="--jersey:#1fbf63"></div>
               <div><strong>${match.homeTeam}</strong>${match.homeFormation}</div>
             </div>
             <div class="box formation">
-              <div class="mini-shirt" style="--jersey:${match.awayJersey}"></div>
+              <div class="mini-shirt" style="--jersey:#e63232"></div>
               <div><strong>${match.awayTeam}</strong>${match.awayFormation}</div>
             </div>
           </div>
@@ -468,8 +624,9 @@
 
       if (type === "goals") {
         return `
-          <h2>Card 4: Goal Tips</h2>
+          <h2>Card 4: Goal Prediction</h2>
           <div class="box">
+            <div class="friends" style="margin-bottom:12px">${match.goalPrediction || ""}</div>
             <ul>${(match.goalTips || []).map(tip => `<li>${tip}</li>`).join("")}</ul>
           </div>
         `;
