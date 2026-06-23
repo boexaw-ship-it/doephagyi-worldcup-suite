@@ -7,120 +7,125 @@
       "label": "Fixture 1",
       "homeTeam": "USA",
       "awayTeam": "Mexico",
+      "homeLogo": "imgs/usa-logo.png",
+      "awayLogo": "imgs/mexico-logo.png",
       "kickoff": "Manual time",
       "venue": "Manual venue",
       "competition": "World Cup",
       "photo": "imgs/card-1.jpg",
-      "homeJersey": "#1f5eff",
-      "awayJersey": "#1ca35d",
       "homeFormation": "4-3-3",
       "awayFormation": "4-2-3-1",
       "groupNote": "Group note here",
       "homeWin": "38%",
       "draw": "29%",
       "awayWin": "33%",
+      "goalPrediction": "Over 1.5 goals / BTTS Yes / Correct score lean 2-1",
       "goalTips": [
         "Over 1.5 Goals",
         "Both teams to score: Yes",
         "Correct score lean: 2-1"
       ],
-      "friendsView": "USA pressing speed ကောင်းနိုင်ပြီး Mexico counter က အန္တရာယ်ရှိနိုင်တယ်။"
+      "friendsView": "Friends view here"
     },
     {
       "id": "match-2",
       "label": "Fixture 2",
       "homeTeam": "Brazil",
       "awayTeam": "Japan",
+      "homeLogo": "imgs/brazil-logo.png",
+      "awayLogo": "imgs/japan-logo.png",
       "kickoff": "Manual time",
       "venue": "Manual venue",
       "competition": "World Cup",
       "photo": "imgs/card-2.jpg",
-      "homeJersey": "#ffd43b",
-      "awayJersey": "#2457d6",
       "homeFormation": "4-2-3-1",
       "awayFormation": "4-4-2",
       "groupNote": "Group note here",
       "homeWin": "54%",
       "draw": "25%",
       "awayWin": "21%",
+      "goalPrediction": "Over 2.5 goals / Home team goals over 1.5",
       "goalTips": [
         "Over 2.5 Goals",
-        "Brazil team goals over 1.5",
+        "Home team goals over 1.5",
         "First half goal: Yes"
       ],
-      "friendsView": "Brazil possession များနိုင်ပေမယ့် Japan transition မြန်တာကို သတိထားရမယ်။"
+      "friendsView": "Friends view here"
     },
     {
       "id": "match-3",
       "label": "Fixture 3",
       "homeTeam": "Argentina",
       "awayTeam": "Germany",
+      "homeLogo": "imgs/argentina-logo.png",
+      "awayLogo": "imgs/germany-logo.png",
       "kickoff": "Manual time",
       "venue": "Manual venue",
       "competition": "World Cup",
       "photo": "imgs/card-3.jpg",
-      "homeJersey": "#75c9f5",
-      "awayJersey": "#f2f2f2",
       "homeFormation": "4-3-3",
       "awayFormation": "3-4-2-1",
       "groupNote": "Group note here",
       "homeWin": "35%",
       "draw": "31%",
       "awayWin": "34%",
+      "goalPrediction": "Under 3.5 goals / BTTS Yes",
       "goalTips": [
         "Under 3.5 Goals",
         "Both teams to score: Yes",
         "Draw no bet: Home lean"
       ],
-      "friendsView": "ပွဲကြီးဖြစ်လို့ tempo ထိန်းပြီး ကစားနိုင်ခြေများတယ်။"
+      "friendsView": "Friends view here"
     },
     {
       "id": "match-4",
       "label": "Fixture 4",
       "homeTeam": "France",
       "awayTeam": "Spain",
+      "homeLogo": "imgs/france-logo.png",
+      "awayLogo": "imgs/spain-logo.png",
       "kickoff": "Manual time",
       "venue": "Manual venue",
       "competition": "World Cup",
       "photo": "imgs/card-4.jpg",
-      "homeJersey": "#173a8f",
-      "awayJersey": "#d71920",
       "homeFormation": "4-2-3-1",
       "awayFormation": "4-3-3",
       "groupNote": "Group note here",
       "homeWin": "36%",
       "draw": "30%",
       "awayWin": "34%",
+      "goalPrediction": "Over 1.5 goals / Second half goal Yes",
       "goalTips": [
         "Over 1.5 Goals",
         "Second half goal: Yes",
         "Corner tips: Over 8.5"
       ],
-      "friendsView": "France pace နဲ့ Spain ball control တို့ပြိုင်မယ့်ပွဲပါ။"
+      "friendsView": "Friends view here"
     },
     {
       "id": "match-5",
       "label": "Fixture 5",
       "homeTeam": "England",
       "awayTeam": "Portugal",
+      "homeLogo": "imgs/england-logo.png",
+      "awayLogo": "imgs/portugal-logo.png",
       "kickoff": "Manual time",
       "venue": "Manual venue",
       "competition": "World Cup",
       "photo": "imgs/card-5.jpg",
-      "homeJersey": "#ffffff",
-      "awayJersey": "#b11226",
       "homeFormation": "4-3-2-1",
       "awayFormation": "4-3-3",
       "groupNote": "Group note here",
       "homeWin": "37%",
       "draw": "28%",
       "awayWin": "35%",
+      "goalPrediction": "BTTS Yes / Over 2.0 Asian goals",
       "goalTips": [
         "Both teams to score: Yes",
         "Over 2.0 Asian goals",
         "Anytime scorer: Manual pick"
       ],
-      "friendsView": "နှစ်သင်းလုံး attacking quality ရှိလို့ single moment တစ်ခုက ပွဲကိုပြောင်းနိုင်တယ်။"
+      "friendsView": "Friends view here"
     }
   ]
 }
