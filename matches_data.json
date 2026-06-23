@@ -20,7 +20,7 @@
       "draw": "18%",
       "awayWin": "12%",
       "goalPrediction": "2-0",
-      "friendsView": "Friendsတို့ရောဘယ်လိုထင်လဲ"
+      "friendsView": "Friendsတို့ အမြင် Video comment"
     },
     {
       "id": "match-2",
@@ -40,7 +40,7 @@
       "draw": "25%",
       "awayWin": "21%",
       "goalPrediction": "3-1",
-      "friendsView": "Friends view here"
+      "friendsView": "Friendsတို့ အမြင် Video comment"
     },
     {
       "id": "match-3",
@@ -60,7 +60,7 @@
       "draw": "31%",
       "awayWin": "34%",
       "goalPrediction": "1-1",
-      "friendsView": "Friends view here"
+      "friendsView": "Friendsတို့ အမြင် Video comment"
     },
     {
       "id": "match-4",
@@ -80,7 +80,7 @@
       "draw": "30%",
       "awayWin": "34%",
       "goalPrediction": "2-2",
-      "friendsView": "Friends view here"
+      "friendsView": "Friendsတို့ အမြင် Video comment"
     },
     {
       "id": "match-5",
@@ -100,7 +100,7 @@
       "draw": "28%",
       "awayWin": "35%",
       "goalPrediction": "1-2",
-      "friendsView": "Friends view here"
+      "friendsView": "Friendsတို့ အမြင် Video comment"
     }
   ]
 }
