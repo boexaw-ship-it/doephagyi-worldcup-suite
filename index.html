@@ -85,9 +85,10 @@
       background: rgba(255, 255, 255, .04);
     }
 
+    /* Fixture Tabs နေရာကို Button ၆ ခုစာ ဆံ့အောင် repeat(6) ပြောင်းလဲပြင်ဆင်ထားပါတယ် */
     .tabs {
       display: grid;
-      grid-template-columns: repeat(5, minmax(118px, 1fr));
+      grid-template-columns: repeat(6, minmax(100px, 1fr));
       gap: 10px;
       margin: 14px 0;
     }
@@ -421,7 +422,7 @@
 
     @media (max-width: 820px) {
       header { align-items: flex-start; flex-direction: column; }
-      .tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); } /* Mobile မှာ Button ၆ ခုကို ၂ တန်းစီပေးထားပါတယ် */
       .stage { grid-template-columns: 1fr; }
       .card-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .hero { grid-template-columns: 1fr; min-height: 0; align-items: center; }
@@ -440,7 +441,7 @@
         <div class="ball" aria-hidden="true"></div>
         <div>
           <h1 id="brand">Prediction Suite</h1>
-          <div class="subline">5 fixtures, 5 prediction cards, manual JSON control</div>
+          <div class="subline">6 fixtures, 5 prediction cards, manual JSON control</div>
         </div>
       </div>
       <div class="pill">YouTube ready layout</div>
@@ -463,6 +464,7 @@
   </main>
 
   <script>
+    // Prediction Cards ၅ ခုအတိုင်း ပုံသေသတ်မှတ်ထားပါတယ်
     const cardTypes = [
       { id: "matchup", label: "Card 1: VS Photo" },
       { id: "formation", label: "Card 2: Formation" },
@@ -635,7 +637,7 @@
 
       if (type === "formation") {
         return `
-          <h2>Formation, (Home) Green / (Away) Red </h2>
+          <h2>Formation, (Home)Green / (Away)Red Jersey</h2>
           <div class="two-col">
             <div class="box formation">
               <div class="mini-shirt" style="--jersey:#1fbf63"></div>
@@ -652,7 +654,7 @@
 
       if (type === "winner") {
         return `
-          <h2>Home Win / Draw / Away Win</h2>
+          <h2>Card 3: Home Win / Draw / Away Win</h2>
           <div class="odds">
             <div class="odd">Home Win<b>${match.homeWin}</b></div>
             <div class="odd">Draw<b>${match.draw}</b></div>
@@ -663,7 +665,7 @@
 
       if (type === "goals") {
         return `
-          <h2>Goal Prediction</h2>
+          <h2>Card 4: Goal Prediction</h2>
           <div class="box">
             <div class="score-pick">${match.goalPrediction || "2-1"}</div>
           </div>
@@ -671,7 +673,7 @@
       }
 
       return `
-        <h2>သူငယ်ချင်းတို့အမြင်?</h2>
+        <h2>Card 5: သူငယ်ချင်းတို့အမြင်</h2>
         <div class="box friends">${match.friendsView || ""}</div>
       `;
     }
