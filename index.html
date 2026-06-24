@@ -637,7 +637,7 @@
 
       if (type === "formation") {
         return `
-          <h2>Formation, (Home)Green / (Away)Red Jersey</h2>
+          <h2>Formation, (Home) Green / (Away) Red </h2>
           <div class="two-col">
             <div class="box formation">
               <div class="mini-shirt" style="--jersey:#1fbf63"></div>
@@ -654,7 +654,7 @@
 
       if (type === "winner") {
         return `
-          <h2>Card 3: Home Win / Draw / Away Win</h2>
+          <h2>Home Win / Draw / Away Win</h2>
           <div class="odds">
             <div class="odd">Home Win<b>${match.homeWin}</b></div>
             <div class="odd">Draw<b>${match.draw}</b></div>
@@ -665,7 +665,7 @@
 
       if (type === "goals") {
         return `
-          <h2>Card 4: Goal Prediction</h2>
+          <h2>Goal Prediction</h2>
           <div class="box">
             <div class="score-pick">${match.goalPrediction || "2-1"}</div>
           </div>
@@ -673,7 +673,7 @@
       }
 
       return `
-        <h2>Card 5: သူငယ်ချင်းတို့အမြင်</h2>
+        <h2> သူငယ်ချင်းတို့အမြင် ?</h2>
         <div class="box friends">${match.friendsView || ""}</div>
       `;
     }
